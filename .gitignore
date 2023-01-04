@@ -1,0 +1,10 @@
+# Ignore everything
+/*
+
+# Include basic files
+!.gitignore
+
+# Include code
+!Assets/
+!Packages/
+!/*.csproj
