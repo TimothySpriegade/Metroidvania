@@ -30,6 +30,11 @@ public class SettingsMenu : MonoBehaviour
         resolutionDropdown.value = currentResolutionIndex;
         resolutionDropdown.RefreshShownValue();
     }
+    public void SetResolution(int resolutionIndex)
+    {
+        Resolution resoltion = resolutions[resolutionIndex];
+        Screen.SetResolution(resolutions[resolutionIndex].width, resolutions[resolutionIndex].height, Screen.fullScreen);
+    }
     public void SetSFXVolume(float volume)
     {
         Debug.Log(volume);
