@@ -91,6 +91,7 @@
     <Compile Include="Assets\Menu\TextMesh Pro\Examples &amp; Extras\Scripts\ObjectSpin.cs" />
     <Compile Include="Assets\Menu\TextMesh Pro\Examples &amp; Extras\Scripts\VertexZoom.cs" />
     <Compile Include="Assets\Menu\TextMesh Pro\Examples &amp; Extras\Scripts\SimpleScript.cs" />
+    <Compile Include="Assets\Menu\SettingsMenu.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Menu\TextMesh Pro\Shaders\TMPro.cginc" />
