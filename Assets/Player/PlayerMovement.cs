@@ -4,41 +4,47 @@ namespace Player
 {
     public class PlayerMovement : MonoBehaviour
     {
+        #region Components
         private Rigidbody2D rb;
+        public LayerMask ground;
+        #endregion
 
-        private float moveInputX;
-        private float moveInputY;
-        private float jumpTimeLeft;
-        private float timeSinceGrounded;
-
-        private bool isGrounded;
-        private bool isJumping;
-
-
+        #region Jump Vars
         [Header("Jump")] 
         [SerializeField] private Transform feetPos;
         [SerializeField] private Vector2 feetSize;
         [SerializeField] private float jumpMaxTime;
         [SerializeField] private float jumpForce;
         [SerializeField] private float coyoteTime;
-
-        [Header("Movement")] 
+        
+        private bool isGrounded;
+        private bool isJumping;
+        private float timeSinceGrounded;
+        private float jumpTimeLeft;
+        #endregion
+        
+        #region Run Vars
+        [Header("Run")] 
         [SerializeField] private float movementSpeed;
         [SerializeField] private float acceleration;
         [SerializeField] private float deceleration;
         [SerializeField] private float velPower;
-
+        
         [SerializeField] private float frictionAmount;
-    
-        public LayerMask ground;
-
-
+        
+        private float moveInputX;
+        private float moveInputY;
+        
+        #endregion
+        
         void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
             isGrounded = false;
         }
 
+
+        #region Jump
         void Jump()
         {
             //When button pressed and grounded -> Jumps
@@ -62,8 +68,10 @@ namespace Player
                 isJumping = false;
             }
         }
+        #endregion
 
-
+        #region Run
+        
         void Movement()
         {
             moveInputX = Input.GetAxisRaw("Horizontal");
@@ -106,6 +114,8 @@ namespace Player
                 transform.eulerAngles = Vector3.up * 180;
             }
         }
+        
+        #endregion
 
         private void Update()
         {
@@ -130,7 +140,6 @@ namespace Player
             Friction();
 
         }
-
         void FixedUpdate()
         {
             Movement();
