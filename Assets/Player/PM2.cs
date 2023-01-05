@@ -1,6 +1,4 @@
-using System;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 public class PM2 : MonoBehaviour
 {
@@ -9,14 +7,18 @@ public class PM2 : MonoBehaviour
     #endregion
 
     #region Jump Vars
+
+    [Header("Jump")] 
     
-    [Header("Jump")]
+    [SerializeField] private float jumpForce;
+    [Space(5)]
     //period after falling off a platform, where you can still jump
-    [SerializeField] [Range(0.01f, 0.5f)] private float coyoteTime; 
+    [SerializeField] [Range(0f, 0.5f)] private float coyoteTime; 
     //period when pressing a button when not fulfilling conditions
     //that action will still be performed when conditions fulfilled during time
-    [SerializeField] [Range(0.01f, 0.5f)] private float jumpInputBufferTime;
-
+    [SerializeField] [Range(0f, 0.5f)] private float jumpInputBufferTime;
+    
+    private float timeSincePressedJump;
     private float timeSinceGrounded;
 
     #endregion
@@ -27,11 +29,8 @@ public class PM2 : MonoBehaviour
     [SerializeField] private float maxSpeed;
     [SerializeField] private float runAcceleration;
     [SerializeField] private float runDeceleration;
-    [SerializeField] [Range(0f, 1f)] private float airAcceleration;
-    [SerializeField] [Range(0f, 1f)] private float airDeceleration;
-
-    [SerializeField] private float frictionAmount;
-
+    [SerializeField] private float lerpAmount;
+    
     private Vector2 moveInput;
     private static bool isFacingRight;
     
@@ -42,6 +41,8 @@ public class PM2 : MonoBehaviour
     private static bool unlockedDash;
 
     #endregion
+
+    private float test;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -52,7 +53,9 @@ public class PM2 : MonoBehaviour
     private void Update()
     {
         #region Timers
-        
+
+        timeSinceGrounded += Time.deltaTime;
+        timeSincePressedJump += Time.deltaTime;
         
 
         #endregion
@@ -64,13 +67,14 @@ public class PM2 : MonoBehaviour
         if (moveInput.x != 0)
             CheckDirectionToFace(moveInput.x > 0);
         
+        
+        
         #endregion
     }
     
     private void FixedUpdate()
     {
         Run();
-        Friction();
     }
     #endregion
     
@@ -80,6 +84,8 @@ public class PM2 : MonoBehaviour
     {
         //moveInput * moveSpeed = desired speed. (moveInput at max would be top speed / moveInput at 0 would be standing)
         var desiredSpeed = moveInput.x * maxSpeed;
+        //Lerping that value for smoothing
+        desiredSpeed = Mathf.Lerp(rb.velocity.x, desiredSpeed, lerpAmount);
 
         //determines if the player is acceleration or decelerating. When Airborne the accelRate is multiplied by airAcceleration/Deceleration
         float accelRate;
@@ -87,8 +93,11 @@ public class PM2 : MonoBehaviour
         if (timeSinceGrounded > 0)
             accelRate = (Mathf.Abs(desiredSpeed) > 0.01f) ? runAcceleration : runDeceleration;
         else
-            accelRate = (Mathf.Abs(desiredSpeed) > 0.01f) ? runAcceleration * airAcceleration : runDeceleration * airDeceleration;
+            accelRate = (Mathf.Abs(desiredSpeed) > 0.01f) ? runAcceleration : runDeceleration;
 
+        //calculating accelerating using formula: 1 / Time.fixedDeltaTime * acceleration / max Speed
+        accelRate = ((1 / Time.fixedDeltaTime) * accelRate) / maxSpeed;
+        
         //difference current and desired speed
         var speedDif = desiredSpeed - rb.velocity.x;
         
@@ -108,22 +117,22 @@ public class PM2 : MonoBehaviour
 
         isFacingRight = !isFacingRight;
     }
-
-    private void Friction()
-    {
-        if (timeSinceGrounded > 0 && moveInput.x == 0)
-        {
-            //checks if velocity or friction is higher
-            var friction = Mathf.Min(Mathf.Abs(rb.velocity.x), frictionAmount);
-            //
-            friction *= Mathf.Sign(rb.velocity.x);
-            
-            rb.AddForce(Vector2.right * -friction, ForceMode2D.Impulse);
-        }
-    }
+    
 
     #endregion
 
+    #region Jump
+
+    private void Jump()
+    {
+        timeSinceGrounded = 0;
+        timeSincePressedJump = 0;
+        
+        
+    }
+
+    #endregion
+    
     #region Check Methods
 
     private void CheckDirectionToFace(bool isMovingRight)
