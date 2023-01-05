@@ -33,6 +33,7 @@ namespace Player
 
         private bool isSliding;
         private bool isWallJumping;
+        private float timeSinceWallTouch;
 
         #endregion
         #endregion
@@ -52,7 +53,6 @@ namespace Player
 
         #region Gravity Vars
 
-        [SerializeField] private float jumpCutGravityMultiplier;
         [SerializeField] private float fallGravityMultiplier;
         [SerializeField] private float maxFallSpeed;
 
@@ -65,7 +65,23 @@ namespace Player
         private static bool unlockedDash;
 
         #endregion
-    
+        
+        #region Check Vars
+        //Set all of these up in the inspector
+        [Header("Checks")] 
+        [SerializeField] private Transform groundCheckPoint;
+        [SerializeField] private Vector2 groundCheckSize = new Vector2(0.49f, 0.03f);
+        [Space(5)]
+        [SerializeField] private Transform frontWallCheckPoint;
+        [SerializeField] private Transform backWallCheckPoint;
+        [SerializeField] private Vector2 wallCheckSize = new Vector2(0.5f, 1f);
+        #endregion
+        
+        #region Layers and Tags
+        [Header("Layers & Tags")]
+        [SerializeField] private LayerMask groundLayer;
+        #endregion
+        
         #endregion
 
         #region Unity Methods
@@ -78,7 +94,7 @@ namespace Player
         private void Start()
         {
             //calculating gravity strength using the formula 'gravity = 2 * jumpHeight / timeToJumpApex^2'
-            gravityStrength = (-(2 * jumpHeight) / (timeUntilJumpApex * timeUntilJumpApex)) / -30f;
+            gravityStrength = -(2 * jumpHeight) / (timeUntilJumpApex * timeUntilJumpApex) / -30f;
         }
 
         #region Update Methods
@@ -89,59 +105,49 @@ namespace Player
 
             timeSinceGrounded += Time.deltaTime;
             timeSincePressedJump += Time.deltaTime;
+            timeSinceWallTouch += Time.deltaTime;
         
 
             #endregion
         
+            #region Collision Checks
+            //Ground Check
+                if (Physics2D.OverlapBox(groundCheckPoint.position, groundCheckSize, 0, groundLayer))
+                {
+                    timeSinceGrounded = coyoteTime;
+                }		
+
+                //Wall check
+                if ((Physics2D.OverlapBox(frontWallCheckPoint.position, wallCheckSize, 0, groundLayer))
+                    || (Physics2D.OverlapBox(backWallCheckPoint.position, wallCheckSize, 0, groundLayer)))
+                {
+                    timeSinceWallTouch = coyoteTime;
+                }
+                #endregion
+            
             #region INPUT HANDLER
             moveInput.x = Input.GetAxisRaw("Horizontal");
             moveInput.y = Input.GetAxisRaw("Vertical");
         
             if (moveInput.x != 0)
                 CheckDirectionToFace(moveInput.x > 0);
-        
-            //TODO change to Unity input manager
-            if(Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.C) || Input.GetKeyDown(KeyCode.J))
-            {
-                OnJumpInput();
-            }
-
-            if (Input.GetKeyUp(KeyCode.Space) || Input.GetKeyUp(KeyCode.C) || Input.GetKeyUp(KeyCode.J))
-            {
-                OnJumpUpInput();
-            }
-        
-            #endregion
-
-            #region Jump Checks
-        
-        
 
             #endregion
-        
+
             #region Gravity Handling
 
             //No gravity when sliding (sliding is a velocity)
-            //TODO explanation
             if (isSliding)
             {
                 SetGravityScale(0);
             }
-            //Higher gravity if jump is released during jump
-            else if (duringJumpCut)
-            {
-                //multiplies the idle gravity strength by the jump cut-gravity multiplier
-                SetGravityScale(gravityStrength * jumpCutGravityMultiplier);
-                //caps fall-speed at max fall speed
-                rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, maxFallSpeed));
-            } 
             //When falling
             else if (rb.velocity.y < 0)
             {
                 //multiplies the idle gravity strength by the fall-gravity multiplier
                 SetGravityScale(gravityStrength * fallGravityMultiplier);
                 //caps fall-speed at max fall speed
-                rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, maxFallSpeed));
+                rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -maxFallSpeed));
             }
             else
             {
@@ -165,8 +171,6 @@ namespace Player
         {
             //moveInput * moveSpeed = desired speed. (moveInput at max would be top speed / moveInput at 0 would be standing)
             var desiredSpeed = moveInput.x * maxSpeed;
-            //Lerping that value for smoothing
-            desiredSpeed = Mathf.Lerp(rb.velocity.x, desiredSpeed, lerpAmount);
 
             //determines if the player is acceleration or decelerating. When Airborne the accelRate is multiplied by airAcceleration/Deceleration
             float accelRate;
@@ -202,48 +206,12 @@ namespace Player
 
         #endregion
 
-        #region Jump
-
-        private void Jump()
-        {
-            timeSinceGrounded = 0;
-            timeSincePressedJump = 0;
-        
-            var jumpForce = Mathf.Abs(gravityStrength) * timeUntilJumpApex;
-            //adds falling velocity to jump so you dont lose height when relying on coyote time
-            if (rb.velocity.y < 0)
-                jumpForce -= rb.velocity.y;
-
-            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-        }
-
-        private void WallJump()
-        {
-        
-        }
-    
-        private void OnJumpInput()
-        {
-            timeSincePressedJump = jumpInputBufferTime;
-        }
-
-        private void OnJumpUpInput()
-        {
-            if (isJumping && rb.velocity.y > 0)
-            {
-                duringJumpCut = true;
-            }
-        }
-
-        #endregion
-
         #region Gravity
 
         private void SetGravityScale(float scale)
         {
             rb.gravityScale = scale;
         }
-    
 
         #endregion
     
@@ -256,12 +224,6 @@ namespace Player
                 Turn();
             }
         }
-
-        private bool CanJump()
-        {
-            return false;
-        }
-
         #endregion
     }
 }
