@@ -7,4 +7,3 @@
 # Include code
 !Assets/
 !Packages/
-!/*.csproj
