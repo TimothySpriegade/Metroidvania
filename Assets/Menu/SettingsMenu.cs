@@ -16,14 +16,14 @@ public class SettingsMenu : MonoBehaviour
         resolutionDropdown.ClearOptions();
         List<string> options = new List<string>();
         int currentResolutionIndex = 0;
-        for (int i = 0; i <resolutions.Length; i++)
+        foreach (Resolution resolution in resolutions)
         {
-            string option = resolutions[i].width + "x" + resolutions[i].height;
+            string option = resolution.width + "x" + resolution.height;
             options.Add(option);
-            if (resolutions[i].width == Screen.currentResolution.width && 
-                resolutions[i].height == Screen.currentResolution.height)
+            if (resolution.width == Screen.currentResolution.width &&
+                resolution.height == Screen.currentResolution.height)
             {
-                currentResolutionIndex = i;
+                currentResolutionIndex = options.IndexOf(option);
             }
         }
         resolutionDropdown.AddOptions(options);
