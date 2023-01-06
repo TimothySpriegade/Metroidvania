@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Player
 {
@@ -16,6 +17,11 @@ namespace Player
     
         [SerializeField] private float jumpHeight;
         [SerializeField] private float timeUntilJumpApex;
+        [Space(5)]
+        //Threshold how close to the apex the player has to be to activate the gravity multiplier
+        [SerializeField] private float jumpHangThreshold;
+        [SerializeField] [Range(0f, 1f)] private float jumpHangGravityMultiplier;
+        
         [Space(5)]
         //period after falling off a platform, where you can still jump
         [SerializeField] [Range(0f, 0.5f)] private float coyoteTime; 
@@ -41,18 +47,10 @@ namespace Player
         private float lastWallJumped;
         private float lastLeftWallTouchTime;
         private float lastRightWallTouchTime;
-        
-        
+
         #endregion
         #endregion
 
-        #region Slide vars
-
-        //Fall speed will be capped to this when sliding. Should be lower than maxFallSpeed
-        [SerializeField] private float slideSpeed;
-
-        #endregion
-        
         #region Run Vars
 
         [Header("Movement")]
@@ -71,6 +69,9 @@ namespace Player
         [SerializeField] private float fallGravityMultiplier;
         [SerializeField] private float jumpCutGravityMultiplier;
         [SerializeField] private float maxFallSpeed;
+        [Space(5)]
+        //Fall speed will be capped to this when sliding. Should be lower than maxFallSpeed
+        [SerializeField] private float slideSpeed;
 
         private float gravityStrength;
 
@@ -86,11 +87,12 @@ namespace Player
         //Set all of these up in the inspector
         [Header("Checks")] 
         [SerializeField] private Transform groundCheckPoint;
-        [SerializeField] private Vector2 groundCheckSize = new Vector2(0.49f, 0.03f);
+
+        [SerializeField] private Vector2 groundCheckSize;
         [Space(5)]
         [SerializeField] private Transform frontWallCheckPoint;
-        [SerializeField] private Transform backWallCheckPoint;
-        [SerializeField] private Vector2 wallCheckSize = new Vector2(0.5f, 1f);
+
+        [SerializeField] private Vector2 wallCheckSize;
         #endregion
         
         #region Layers and Tags
@@ -237,6 +239,11 @@ namespace Player
                 rb.velocity = isSliding
                     ? new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -slideSpeed))
                     : new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -maxFallSpeed));
+            }
+            //Jump Hang
+            else if ((isJumping || isWallJumping) && Mathf.Abs(rb.velocity.y) < jumpHangThreshold)
+            {
+                SetGravityScale(gravityStrength * jumpHangGravityMultiplier);
             }
             //When falling
             else if (rb.velocity.y < 0)

@@ -8,13 +8,14 @@ namespace Player.PlayerCamera
         [SerializeField] private GameObject player;
 
 
-        void FollowPlayer()
+        private void FollowPlayer()
         {
             playerPos = player.transform.position;
+            playerPos = Vector3.Lerp(transform.position, playerPos, 10f * Time.deltaTime);
             transform.position = new Vector3(playerPos.x, playerPos.y, transform.position.z);
         }
 
-        void LateUpdate()
+        private void LateUpdate()
         {
             FollowPlayer();
         }
