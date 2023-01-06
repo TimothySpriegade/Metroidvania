@@ -22,8 +22,8 @@ namespace Player
         //period when pressing a button when not fulfilling conditions
         //that action will still be performed when conditions fulfilled during time
         [SerializeField] [Range(0f, 0.5f)] private float jumpInputBufferTime;
-    
-    
+
+
         private float lastPressedJumpTime;
         private float lastGroundedTime;
         private bool duringJumpCut;
@@ -33,7 +33,8 @@ namespace Player
 
         private bool isSliding;
         private bool isWallJumping;
-        private float lastWallTouchTime;
+        private float lastLeftWallTouchTime;
+        private float lastRightWallTouchTime;
 
         #endregion
         #endregion
@@ -108,7 +109,8 @@ namespace Player
 
             lastGroundedTime -= Time.deltaTime;
             lastPressedJumpTime -= Time.deltaTime;
-            lastWallTouchTime -= Time.deltaTime;
+            lastLeftWallTouchTime -= Time.deltaTime;
+            lastRightWallTouchTime -= Time.deltaTime;
 
             #endregion
         
@@ -117,16 +119,20 @@ namespace Player
             if (!isJumping)
             {
                 //Ground Check
-                if (Physics2D.OverlapBox(groundCheckPoint.position, groundCheckSize, 0, groundLayer))
+                if (Physics2D.OverlapBox(groundCheckPoint.position, groundCheckSize, 0, groundLayer) && !isJumping)
                 {
                     lastGroundedTime = coyoteTime;
                 }
 
-                //Wall check
-                if ((Physics2D.OverlapBox(frontWallCheckPoint.position, wallCheckSize, 0, groundLayer))
-                    || (Physics2D.OverlapBox(backWallCheckPoint.position, wallCheckSize, 0, groundLayer)))
+                //Right-Wall check
+                if (Physics2D.OverlapBox(frontWallCheckPoint.position, wallCheckSize, 0, groundLayer) && isFacingRight)
                 {
-                    lastWallTouchTime = coyoteTime;
+                    lastRightWallTouchTime = coyoteTime;
+                }
+                
+                if (Physics2D.OverlapBox(frontWallCheckPoint.position, wallCheckSize,0, groundLayer) && !isFacingRight)
+                {
+                    lastLeftWallTouchTime = coyoteTime;
                 }
             }
 
@@ -145,7 +151,8 @@ namespace Player
                 lastPressedJumpTime = jumpInputBufferTime;
             }
 
-            if (Input.GetKeyUp(KeyCode.Space))
+            
+            if (!Input.GetKey(KeyCode.Space))
             {
                 if(CanJumpCut()) duringJumpCut = true;
             }
@@ -154,10 +161,34 @@ namespace Player
 
             #region Jump Checks
 
+            if (isJumping && rb.velocity.y < 0 || lastGroundedTime > 0)
+            {
+                isJumping = false;
+            }
+
+            if (lastGroundedTime > 0 && !isJumping)
+            {
+                duringJumpCut = false;
+            }
+
+            //Jump
             if (CanJump() && lastPressedJumpTime > 0)
             {
                 isJumping = true;
+                isWallJumping = false;
                 Jump();
+            }
+            
+            //Wall jump
+            if (CanWallJump() && lastPressedJumpTime > 0)
+            {
+                isWallJumping = true;
+                isJumping = false;
+                
+                var lastWallJumpDir = (lastRightWallTouchTime > 0) ? -1 : 1;
+
+                WallJump(lastWallJumpDir);
+                
             }
 
             #endregion
@@ -258,6 +289,26 @@ namespace Player
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
 
+        private void WallJump(int dir)
+        {
+            //Ensures no extra jumps can be made
+            lastPressedJumpTime = 0;
+            lastGroundedTime = 0;
+            lastRightWallTouchTime = 0;
+            lastLeftWallTouchTime = 0;
+            
+            var verticalJumpForce = timeUntilJumpApex * gravityStrength * 30;
+            var wallJumpForce = new Vector2(50f, verticalJumpForce);
+
+            //Left or Right force away from the wall
+            wallJumpForce.x *= dir;
+            
+            if (rb.velocity.y < 0) wallJumpForce.y -= rb.velocity.y;
+            //if (Mathf.Sign(rb.velocity.x) != Mathf.Sign(wallJumpForce.x)) wallJumpForce.x -= rb.velocity.x;
+            
+            rb.AddForce(Vector2.up * wallJumpForce, ForceMode2D.Impulse);
+        }
+        
         #endregion
         
         #region Gravity
@@ -282,6 +333,11 @@ namespace Player
         private bool CanJump()
         {
             return lastGroundedTime > 0 && !isJumping;
+        }
+        
+        private bool CanWallJump()
+        {
+            return lastPressedJumpTime > 0 && lastRightWallTouchTime > 0 && lastGroundedTime <= 0;
         }
 
         private bool CanJumpCut()
