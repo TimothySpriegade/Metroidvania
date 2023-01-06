@@ -24,8 +24,8 @@ namespace Player
         [SerializeField] [Range(0f, 0.5f)] private float jumpInputBufferTime;
     
     
-        private float timeSincePressedJump;
-        private float timeSinceGrounded;
+        private float lastPressedJumpTime;
+        private float lastGroundedTime;
         private bool duringJumpCut;
         private bool isJumping;
 
@@ -33,7 +33,7 @@ namespace Player
 
         private bool isSliding;
         private bool isWallJumping;
-        private float timeSinceWallTouch;
+        private float lastWallTouchTime;
 
         #endregion
         #endregion
@@ -53,7 +53,9 @@ namespace Player
 
         #region Gravity Vars
 
+        [Header("Gravity")]
         [SerializeField] private float fallGravityMultiplier;
+        [SerializeField] private float jumpCutGravityMultiplier;
         [SerializeField] private float maxFallSpeed;
 
         private float gravityStrength;
@@ -95,6 +97,7 @@ namespace Player
         {
             //calculating gravity strength using the formula 'gravity = 2 * jumpHeight / timeToJumpApex^2'
             gravityStrength = -(2 * jumpHeight) / (timeUntilJumpApex * timeUntilJumpApex) / -30f;
+            isFacingRight = true;
         }
 
         #region Update Methods
@@ -103,43 +106,76 @@ namespace Player
         {
             #region Timers
 
-            timeSinceGrounded += Time.deltaTime;
-            timeSincePressedJump += Time.deltaTime;
-            timeSinceWallTouch += Time.deltaTime;
-        
+            lastGroundedTime -= Time.deltaTime;
+            lastPressedJumpTime -= Time.deltaTime;
+            lastWallTouchTime -= Time.deltaTime;
 
             #endregion
         
             #region Collision Checks
-            //Ground Check
+
+            if (!isJumping)
+            {
+                //Ground Check
                 if (Physics2D.OverlapBox(groundCheckPoint.position, groundCheckSize, 0, groundLayer))
                 {
-                    timeSinceGrounded = coyoteTime;
-                }		
+                    lastGroundedTime = coyoteTime;
+                }
 
                 //Wall check
                 if ((Physics2D.OverlapBox(frontWallCheckPoint.position, wallCheckSize, 0, groundLayer))
                     || (Physics2D.OverlapBox(backWallCheckPoint.position, wallCheckSize, 0, groundLayer)))
                 {
-                    timeSinceWallTouch = coyoteTime;
+                    lastWallTouchTime = coyoteTime;
                 }
-                #endregion
+            }
+
+            #endregion
             
-            #region INPUT HANDLER
+            #region Input Handler
             moveInput.x = Input.GetAxisRaw("Horizontal");
             moveInput.y = Input.GetAxisRaw("Vertical");
         
             if (moveInput.x != 0)
                 CheckDirectionToFace(moveInput.x > 0);
 
+            //TODO change to unity input manager
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                lastPressedJumpTime = jumpInputBufferTime;
+            }
+
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+                if(CanJumpCut()) duringJumpCut = true;
+            }
+            
             #endregion
 
-            #region Gravity Handling
+            #region Jump Checks
 
+            if (CanJump() && lastPressedJumpTime > 0)
+            {
+                isJumping = true;
+                Jump();
+            }
+
+            #endregion
+            
+            #region Gravity Handler
+            
             //No gravity when sliding (sliding is a velocity)
             if (isSliding)
             {
                 SetGravityScale(0);
+            }
+            //if jump is released during jump = gravity increase
+            else if (duringJumpCut)
+            { 
+                //multiplies the idle gravity strength by the jump cut-gravity multiplier
+                SetGravityScale(gravityStrength * jumpCutGravityMultiplier);
+                //caps fall-speed at max fall speed
+                rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -maxFallSpeed));
             }
             //When falling
             else if (rb.velocity.y < 0)
@@ -175,7 +211,7 @@ namespace Player
             //determines if the player is acceleration or decelerating. When Airborne the accelRate is multiplied by airAcceleration/Deceleration
             float accelRate;
         
-            if (timeSinceGrounded > 0)
+            if (lastGroundedTime > 0)
                 accelRate = (Mathf.Abs(desiredSpeed) > 0.01f) ? runAcceleration : runDeceleration;
             else
                 accelRate = (Mathf.Abs(desiredSpeed) > 0.01f) ? runAcceleration : runDeceleration;
@@ -206,6 +242,24 @@ namespace Player
 
         #endregion
 
+        #region Jump
+
+        private void Jump()
+        {
+            lastPressedJumpTime = 0;
+            lastGroundedTime = 0;
+
+            //We increase the force applied if we are falling
+            //This means we'll always feel like we jump the same amount 
+            var jumpForce = timeUntilJumpApex * gravityStrength * 30;
+            
+            if (rb.velocity.y < 0) jumpForce -= rb.velocity.y;
+
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        }
+
+        #endregion
+        
         #region Gravity
 
         private void SetGravityScale(float scale)
@@ -224,6 +278,17 @@ namespace Player
                 Turn();
             }
         }
+
+        private bool CanJump()
+        {
+            return lastGroundedTime > 0 && !isJumping;
+        }
+
+        private bool CanJumpCut()
+        {
+            return isJumping && rb.velocity.y > 0;
+        }
+        
         #endregion
     }
 }
