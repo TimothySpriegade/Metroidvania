@@ -22,7 +22,7 @@ namespace Player
         //period when pressing a button when not fulfilling conditions
         //that action will still be performed when conditions fulfilled during time
         [SerializeField] [Range(0f, 0.5f)] private float jumpInputBufferTime;
-
+        [Space(5)]
 
         private float lastPressedJumpTime;
         private float lastGroundedTime;
@@ -31,6 +31,7 @@ namespace Player
 
         #region Wall Jump Vars
 
+        [SerializeField] private float wallJumpLerp;
         private bool isSliding;
         private bool isWallJumping;
         private float lastLeftWallTouchTime;
@@ -38,14 +39,20 @@ namespace Player
 
         #endregion
         #endregion
-    
+
+        #region Slide vars
+
+        [SerializeField] private float slideSpeed;
+        [SerializeField] private float slideAcceleration;
+
+        #endregion
+        
         #region Run Vars
 
         [Header("Movement")]
         [SerializeField] private float maxSpeed;
         [SerializeField] private float runAcceleration;
         [SerializeField] private float runDeceleration;
-        [SerializeField] private float lerpAmount;
     
         private Vector2 moveInput;
         private static bool isFacingRight;
@@ -86,7 +93,7 @@ namespace Player
         #endregion
         
         #endregion
-
+        
         #region Unity Methods
     
         private void Awake()
@@ -161,11 +168,13 @@ namespace Player
 
             #region Jump Checks
 
-            if (isJumping && rb.velocity.y < 0 || lastGroundedTime > 0)
+            if ((isJumping && rb.velocity.y < 0) || lastGroundedTime > 0)
             {
                 isJumping = false;
             }
 
+            
+            
             if (lastGroundedTime > 0 && !isJumping)
             {
                 duringJumpCut = false;
@@ -184,12 +193,19 @@ namespace Player
             {
                 isWallJumping = true;
                 isJumping = false;
+                duringJumpCut = false;
                 
                 var lastWallJumpDir = (lastRightWallTouchTime > 0) ? -1 : 1;
 
                 WallJump(lastWallJumpDir);
                 
             }
+
+            #endregion
+
+            #region Slide Checks
+
+            isSliding = CanSlide();
 
             #endregion
             
@@ -227,18 +243,29 @@ namespace Player
     
         private void FixedUpdate()
         {
-            Run();
+            //Run
+            if (isWallJumping)
+                Run(wallJumpLerp);
+            else
+                Run(1);
+            
+            //Slide
+            if (isSliding)
+            {
+                Slide();
+            }
         }
         #endregion
         #endregion
     
         #region Run
 
-        private void Run()
+        private void Run(float lerp)
         {
             //moveInput * moveSpeed = desired speed. (moveInput at max would be top speed / moveInput at 0 would be standing)
             var desiredSpeed = moveInput.x * maxSpeed;
-
+            desiredSpeed = Mathf.Lerp(rb.velocity.x, desiredSpeed, lerp);
+            
             //determines if the player is acceleration or decelerating. When Airborne the accelRate is multiplied by airAcceleration/Deceleration
             float accelRate;
         
@@ -251,10 +278,10 @@ namespace Player
             accelRate = ((1 / Time.fixedDeltaTime) * accelRate) / maxSpeed;
         
             //difference current and desired speed
-            var speedDif = desiredSpeed - rb.velocity.x;
+            var speedDiff = desiredSpeed - rb.velocity.x;
         
             //multiplies speedDif with the calculated acceleration rate
-            var movement = speedDif * accelRate;
+            var movement = speedDiff * accelRate;
         
             //applies force
             rb.AddForce(movement * Vector2.right, ForceMode2D.Force);
@@ -310,6 +337,23 @@ namespace Player
         }
         
         #endregion
+
+        #region Slide
+
+        private void Slide()
+        {
+            var speedDiff = -slideSpeed - rb.velocity.x;
+        
+            //multiplies speedDif with the calculated acceleration rate
+            var slide = speedDiff * slideAcceleration;
+            
+            //clamps value between -value * fps and +value * fps
+            slide = Mathf.Clamp(slide, -Mathf.Abs(speedDiff)  * (1 / Time.fixedDeltaTime), Mathf.Abs(speedDiff) * (1 / Time.fixedDeltaTime));
+            
+            rb.AddForce(Vector2.up * slide);
+        }
+
+        #endregion
         
         #region Gravity
 
@@ -337,14 +381,22 @@ namespace Player
         
         private bool CanWallJump()
         {
-            return lastPressedJumpTime > 0 && lastRightWallTouchTime > 0 && lastGroundedTime <= 0;
+            return lastPressedJumpTime > 0 && lastGroundedTime <= 0 && (lastRightWallTouchTime > 0 || lastLeftWallTouchTime > 0) ;
         }
 
         private bool CanJumpCut()
         {
             return isJumping && rb.velocity.y > 0;
         }
-        
+
+        private bool CanSlide()
+        {
+            var canSlide = (lastLeftWallTouchTime > 0 && moveInput.x < 0) ||
+                           (lastRightWallTouchTime > 0 && moveInput.x > 0);
+            canSlide = canSlide && rb.velocity.y <= 0 && lastGroundedTime <= 0;
+            return canSlide;
+        }
+
         #endregion
     }
 }
