@@ -2,12 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 
 public class SettingsMenu : MonoBehaviour
 {
     //vars
     Resolution[] resolutions;
     public TMPro.TMP_Dropdown resolutionDropdown;
+
+    public AudioMixer mixer;
+    public Slider masterSlider, musicSlider, effectsSlider;
+
 
     private void Start()
     {
@@ -35,14 +40,26 @@ public class SettingsMenu : MonoBehaviour
         Resolution resoltion = resolutions[resolutionIndex];
         Screen.SetResolution(resolutions[resolutionIndex].width, resolutions[resolutionIndex].height, Screen.fullScreen);
     }
+
+    public void SetMasterVolume(float volume)
+    {
+        Debug.Log(volume);
+        mixer.SetFloat("MasterVolume", masterSlider.value);
+        PlayerPrefs.SetFloat("MasterVolume", masterSlider.value);
+    }
     public void SetSFXVolume(float volume)
     {
         Debug.Log(volume);
+        mixer.SetFloat("EffectVolume", effectsSlider.value);
+        PlayerPrefs.SetFloat("EffectVolume", effectsSlider.value);
     }
     public void SetMusicVolume(float volume)
     {
         Debug.Log(volume);
+        mixer.SetFloat("MusicVolume", musicSlider.value);
+        PlayerPrefs.SetFloat("MusicVolume", musicSlider.value);
     }
+
     public void SetFullScreen(bool isFullscreen)
     {
         Screen.fullScreen = isFullscreen;
