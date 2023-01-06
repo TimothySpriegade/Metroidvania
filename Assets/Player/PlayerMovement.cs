@@ -22,7 +22,6 @@ namespace Player
         //period when pressing a button when not fulfilling conditions
         //that action will still be performed when conditions fulfilled during time
         [SerializeField] [Range(0f, 0.5f)] private float jumpInputBufferTime;
-        [Space(5)]
 
         private float lastPressedJumpTime;
         private float lastGroundedTime;
@@ -31,19 +30,26 @@ namespace Player
 
         #region Wall Jump Vars
 
+        [Header("Wall Jump")]
         [SerializeField] private float wallJumpLerp;
+        //time until you can wall jump again
+        [SerializeField] private float wallJumpTime;
+        [SerializeField] private Vector2 wallJumpForce;
+        
         private bool isSliding;
         private bool isWallJumping;
+        private float lastWallJumped;
         private float lastLeftWallTouchTime;
         private float lastRightWallTouchTime;
-
+        
+        
         #endregion
         #endregion
 
         #region Slide vars
 
+        //Fall speed will be capped to this when sliding. Should be lower than maxFallSpeed
         [SerializeField] private float slideSpeed;
-        [SerializeField] private float slideAcceleration;
 
         #endregion
         
@@ -118,6 +124,7 @@ namespace Player
             lastPressedJumpTime -= Time.deltaTime;
             lastLeftWallTouchTime -= Time.deltaTime;
             lastRightWallTouchTime -= Time.deltaTime;
+            lastWallJumped -= Time.deltaTime;
 
             #endregion
         
@@ -146,6 +153,7 @@ namespace Player
             #endregion
             
             #region Input Handler
+
             moveInput.x = Input.GetAxisRaw("Horizontal");
             moveInput.y = Input.GetAxisRaw("Vertical");
         
@@ -168,13 +176,16 @@ namespace Player
 
             #region Jump Checks
 
-            if ((isJumping && rb.velocity.y < 0) || lastGroundedTime > 0)
+            if (IsNotJumping())
             {
                 isJumping = false;
             }
 
-            
-            
+            if (lastWallJumped < -wallJumpTime)
+            {
+                isWallJumping = false;
+            }
+
             if (lastGroundedTime > 0 && !isJumping)
             {
                 duringJumpCut = false;
@@ -196,7 +207,7 @@ namespace Player
                 duringJumpCut = false;
                 
                 var lastWallJumpDir = (lastRightWallTouchTime > 0) ? -1 : 1;
-
+            
                 WallJump(lastWallJumpDir);
                 
             }
@@ -207,30 +218,35 @@ namespace Player
 
             isSliding = CanSlide();
 
+            if (isSliding)
+            {
+                duringJumpCut = false;
+            }
+
             #endregion
             
             #region Gravity Handler
             
-            //No gravity when sliding (sliding is a velocity)
-            if (isSliding)
-            {
-                SetGravityScale(0);
-            }
+            
             //if jump is released during jump = gravity increase
-            else if (duringJumpCut)
+            if (duringJumpCut)
             { 
                 //multiplies the idle gravity strength by the jump cut-gravity multiplier
                 SetGravityScale(gravityStrength * jumpCutGravityMultiplier);
                 //caps fall-speed at max fall speed
-                rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -maxFallSpeed));
+                rb.velocity = isSliding
+                    ? new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -slideSpeed))
+                    : new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -maxFallSpeed));
             }
             //When falling
             else if (rb.velocity.y < 0)
             {
                 //multiplies the idle gravity strength by the fall-gravity multiplier
                 SetGravityScale(gravityStrength * fallGravityMultiplier);
-                //caps fall-speed at max fall speed
-                rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -maxFallSpeed));
+                //caps fall-speed at max fall speed or at sliding speed
+                rb.velocity = isSliding
+                    ? new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -slideSpeed))
+                    : new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -maxFallSpeed));
             }
             else
             {
@@ -248,12 +264,6 @@ namespace Player
                 Run(wallJumpLerp);
             else
                 Run(1);
-            
-            //Slide
-            if (isSliding)
-            {
-                Slide();
-            }
         }
         #endregion
         #endregion
@@ -265,6 +275,7 @@ namespace Player
             //moveInput * moveSpeed = desired speed. (moveInput at max would be top speed / moveInput at 0 would be standing)
             var desiredSpeed = moveInput.x * maxSpeed;
             desiredSpeed = Mathf.Lerp(rb.velocity.x, desiredSpeed, lerp);
+
             
             //determines if the player is acceleration or decelerating. When Airborne the accelRate is multiplied by airAcceleration/Deceleration
             float accelRate;
@@ -323,38 +334,20 @@ namespace Player
             lastGroundedTime = 0;
             lastRightWallTouchTime = 0;
             lastLeftWallTouchTime = 0;
-            
-            var verticalJumpForce = timeUntilJumpApex * gravityStrength * 30;
-            var wallJumpForce = new Vector2(50f, verticalJumpForce);
+            lastWallJumped = 0;
+
+            var jumpForce = wallJumpForce;
 
             //Left or Right force away from the wall
-            wallJumpForce.x *= dir;
+            jumpForce.x *= dir;
             
-            if (rb.velocity.y < 0) wallJumpForce.y -= rb.velocity.y;
-            //if (Mathf.Sign(rb.velocity.x) != Mathf.Sign(wallJumpForce.x)) wallJumpForce.x -= rb.velocity.x;
+            if (rb.velocity.y < 0) jumpForce.y -= rb.velocity.y;
             
-            rb.AddForce(Vector2.up * wallJumpForce, ForceMode2D.Impulse);
+            rb.AddForce(jumpForce, ForceMode2D.Impulse);
         }
         
         #endregion
 
-        #region Slide
-
-        private void Slide()
-        {
-            var speedDiff = -slideSpeed - rb.velocity.x;
-        
-            //multiplies speedDif with the calculated acceleration rate
-            var slide = speedDiff * slideAcceleration;
-            
-            //clamps value between -value * fps and +value * fps
-            slide = Mathf.Clamp(slide, -Mathf.Abs(speedDiff)  * (1 / Time.fixedDeltaTime), Mathf.Abs(speedDiff) * (1 / Time.fixedDeltaTime));
-            
-            rb.AddForce(Vector2.up * slide);
-        }
-
-        #endregion
-        
         #region Gravity
 
         private void SetGravityScale(float scale)
@@ -381,12 +374,12 @@ namespace Player
         
         private bool CanWallJump()
         {
-            return lastPressedJumpTime > 0 && lastGroundedTime <= 0 && (lastRightWallTouchTime > 0 || lastLeftWallTouchTime > 0) ;
+            return !isWallJumping && lastPressedJumpTime > 0 && lastGroundedTime <= 0 && (lastRightWallTouchTime > 0 || lastLeftWallTouchTime > 0);
         }
 
         private bool CanJumpCut()
         {
-            return isJumping && rb.velocity.y > 0;
+            return (isJumping || isWallJumping) && rb.velocity.y > 0;
         }
 
         private bool CanSlide()
@@ -397,6 +390,11 @@ namespace Player
             return canSlide;
         }
 
+        private bool IsNotJumping()
+        {
+            return (isWallJumping || isJumping) && rb.velocity.y <= 0 || lastGroundedTime > 0;
+        }
+        
         #endregion
     }
 }
