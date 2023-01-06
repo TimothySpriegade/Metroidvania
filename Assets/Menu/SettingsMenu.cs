@@ -34,6 +34,14 @@ public class SettingsMenu : MonoBehaviour
         resolutionDropdown.AddOptions(options);
         resolutionDropdown.value = currentResolutionIndex;
         resolutionDropdown.RefreshShownValue();
+
+        float vol = 0f;
+        mixer.GetFloat("MasterVolume", out vol);
+        masterSlider.value = vol;
+        mixer.GetFloat("MusicVolume", out vol);
+        musicSlider.value = vol;
+        mixer.GetFloat("EffectVolume", out vol);
+        effectsSlider.value = vol;
     }
     public void SetResolution(int resolutionIndex)
     {
