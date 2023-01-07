@@ -17,7 +17,8 @@ namespace Player
 
         #region Input Vars
 
-        private InputAction movementInput;
+        private InputAction horizontalInput;
+        private InputAction verticalInput;
         private InputAction jumpInput;
         private InputAction dashInput;
         private PlayerControls Controls { get; set; }
@@ -153,9 +154,13 @@ namespace Player
 
         private void OnEnable()
         {
-            //Movement Controls
-            movementInput = Controls.Player.Move;
-            movementInput.Enable();
+            //Horizontal Controls
+            horizontalInput = Controls.Player.Horizontal;
+            horizontalInput.Enable();
+            
+            //Vertical Controls
+            verticalInput = Controls.Player.Vertical;
+            verticalInput.Enable();
             
             //Jump Controls
             jumpInput = Controls.Player.Jump;
@@ -171,9 +176,12 @@ namespace Player
 
         private void OnDisable()
         {
-            movementInput.Disable();
+            horizontalInput.Disable();
+            verticalInput.Disable();
             
             jumpInput.Disable();
+            
+            dashInput.Disable();
         }
 
         #endregion
@@ -218,8 +226,9 @@ namespace Player
             
             #region Input Handler
 
-            //TODO controller can do a slow-walk. Clarify if thats an issue that needs to be solved
-            moveInput = movementInput.ReadValue<Vector2>().normalized;
+            //TODO controller can do a slow-walk. Clarify if that is an issue that needs to be solved
+            moveInput.x = horizontalInput.ReadValue<float>();
+            moveInput.y = verticalInput.ReadValue<float>();
         
             if (moveInput.x != 0)
                 CheckDirectionToFace(moveInput.x > 0);
@@ -228,6 +237,8 @@ namespace Player
             {
                 if(CanJumpCut()) duringJumpCut = true;
             }
+            
+            
             
             #endregion
 
@@ -295,8 +306,10 @@ namespace Player
                 //Sleep to add weight behind the dash
                 Sleep(dashSleepTime);
                 
-                //Direction normalized so Controller wont Dash shorter distance
-                if (moveInput != Vector2.zero)
+                //When standing still or dashing down => Dashing forward
+                if (moveInput == Vector2.down && lastGroundedTime > 0)
+                    dashDirection = isFacingRight ? Vector2.right : Vector2.left;
+                else if (moveInput != Vector2.zero)
                     dashDirection = moveInput;
                 else
                     dashDirection = isFacingRight ? Vector2.right : Vector2.left;
@@ -446,7 +459,7 @@ namespace Player
         
         #endregion
 
-        #region Sleep Method
+        #region Sleep Methods
 
         private void Sleep(float duration)
         {
@@ -474,11 +487,12 @@ namespace Player
             lastPressedDashTime = 0;
             
             var startTime = Time.time;
+            var lengthMultiplier = direction.x != 0 && direction.y != 0 ? 0.75f : 1f;
             
             SetGravityScale(0);
             
             //Keeps player velocity at Dash Speed
-            while (Time.time - startTime <= dashLength)
+            while (Time.time - startTime <= dashLength * lengthMultiplier)
             {
                 rb.velocity = direction.normalized * maxSpeed * dashForceMultiplier;
                 //Pauses the loop until the next frame, creating something of a Update loop. 
