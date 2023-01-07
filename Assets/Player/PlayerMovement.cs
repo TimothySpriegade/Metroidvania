@@ -1,5 +1,7 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 namespace Player
 {
@@ -17,7 +19,7 @@ namespace Player
 
         private InputAction movementInput;
         private InputAction jumpInput;
-
+        private InputAction dashInput;
         private PlayerControls Controls { get; set; }
 
         #endregion
@@ -32,13 +34,6 @@ namespace Player
         //Threshold how close to the apex the player has to be to activate the gravity multiplier
         [SerializeField] private float jumpHangThreshold;
         [SerializeField] [Range(0f, 1f)] private float jumpHangGravityMultiplier;
-        
-        [Space(5)]
-        //period after falling off a platform, where you can still jump
-        [SerializeField] [Range(0f, 0.5f)] private float coyoteTime; 
-        //period when pressing a button when not fulfilling conditions
-        //that action will still be performed when conditions fulfilled during time
-        [SerializeField] [Range(0f, 0.5f)] private float jumpInputBufferTime;
 
         private float lastPressedJumpTime;
         private float lastGroundedTime;
@@ -69,11 +64,31 @@ namespace Player
         [SerializeField] private float runAcceleration;
         [SerializeField] private float runDeceleration;
     
-        private float moveInput;
+        private Vector2 moveInput;
         private static bool isFacingRight;
     
         #endregion
 
+        #region Dash Vars
+
+        [Header("Dash")]
+        [SerializeField] private float dashForceMultiplier;
+        [SerializeField] private float dashLength;
+        [SerializeField] private float dashCooldown;
+        [SerializeField] private float dashSleepTime;
+        
+        private float lastPressedDashTime;
+        private float lastDashed;
+
+        private Vector2 dashDirection;
+
+        private bool dashRefreshed;
+        private bool isDashAttacking;
+        private bool isDashing;
+        private static bool unlockedDash;
+
+        #endregion
+        
         #region Gravity Vars
 
         [Header("Gravity")]
@@ -87,10 +102,15 @@ namespace Player
         private float gravityStrength;
 
         #endregion
-    
-        #region Dash Vars
 
-        private static bool unlockedDash;
+        #region Assist Vars
+
+        [Header("Assists")]
+        //period after falling off a platform, where you can still jump
+        [SerializeField] [Range(0f, 0.5f)] private float coyoteTime; 
+        //period when pressing a button when not fulfilling conditions
+        //that action will still be performed when conditions fulfilled during time
+        [SerializeField] [Range(0f, 0.5f)] private float inputBufferTime;
 
         #endregion
         
@@ -121,6 +141,7 @@ namespace Player
         {
             rb = GetComponent<Rigidbody2D>();
             Controls = new PlayerControls();
+            unlockedDash = true;
         }
         
         private void Start()
@@ -140,6 +161,12 @@ namespace Player
             jumpInput = Controls.Player.Jump;
             jumpInput.Enable();
             jumpInput.started += OnJumpInput;
+            
+            //Dash Controls
+            dashInput = Controls.Player.Dash;
+            dashInput.Enable();
+            dashInput.started += OnDashInput;
+
         }
 
         private void OnDisable()
@@ -156,9 +183,11 @@ namespace Player
 
             lastGroundedTime -= Time.deltaTime;
             lastPressedJumpTime -= Time.deltaTime;
+            lastPressedDashTime -= Time.deltaTime;
             lastLeftWallTouchTime -= Time.deltaTime;
             lastRightWallTouchTime -= Time.deltaTime;
             lastWallJumped -= Time.deltaTime;
+            lastDashed -= Time.deltaTime;
 
             #endregion
         
@@ -167,7 +196,7 @@ namespace Player
             if (!isJumping)
             {
                 //Ground Check
-                if (Physics2D.OverlapBox(groundCheckPoint.position, groundCheckSize, 0, groundLayer) && !isJumping)
+                if (Physics2D.OverlapBox(groundCheckPoint.position, groundCheckSize, 0, groundLayer))
                 {
                     lastGroundedTime = coyoteTime;
                 }
@@ -189,10 +218,11 @@ namespace Player
             
             #region Input Handler
 
-            moveInput = movementInput.ReadValue<float>();
+            //TODO controller can do a slow-walk. Clarify if thats an issue that needs to be solved
+            moveInput = movementInput.ReadValue<Vector2>().normalized;
         
-            if (moveInput != 0)
-                CheckDirectionToFace(moveInput > 0);
+            if (moveInput.x != 0)
+                CheckDirectionToFace(moveInput.x > 0);
 
             if (!jumpInput.inProgress)
             {
@@ -203,45 +233,79 @@ namespace Player
 
             #region Jump Checks
 
-            if (IsNotJumping())
+            if (!isDashing)
             {
-                isJumping = false;
-            }
+                if (IsNotJumping())
+                {
+                    isJumping = false;
+                }
 
-            //time after having performed a wall jump surpasses chosen jump time
-            if (lastWallJumped < -wallJumpTime)
-            {
-                isWallJumping = false;
-            }
+                //time after having performed a wall jump surpasses chosen jump time
+                if (lastWallJumped < -wallJumpTime)
+                {
+                    isWallJumping = false;
+                }
 
-            if (lastGroundedTime > 0 && !isJumping)
-            {
-                duringJumpCut = false;
-            }
+                if (lastGroundedTime > 0 && !isJumping)
+                {
+                    duringJumpCut = false;
+                }
 
-            //Jump
-            if (CanJump() && lastPressedJumpTime > 0)
-            {
-                isJumping = true;
-                isWallJumping = false;
-                Jump();
-            }
-            
-            //Wall jump
-            if (CanWallJump() && lastPressedJumpTime > 0)
-            {
-                isWallJumping = true;
-                isJumping = false;
-                duringJumpCut = false;
-                
-                var lastWallJumpDir = (lastRightWallTouchTime > 0) ? -1 : 1;
-            
-                WallJump(lastWallJumpDir);
-                
+                //Jump
+                if (CanJump() && lastPressedJumpTime > 0)
+                {
+                    isJumping = true;
+                    isWallJumping = false;
+                    Jump();
+                }
+
+                //Wall jump
+                if (CanWallJump() && lastPressedJumpTime > 0)
+                {
+                    isWallJumping = true;
+                    isJumping = false;
+                    duringJumpCut = false;
+
+                    var awayFromWallDirection = (lastRightWallTouchTime > 0) ? -1 : 1;
+
+                    WallJump(awayFromWallDirection);
+
+                }
             }
 
             #endregion
 
+            #region Dash Checks
+
+            //TODO fix 2D Dash issue if needed
+
+            if (lastGroundedTime > 0)
+            {
+                dashRefreshed = true;
+            }
+            
+            if (CanDash() && lastPressedDashTime > 0)
+            {
+                isDashing = true;
+                isJumping = false;
+                isWallJumping = false;
+                duringJumpCut = false;
+
+                
+                //Sleep to add weight behind the dash
+                Sleep(dashSleepTime);
+                
+                //Direction normalized so Controller wont Dash shorter distance
+                if (moveInput != Vector2.zero)
+                    dashDirection = moveInput;
+                else
+                    dashDirection = isFacingRight ? Vector2.right : Vector2.left;
+
+                StartCoroutine(nameof(Dash), dashDirection);
+            }
+
+            #endregion
+            
             #region Slide Checks
 
             isSliding = CanSlide();
@@ -254,49 +318,51 @@ namespace Player
             #endregion
             
             #region Gravity Handler
-            
-            
-            //if jump is released during jump = gravity increase
-            if (duringJumpCut)
-            { 
-                //multiplies the idle gravity strength by the jump cut-gravity multiplier
-                SetGravityScale(gravityStrength * jumpCutGravityMultiplier);
-                //caps fall-speed at max fall speed
-                rb.velocity = isSliding
-                    ? new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -slideSpeed))
-                    : new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -maxFallSpeed));
-            }
-            //Jump Hang
-            else if ((isJumping || isWallJumping) && Mathf.Abs(rb.velocity.y) < jumpHangThreshold)
+
+            if (!isDashing)
             {
-                SetGravityScale(gravityStrength * jumpHangGravityMultiplier);
+                //if jump is released during jump = gravity increase
+                if (duringJumpCut)
+                {
+                    //multiplies the idle gravity strength by the jump cut-gravity multiplier
+                    SetGravityScale(gravityStrength * jumpCutGravityMultiplier);
+                    //caps fall-speed at max fall speed
+                    rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -maxFallSpeed));
+                }
+                //Jump Hang
+                else if ((isJumping || isWallJumping) && Mathf.Abs(rb.velocity.y) < jumpHangThreshold)
+                {
+                    SetGravityScale(gravityStrength * jumpHangGravityMultiplier);
+                }
+                //When falling
+                else if (rb.velocity.y < 0)
+                {
+                    //multiplies the idle gravity strength by the fall-gravity multiplier
+                    SetGravityScale(gravityStrength * fallGravityMultiplier);
+                    //caps fall-speed at max fall speed or at sliding speed
+                    rb.velocity = isSliding
+                        ? new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -slideSpeed))
+                        : new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -maxFallSpeed));
+                }
+                else
+                {
+                    SetGravityScale(gravityStrength);
+                }
             }
-            //When falling
-            else if (rb.velocity.y < 0)
-            {
-                //multiplies the idle gravity strength by the fall-gravity multiplier
-                SetGravityScale(gravityStrength * fallGravityMultiplier);
-                //caps fall-speed at max fall speed or at sliding speed
-                rb.velocity = isSliding
-                    ? new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -slideSpeed))
-                    : new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -maxFallSpeed));
-            }
-            else
-            {
-                SetGravityScale(gravityStrength);
-            }
-        
 
             #endregion
         }
     
         private void FixedUpdate()
         {
-            //Run
-            if (isWallJumping)
-                Run(wallJumpLerp);
-            else
-                Run(1);
+            if (!isDashing)
+            {
+                //Run
+                if (isWallJumping)
+                    Run(wallJumpLerp);
+                else
+                    Run(1);
+            }
         }
         #endregion
     
@@ -305,7 +371,7 @@ namespace Player
         private void Run(float lerp)
         {
             //moveInput * moveSpeed = desired speed. (moveInput at max would be top speed / moveInput at 0 would be standing)
-            var desiredSpeed = moveInput * maxSpeed;
+            var desiredSpeed = moveInput.x * maxSpeed;
             desiredSpeed = Mathf.Lerp(rb.velocity.x, desiredSpeed, lerp);
 
             
@@ -359,7 +425,7 @@ namespace Player
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
 
-        private void WallJump(int dir)
+        private void WallJump(int direction)
         {
             //Ensures no extra jumps can be made
             lastPressedJumpTime = 0;
@@ -371,7 +437,7 @@ namespace Player
             var jumpForce = wallJumpForce;
 
             //Left or Right force away from the wall
-            jumpForce.x *= dir;
+            jumpForce.x *= direction;
             
             if (rb.velocity.y < 0) jumpForce.y -= rb.velocity.y;
             
@@ -380,6 +446,53 @@ namespace Player
         
         #endregion
 
+        #region Sleep Method
+
+        private void Sleep(float duration)
+        {
+            //Starts Coroutine which pauses game for short time
+            //Coroutines can happen in multiple frames.
+            //If you have a loop that counts 5000 times in Update() then those 5000 times would happen in 1 frame.
+            //With coroutines you can split that into multiple frames
+            StartCoroutine(nameof(PerformSleep), duration);
+        }
+
+        private IEnumerator PerformSleep(float duration)
+        {
+            //timescale = speed at which the game moves. 0 = game doesnt move / 1 = normal speed
+            Time.timeScale = 0;
+            yield return new WaitForSecondsRealtime(duration);
+            Time.timeScale = 1;
+        }
+
+        #endregion
+        
+        #region Dash
+
+        private IEnumerator Dash(Vector2 direction)
+        {
+            lastPressedDashTime = 0;
+            
+            var startTime = Time.time;
+            
+            SetGravityScale(0);
+            
+            //Keeps player velocity at Dash Speed
+            while (Time.time - startTime <= dashLength)
+            {
+                rb.velocity = direction.normalized * maxSpeed * dashForceMultiplier;
+                //Pauses the loop until the next frame, creating something of a Update loop. 
+                yield return null;
+            }
+
+            //Dash over
+            lastDashed = dashCooldown;
+            isDashing = false;
+        }
+        
+
+        #endregion
+        
         #region Gravity
 
         private void SetGravityScale(float scale)
@@ -416,8 +529,8 @@ namespace Player
 
         private bool CanSlide()
         {
-            var canSlide = (lastLeftWallTouchTime > 0 && moveInput < 0) ||
-                           (lastRightWallTouchTime > 0 && moveInput > 0);
+            var canSlide = (lastLeftWallTouchTime > 0 && moveInput.x < 0) ||
+                           (lastRightWallTouchTime > 0 && moveInput.x > 0);
             canSlide = canSlide && rb.velocity.y <= 0 && lastGroundedTime <= 0;
             return canSlide;
         }
@@ -426,6 +539,11 @@ namespace Player
         {
             return (isWallJumping || isJumping) && rb.velocity.y <= 0 || lastGroundedTime > 0;
         }
+
+        private bool CanDash()
+        {
+            return unlockedDash && !isDashing && lastDashed < 0 && dashRefreshed;
+        }
         
         #endregion
 
@@ -433,8 +551,13 @@ namespace Player
 
         private void OnJumpInput(InputAction.CallbackContext context)
         {
-            lastPressedJumpTime = jumpInputBufferTime;
+            lastPressedJumpTime = inputBufferTime;
             Debug.Log("pressed jump");
+        }
+
+        private void OnDashInput(InputAction.CallbackContext context)
+        {
+            lastPressedDashTime = inputBufferTime;
         }
 
         #endregion
