@@ -115,9 +115,7 @@ namespace Player
             gravityStrength = -(2 * jumpHeight) / (timeUntilJumpApex * timeUntilJumpApex) / -30f;
             isFacingRight = true;
         }
-
-        #region Update Methods
-    
+        
         private void Update()
         {
             #region Timers
@@ -272,7 +270,6 @@ namespace Player
             else
                 Run(1);
         }
-        #endregion
         #endregion
     
         #region Run
