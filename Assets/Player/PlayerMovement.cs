@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.InputSystem;
 
 namespace Player
 {
@@ -8,9 +8,20 @@ namespace Player
         #region Vars
     
         #region Components
+        
         private Rigidbody2D rb;
+
         #endregion
 
+        #region Input Vars
+
+        private InputAction movementInput;
+        private InputAction jumpInput;
+
+        private PlayerControls Controls { get; set; }
+
+        #endregion
+        
         #region Jump Vars
 
         [Header("Jump")] 
@@ -58,7 +69,7 @@ namespace Player
         [SerializeField] private float runAcceleration;
         [SerializeField] private float runDeceleration;
     
-        private Vector2 moveInput;
+        private float moveInput;
         private static bool isFacingRight;
     
         #endregion
@@ -98,24 +109,47 @@ namespace Player
         #region Layers and Tags
         [Header("Layers & Tags")]
         [SerializeField] private LayerMask groundLayer;
+
         #endregion
         
         #endregion
         
         #region Unity Methods
     
+        #region Start methods
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
+            Controls = new PlayerControls();
         }
-
+        
         private void Start()
         {
             //calculating gravity strength using the formula 'gravity = 2 * jumpHeight / timeToJumpApex^2'
             gravityStrength = -(2 * jumpHeight) / (timeUntilJumpApex * timeUntilJumpApex) / -30f;
             isFacingRight = true;
         }
-        
+
+        private void OnEnable()
+        {
+            //Movement Controls
+            movementInput = Controls.Player.Move;
+            movementInput.Enable();
+            
+            //Jump Controls
+            jumpInput = Controls.Player.Jump;
+            jumpInput.Enable();
+            jumpInput.started += OnJumpInput;
+        }
+
+        private void OnDisable()
+        {
+            movementInput.Disable();
+            
+            jumpInput.Disable();
+        }
+
+        #endregion
         private void Update()
         {
             #region Timers
@@ -144,6 +178,7 @@ namespace Player
                     lastRightWallTouchTime = coyoteTime;
                 }
                 
+                //Left-Wall check
                 if (Physics2D.OverlapBox(frontWallCheckPoint.position, wallCheckSize,0, groundLayer) && !isFacingRight)
                 {
                     lastLeftWallTouchTime = coyoteTime;
@@ -154,20 +189,12 @@ namespace Player
             
             #region Input Handler
 
-            moveInput.x = Input.GetAxisRaw("Horizontal");
-            moveInput.y = Input.GetAxisRaw("Vertical");
+            moveInput = movementInput.ReadValue<float>();
         
-            if (moveInput.x != 0)
-                CheckDirectionToFace(moveInput.x > 0);
+            if (moveInput != 0)
+                CheckDirectionToFace(moveInput > 0);
 
-            //TODO change to unity input manager
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                lastPressedJumpTime = jumpInputBufferTime;
-            }
-
-            
-            if (!Input.GetKey(KeyCode.Space))
+            if (!jumpInput.inProgress)
             {
                 if(CanJumpCut()) duringJumpCut = true;
             }
@@ -181,6 +208,7 @@ namespace Player
                 isJumping = false;
             }
 
+            //time after having performed a wall jump surpasses chosen jump time
             if (lastWallJumped < -wallJumpTime)
             {
                 isWallJumping = false;
@@ -277,7 +305,7 @@ namespace Player
         private void Run(float lerp)
         {
             //moveInput * moveSpeed = desired speed. (moveInput at max would be top speed / moveInput at 0 would be standing)
-            var desiredSpeed = moveInput.x * maxSpeed;
+            var desiredSpeed = moveInput * maxSpeed;
             desiredSpeed = Mathf.Lerp(rb.velocity.x, desiredSpeed, lerp);
 
             
@@ -388,8 +416,8 @@ namespace Player
 
         private bool CanSlide()
         {
-            var canSlide = (lastLeftWallTouchTime > 0 && moveInput.x < 0) ||
-                           (lastRightWallTouchTime > 0 && moveInput.x > 0);
+            var canSlide = (lastLeftWallTouchTime > 0 && moveInput < 0) ||
+                           (lastRightWallTouchTime > 0 && moveInput > 0);
             canSlide = canSlide && rb.velocity.y <= 0 && lastGroundedTime <= 0;
             return canSlide;
         }
@@ -399,6 +427,16 @@ namespace Player
             return (isWallJumping || isJumping) && rb.velocity.y <= 0 || lastGroundedTime > 0;
         }
         
+        #endregion
+
+        #region Input Callbacks
+
+        private void OnJumpInput(InputAction.CallbackContext context)
+        {
+            lastPressedJumpTime = jumpInputBufferTime;
+            Debug.Log("pressed jump");
+        }
+
         #endregion
     }
 }
