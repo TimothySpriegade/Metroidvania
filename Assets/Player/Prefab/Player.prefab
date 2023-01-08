@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 2000500285399010435}
   - component: {fileID: 2000500285399010432}
   - component: {fileID: 2000500285399010433}
+  - component: {fileID: 677236320}
+  - component: {fileID: 677236326}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -153,6 +155,7 @@ MonoBehaviour:
   timeUntilJumpApex: 0.5
   jumpHangThreshold: 2
   jumpHangGravityMultiplier: 0.95
+  noJumpInput: 0
   wallJumpLerp: 0.06
   wallJumpTime: 0.3
   wallJumpForce: {x: 9, y: 20}
@@ -168,7 +171,6 @@ MonoBehaviour:
   maxFallSpeed: 18
   slideSpeed: 6
   coyoteTime: 0.1
-  inputBufferTime: 0.1
   groundCheckPoint: {fileID: 2000500285538828222}
   groundCheckSize: {x: 0.85, y: 0.2}
   frontWallCheckPoint: {fileID: 2000500286390666796}
@@ -176,6 +178,48 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &677236320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2000500285399010438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e69e1bf82a8da1f408d37f27969bf81e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 800dafdbf0dd2354d99f53d7f968d032, type: 2}
+  inputBufferTime: 0.1
+--- !u!114 &677236326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2000500285399010438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dec95e0c7bca8f944b179a0ad8d6fa07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: bfbe91bdb18c6f64ca8d554bf4fc9120, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 677236320}
+        m_TargetAssemblyTypeName: Player.PlayerController, Assembly-CSharp
+        m_MethodName: UpdateControls
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2000500285538828223
 GameObject:
   m_ObjectHideFlags: 0
