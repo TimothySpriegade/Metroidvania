@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,11 +7,12 @@ using UnityEngine.Audio;
 public class SettingsMenu : MonoBehaviour
 {
     //vars
-    Resolution[] resolutions;
-    public TMPro.TMP_Dropdown resolutionDropdown;
+    private Resolution[] resolutions;
+    [SerializeField] private TMPro.TMP_Dropdown resolutionDropdown;
 
-    public AudioMixer mixer;
-    public Slider masterSlider, musicSlider, effectsSlider;
+    [SerializeField] private AudioMixer mixer;
+    [SerializeField] Slider masterSlider, musicSlider, effectsSlider;
+
 
 
     private void Start()
@@ -19,11 +20,11 @@ public class SettingsMenu : MonoBehaviour
         //clears DropDown and adds all possible resolutions
         resolutions = Screen.resolutions;
         resolutionDropdown.ClearOptions();
-        List<string> options = new List<string>();
-        int currentResolutionIndex = 0;
+        var options = new List<string>();
+        var currentResolutionIndex = 0;
         foreach (Resolution resolution in resolutions)
         {
-            string option = resolution.width + "x" + resolution.height;
+            var option = resolution.width + "x" + resolution.height;
             options.Add(option);
             if (resolution.width == Screen.currentResolution.width &&
                 resolution.height == Screen.currentResolution.height)
@@ -35,17 +36,16 @@ public class SettingsMenu : MonoBehaviour
         resolutionDropdown.value = currentResolutionIndex;
         resolutionDropdown.RefreshShownValue();
 
-        float vol = 0f;
-        mixer.GetFloat("MasterVolume", out vol);
-        masterSlider.value = vol;
-        mixer.GetFloat("MusicVolume", out vol);
-        musicSlider.value = vol;
-        mixer.GetFloat("EffectVolume", out vol);
-        effectsSlider.value = vol;
+        var volume = 0f;
+        mixer.GetFloat("MasterVolume", out volume);
+        masterSlider.value = volume;
+        mixer.GetFloat("MusicVolume", out volume);
+        musicSlider.value = volume;
+        mixer.GetFloat("EffectVolume", out volume);
+        effectsSlider.value = volume;
     }
     public void SetResolution(int resolutionIndex)
     {
-        Resolution resoltion = resolutions[resolutionIndex];
         Screen.SetResolution(resolutions[resolutionIndex].width, resolutions[resolutionIndex].height, Screen.fullScreen);
     }
 
@@ -67,9 +67,8 @@ public class SettingsMenu : MonoBehaviour
         mixer.SetFloat("MusicVolume", musicSlider.value);
         PlayerPrefs.SetFloat("MusicVolume", musicSlider.value);
     }
-
-    public void SetFullScreen(bool isFullscreen)
+    public void ToggleFullScreen()
     {
-        Screen.fullScreen = isFullscreen;
+        Screen.fullScreen = !Screen.fullScreen;
     }
 }
