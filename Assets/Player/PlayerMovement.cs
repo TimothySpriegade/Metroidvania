@@ -1,7 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
 namespace Player
 {
@@ -10,18 +8,8 @@ namespace Player
         #region Vars
 
         #region Components
-
+        
         private Rigidbody2D rb;
-
-        #endregion
-
-        #region Input Vars
-
-        private InputAction horizontalInput;
-        private InputAction verticalInput;
-        private InputAction jumpInput;
-        private InputAction dashInput;
-        private PlayerControls Controls { get; set; }
 
         #endregion
 
@@ -38,10 +26,11 @@ namespace Player
 
         [SerializeField] [Range(0f, 1f)] private float jumpHangGravityMultiplier;
 
-        private float lastPressedJumpTime;
+        public float LastPressedJumpTime { get; set; }
         private float lastGroundedTime;
         private bool duringJumpCut;
         private bool isJumping;
+        public bool noJumpInput;
 
         #region Wall Jump Vars
 
@@ -69,7 +58,7 @@ namespace Player
         [SerializeField] private float runAcceleration;
         [SerializeField] private float runDeceleration;
 
-        private Vector2 moveInput;
+        public Vector2 MoveInput { get; set; }
         private static bool isFacingRight;
 
         #endregion
@@ -82,7 +71,7 @@ namespace Player
         [SerializeField] private float dashCooldown;
         [SerializeField] private float dashSleepTime;
 
-        private float lastPressedDashTime;
+        public float LastPressedDashTime { get; set; }
         private float lastDashed;
 
         private Vector2 dashDirection;
@@ -118,14 +107,6 @@ namespace Player
         [Range(0f, 0.5f)]
         private float coyoteTime;
 
-        //period when pressing a button when not fulfilling conditions
-        //that action will still be performed when conditions fulfilled during time
-        [SerializeField] 
-        [Range(0f, 0.5f)] 
-        private float inputBufferTime;
-
-        #endregion
-
         #region Check Vars
 
         //Set all of these up in the inspector
@@ -147,6 +128,7 @@ namespace Player
         #endregion
 
         #endregion
+        #endregion
 
         #region Unity Methods
 
@@ -154,8 +136,8 @@ namespace Player
 
         private void Awake()
         {
+            
             rb = GetComponent<Rigidbody2D>();
-            Controls = new PlayerControls();
             unlockedDash = true;
         }
 
@@ -166,37 +148,6 @@ namespace Player
             isFacingRight = true;
         }
 
-        private void OnEnable()
-        {
-            //Horizontal Controls
-            horizontalInput = Controls.Player.Horizontal;
-            horizontalInput.Enable();
-
-            //Vertical Controls
-            verticalInput = Controls.Player.Vertical;
-            verticalInput.Enable();
-
-            //Jump Controls
-            jumpInput = Controls.Player.Jump;
-            jumpInput.Enable();
-            jumpInput.started += OnJumpInput;
-
-            //Dash Controls
-            dashInput = Controls.Player.Dash;
-            dashInput.Enable();
-            dashInput.started += OnDashInput;
-        }
-
-        private void OnDisable()
-        {
-            horizontalInput.Disable();
-            verticalInput.Disable();
-
-            jumpInput.Disable();
-
-            dashInput.Disable();
-        }
-
         #endregion
 
         private void Update()
@@ -204,8 +155,8 @@ namespace Player
             #region Timers
 
             lastGroundedTime -= Time.deltaTime;
-            lastPressedJumpTime -= Time.deltaTime;
-            lastPressedDashTime -= Time.deltaTime;
+            LastPressedJumpTime -= Time.deltaTime;
+            LastPressedDashTime -= Time.deltaTime;
             lastLeftWallTouchTime -= Time.deltaTime;
             lastRightWallTouchTime -= Time.deltaTime;
             lastWallJumped -= Time.deltaTime;
@@ -240,14 +191,10 @@ namespace Player
 
             #region Input Handler
 
-            //TODO controller can do a slow-walk. Clarify if that is an issue that needs to be solved
-            moveInput.x = horizontalInput.ReadValue<float>();
-            moveInput.y = verticalInput.ReadValue<float>();
+            if (MoveInput.x != 0)
+                CheckDirectionToFace(MoveInput.x > 0);
 
-            if (moveInput.x != 0)
-                CheckDirectionToFace(moveInput.x > 0);
-
-            if (!jumpInput.inProgress)
+            if (noJumpInput)
             {
                 if (CanJumpCut()) duringJumpCut = true;
             }
@@ -275,7 +222,7 @@ namespace Player
                 }
 
                 //Jump
-                if (CanJump() && lastPressedJumpTime > 0)
+                if (CanJump() && LastPressedJumpTime > 0)
                 {
                     isJumping = true;
                     isWallJumping = false;
@@ -283,7 +230,7 @@ namespace Player
                 }
 
                 //Wall jump
-                if (CanWallJump() && lastPressedJumpTime > 0)
+                if (CanWallJump() && LastPressedJumpTime > 0)
                 {
                     isWallJumping = true;
                     isJumping = false;
@@ -304,7 +251,7 @@ namespace Player
                 dashRefreshed = true;
             }
 
-            if (CanDash() && lastPressedDashTime > 0)
+            if (CanDash() && LastPressedDashTime > 0)
             {
                 isDashing = true;
                 isJumping = false;
@@ -316,10 +263,10 @@ namespace Player
                 Sleep(dashSleepTime);
 
                 //When standing still or dashing down => Dashing forward
-                if (moveInput == Vector2.down && lastGroundedTime > 0)
+                if (MoveInput == Vector2.down && lastGroundedTime > 0)
                     dashDirection = isFacingRight ? Vector2.right : Vector2.left;
-                else if (moveInput != Vector2.zero)
-                    dashDirection = moveInput;
+                else if (MoveInput != Vector2.zero)
+                    dashDirection = MoveInput;
                 else
                     dashDirection = isFacingRight ? Vector2.right : Vector2.left;
 
@@ -394,7 +341,7 @@ namespace Player
         private void Run(float lerp)
         {
             //moveInput * moveSpeed = desired speed. (moveInput at max would be top speed / moveInput at 0 would be standing)
-            var desiredSpeed = moveInput.x * maxSpeed;
+            var desiredSpeed = MoveInput.x * maxSpeed;
             desiredSpeed = Mathf.Lerp(rb.velocity.x, desiredSpeed, lerp);
 
 
@@ -435,7 +382,7 @@ namespace Player
 
         private void Jump()
         {
-            lastPressedJumpTime = 0;
+            LastPressedJumpTime = 0;
             lastGroundedTime = 0;
 
             //We increase the force applied if we are falling
@@ -450,7 +397,7 @@ namespace Player
         private void WallJump(int direction)
         {
             //Ensures no extra jumps can be made
-            lastPressedJumpTime = 0;
+            LastPressedJumpTime = 0;
             lastGroundedTime = 0;
             lastRightWallTouchTime = 0;
             lastLeftWallTouchTime = 0;
@@ -493,7 +440,7 @@ namespace Player
 
         private IEnumerator Dash(Vector2 direction)
         {
-            lastPressedDashTime = 0;
+            LastPressedDashTime = 0;
 
             var startTime = Time.time;
             var lengthMultiplier = direction.x != 0 && direction.y != 0 ? 0.75f : 1f;
@@ -541,7 +488,7 @@ namespace Player
 
         private bool CanWallJump()
         {
-            return !isWallJumping && lastPressedJumpTime > 0 && lastGroundedTime <= 0 &&
+            return !isWallJumping && LastPressedJumpTime > 0 && lastGroundedTime <= 0 &&
                    (lastRightWallTouchTime > 0 || lastLeftWallTouchTime > 0);
         }
 
@@ -552,8 +499,8 @@ namespace Player
 
         private bool CanSlide()
         {
-            var canSlide = (lastLeftWallTouchTime > 0 && moveInput.x < 0) ||
-                           (lastRightWallTouchTime > 0 && moveInput.x > 0);
+            var canSlide = (lastLeftWallTouchTime > 0 && MoveInput.x < 0) ||
+                           (lastRightWallTouchTime > 0 && MoveInput.x > 0);
             canSlide = canSlide && rb.velocity.y <= 0 && lastGroundedTime <= 0;
             return canSlide;
         }
@@ -570,19 +517,5 @@ namespace Player
 
         #endregion
 
-        #region Input Callbacks
-
-        private void OnJumpInput(InputAction.CallbackContext context)
-        {
-            lastPressedJumpTime = inputBufferTime;
-            Debug.Log("pressed jump");
-        }
-
-        private void OnDashInput(InputAction.CallbackContext context)
-        {
-            lastPressedDashTime = inputBufferTime;
-        }
-
-        #endregion
     }
 }
