@@ -1111,8 +1111,8 @@ MonoBehaviour:
   m_FillRect: {fileID: 1728621556}
   m_HandleRect: {fileID: 479905834}
   m_Direction: 0
-  m_MinValue: -80
-  m_MaxValue: 0
+  m_MinValue: -60
+  m_MaxValue: 20
   m_WholeNumbers: 1
   m_Value: 0
   m_OnValueChanged:
@@ -2168,6 +2168,7 @@ MonoBehaviour:
   masterSlider: {fileID: 1581617787}
   musicSlider: {fileID: 1559822288}
   effectsSlider: {fileID: 379586270}
+  manager: {fileID: 669889010}
 --- !u!1 &982379163
 GameObject:
   m_ObjectHideFlags: 0
@@ -4007,8 +4008,8 @@ MonoBehaviour:
   m_FillRect: {fileID: 665975297}
   m_HandleRect: {fileID: 1363134868}
   m_Direction: 0
-  m_MinValue: -80
-  m_MaxValue: 0
+  m_MinValue: -60
+  m_MaxValue: 20
   m_WholeNumbers: 1
   m_Value: 0
   m_OnValueChanged:

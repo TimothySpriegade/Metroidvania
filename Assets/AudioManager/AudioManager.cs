@@ -3,25 +3,55 @@ using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
-    public AudioMixer mixer;
-  
-    
+    [SerializeField] private AudioMixer mixer;
+    private float masterVolume;
+    public float MasterVolume
+    {
+        get => masterVolume;
+        set {
+            masterVolume = value;  
+            mixer.SetFloat("MasterVolume", value);
+            PlayerPrefs.SetFloat("MasterVolume", value);
+        }
+    }
+    private float musicVolume;
+    public float MusicVolume
+    {
+        get => musicVolume;
+        set
+        {
+            musicVolume = value;
+            mixer.SetFloat("MusicVolume", value);
+            PlayerPrefs.SetFloat("MusicVolume", value);
+        }
+    }
+    private float effectVolume;
+    public float EffectVolume
+    {
+        get => effectVolume;
+        set
+        {
+            effectVolume = value;
+            mixer.SetFloat("EffectVolume", value);
+            PlayerPrefs.SetFloat("EffectVolume", value);
+        }
+    }
     // Start is called before the first frame update
     void Start()
     {
         if (PlayerPrefs.HasKey("MasterVolume"))
         {
-            mixer.SetFloat("MasterVolume", PlayerPrefs.GetFloat("MasterVolume"));
+            MasterVolume = PlayerPrefs.GetFloat("MasterVolume");
         }
 
         if (PlayerPrefs.HasKey("MusicVolume"))
         {
-            mixer.SetFloat("MusicVolume", PlayerPrefs.GetFloat("MusicVolume"));
+            MusicVolume = PlayerPrefs.GetFloat("MusicVolume");
         }
 
         if (PlayerPrefs.HasKey("EffectVolume"))
         {
-            mixer.SetFloat("EffectVolume", PlayerPrefs.GetFloat("EffectVolume"));
+            EffectVolume = PlayerPrefs.GetFloat("EffectVolume");
         }
     }
 

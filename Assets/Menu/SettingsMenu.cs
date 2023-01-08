@@ -9,10 +9,10 @@ public class SettingsMenu : MonoBehaviour
     //vars
     private Resolution[] resolutions;
     [SerializeField] private TMPro.TMP_Dropdown resolutionDropdown;
-
     [SerializeField] private AudioMixer mixer;
     [SerializeField] Slider masterSlider, musicSlider, effectsSlider;
-
+    [SerializeField] private AudioManager manager;
+    
 
 
     private void Start()
@@ -36,14 +36,12 @@ public class SettingsMenu : MonoBehaviour
         resolutionDropdown.value = currentResolutionIndex;
         resolutionDropdown.RefreshShownValue();
 
-        var volume = 0f;
-        mixer.GetFloat("MasterVolume", out volume);
-        masterSlider.value = volume;
-        mixer.GetFloat("MusicVolume", out volume);
-        musicSlider.value = volume;
-        mixer.GetFloat("EffectVolume", out volume);
-        effectsSlider.value = volume;
+    
+        masterSlider.value = manager.MasterVolume;
+        musicSlider.value = manager.MusicVolume;
+        effectsSlider.value = manager.EffectVolume;
     }
+  
     public void SetResolution(int resolutionIndex)
     {
         Screen.SetResolution(resolutions[resolutionIndex].width, resolutions[resolutionIndex].height, Screen.fullScreen);
@@ -51,24 +49,19 @@ public class SettingsMenu : MonoBehaviour
 
     public void SetMasterVolume(float volume)
     {
-        Debug.Log(volume);
-        mixer.SetFloat("MasterVolume", masterSlider.value);
-        PlayerPrefs.SetFloat("MasterVolume", masterSlider.value);
+        manager.MasterVolume = volume;
     }
     public void SetSFXVolume(float volume)
     {
-        Debug.Log(volume);
-        mixer.SetFloat("EffectVolume", effectsSlider.value);
-        PlayerPrefs.SetFloat("EffectVolume", effectsSlider.value);
+        manager.EffectVolume = volume;
     }
     public void SetMusicVolume(float volume)
     {
-        Debug.Log(volume);
-        mixer.SetFloat("MusicVolume", musicSlider.value);
-        PlayerPrefs.SetFloat("MusicVolume", musicSlider.value);
+        manager.MusicVolume = volume;
     }
-    public void ToggleFullScreen()
+
+    public void SetFullScreen(bool isFullscreen)
     {
-        Screen.fullScreen = !Screen.fullScreen;
+        Screen.fullScreen = isFullscreen;
     }
 }
