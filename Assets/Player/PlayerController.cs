@@ -104,8 +104,11 @@ namespace Player
         {
             horizontalInput.Disable();
             verticalInput.Disable();
+            jumpInput.started -= OnJumpInput;
             jumpInput.Disable();
+            dashInput.started -= OnDashInput;
             dashInput.Disable();
+            
         }
 
         public void UpdateControls()
