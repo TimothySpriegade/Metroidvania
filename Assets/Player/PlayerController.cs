@@ -110,9 +110,6 @@ namespace Player
 
         public void UpdateControls()
         {
-            Debug.Log("Controls change now!");
-            data.Controls = new PlayerControls();
-            //Updating all controls
             DisableAllControls();
             EnableAllControls();
         }
