@@ -4,7 +4,9 @@ using UnityEngine.Events;
 namespace EventSystem
 {
     //E = Event / UER = Unity Event Response
-    public abstract class GameEventListener<T, E, UER> : MonoBehaviour, IGameEventListener<T> where E : GameEvent<T> where UER : UnityEvent<T>
+    public abstract class GameEventListener<T, E, UER> : MonoBehaviour, IGameEventListener<T> 
+        where E : GameEvent<T> 
+        where UER : UnityEvent<T>
     {
         [SerializeField] private E gameEvent;
         public E GameEvent { get => gameEvent; set => gameEvent = value; }
@@ -20,7 +22,7 @@ namespace EventSystem
 
         public void OnEventRaised(T item)
         {
-            unityEventResponse?.Invoke(item);
+            unityEventResponse.Invoke(item);
         }
     }
 }

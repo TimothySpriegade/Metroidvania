@@ -1,6 +1,6 @@
 using UnityEngine.Events;
 
-namespace EventSystem
+namespace EventSystem.UnityEvents
 {
     [System.Serializable] public class UnityVoidEvent : UnityEvent<Void> { }
 }
