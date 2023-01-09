@@ -63,6 +63,20 @@ namespace Player
             #endregion
         }
 
+        #region Input Callbacks
+
+        private void OnJumpInput(InputAction.CallbackContext context)
+        {
+            movementScript.LastPressedJumpTime = inputBufferTime;
+        }
+
+        private void OnDashInput(InputAction.CallbackContext context)
+        {
+            movementScript.LastPressedDashTime = inputBufferTime;
+        }
+
+        #endregion
+        
         #region Updating Controls
 
         private void EnableAllControls()
@@ -85,21 +99,7 @@ namespace Player
             dashInput.Enable();
             dashInput.started += OnDashInput;
         }
-        
-        #region Input Callbacks
 
-        private void OnJumpInput(InputAction.CallbackContext context)
-        {
-            movementScript.LastPressedJumpTime = inputBufferTime;
-        }
-
-        private void OnDashInput(InputAction.CallbackContext context)
-        {
-            movementScript.LastPressedDashTime = inputBufferTime;
-        }
-
-        #endregion
-    
         private void DisableAllControls()
         {
             horizontalInput.Disable();
