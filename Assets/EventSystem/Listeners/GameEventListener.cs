@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 namespace EventSystem.Listeners
 {
-    //E = Event / UER = Unity Event Response
+    //E = GameEvent / UER = Unity Event Response
     public abstract class GameEventListener<T, E, UER> : MonoBehaviour
         where E : GameEvent<T> 
         where UER : UnityEvent<T>
