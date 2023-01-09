@@ -1,24 +1,28 @@
+using EventSystem.Events;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace EventSystem
+namespace EventSystem.Listeners
 {
     //E = Event / UER = Unity Event Response
-    public abstract class GameEventListener<T, E, UER> : MonoBehaviour, IGameEventListener<T> 
+    public abstract class GameEventListener<T, E, UER> : MonoBehaviour
         where E : GameEvent<T> 
         where UER : UnityEvent<T>
     {
         [SerializeField] private E gameEvent;
-        public E GameEvent { get => gameEvent; set => gameEvent = value; }
         
         [SerializeField] private UER unityEventResponse;
 
 
         private void OnEnable()
-        { if(GameEvent != null) GameEvent.RegisterListener(this); }
+        {
+            if (gameEvent != null) gameEvent.EventListeners += OnEventRaised;
+        }
 
         private void OnDisable()
-        { if(GameEvent != null) GameEvent.UnregisterListener(this); }
+        {
+            if (gameEvent != null) gameEvent.EventListeners -= OnEventRaised;
+        }
 
         public void OnEventRaised(T item)
         {

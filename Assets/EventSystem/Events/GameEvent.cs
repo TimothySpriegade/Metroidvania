@@ -1,22 +1,15 @@
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-namespace EventSystem
+namespace EventSystem.Events
 {
-    [CreateAssetMenu(menuName = "GameEvents/Game Event <Typed>")]
     public abstract class GameEvent<T> : ScriptableObject
     {
-        private readonly List<IGameEventListener<T>> eventListeners = new List<IGameEventListener<T>>();
+        public event Action<T> EventListeners = delegate {};
 
         public void Raise(T item)
         {
-            for(int i = eventListeners.Count -1; i >= 0; i--)
-                eventListeners[i].OnEventRaised(item);
+            EventListeners(item);
         }
-        public void RegisterListener(IGameEventListener<T> listener)
-        { if(!eventListeners.Contains(listener)) eventListeners.Add(listener); }
-
-        public void UnregisterListener(IGameEventListener<T> listener)
-        { if(eventListeners.Contains(listener)) eventListeners.Remove(listener); }
     }
 }
