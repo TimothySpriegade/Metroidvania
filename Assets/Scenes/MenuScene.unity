@@ -2156,11 +2156,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resolutionDropdown: {fileID: 1211918837}
-  mixer: {fileID: 24100000, guid: 948b78ad1aedc9a4bb2a03cea5dac97f, type: 2}
   masterSlider: {fileID: 1581617787}
   musicSlider: {fileID: 1559822288}
   effectsSlider: {fileID: 379586270}
-  manager: {fileID: 669889010}
+  audioManager: {fileID: 669889010}
+  fullscreenToggle: {fileID: 263610180}
 --- !u!1 &982379163
 GameObject:
   m_ObjectHideFlags: 0
