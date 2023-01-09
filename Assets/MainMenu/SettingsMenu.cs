@@ -22,7 +22,7 @@ public class SettingsMenu : MonoBehaviour
         resolutionDropdown.ClearOptions();
         var options = new List<string>();
         var currentResolutionIndex = 0;
-        foreach (Resolution resolution in resolutions)
+        foreach (var resolution in resolutions)
         {
             var option = resolution.width + "x" + resolution.height;
             options.Add(option);
@@ -60,8 +60,8 @@ public class SettingsMenu : MonoBehaviour
         manager.MusicVolume = volume;
     }
 
-    public void SetFullScreen(bool isFullscreen)
+    public void ToggleFullScreen()
     {
-        Screen.fullScreen = isFullscreen;
+        Screen.fullScreen = !Screen.fullScreen;
     }
 }
