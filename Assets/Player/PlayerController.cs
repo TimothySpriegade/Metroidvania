@@ -113,6 +113,7 @@ namespace Player
 
         public void UpdateControls()
         {
+            //Updating all controls
             DisableAllControls();
             EnableAllControls();
         }
