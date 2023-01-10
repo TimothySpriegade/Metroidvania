@@ -1,5 +1,4 @@
 ﻿using EventSystem.Events;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace EventSystem.Tester

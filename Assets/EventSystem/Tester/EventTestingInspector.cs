@@ -1,5 +1,7 @@
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
+
 
 namespace EventSystem.Tester
 {
@@ -20,3 +22,4 @@ namespace EventSystem.Tester
         }
     }
 }
+#endif

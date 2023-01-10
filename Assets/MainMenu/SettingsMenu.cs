@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -53,6 +54,11 @@ namespace MainMenu
 
             // Initialize fullScreen toggle
             fullscreenToggle.SetIsOnWithoutNotify(Screen.fullScreen);
+        }
+
+        private void OnEnable()
+        {
+            throw new NotImplementedException();
         }
 
         public void SetResolution(int resolutionIndex)
