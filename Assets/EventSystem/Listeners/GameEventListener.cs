@@ -16,15 +16,15 @@ namespace EventSystem.Listeners
 
         private void OnEnable()
         {
-            if (gameEvent != null) gameEvent.EventListeners += OnEventRaised;
+            if (gameEvent != null) gameEvent.EventListeners += OnEventInvoked;
         }
 
         private void OnDisable()
         {
-            if (gameEvent != null) gameEvent.EventListeners -= OnEventRaised;
+            if (gameEvent != null) gameEvent.EventListeners -= OnEventInvoked;
         }
 
-        public void OnEventRaised(T item)
+        public void OnEventInvoked(T item)
         {
             unityEventResponse.Invoke(item);
         }
