@@ -64,6 +64,11 @@ namespace MainMenu
             inputSystem.cancel.action.started += context => cancelOptionsMenu.Invoke();
         }
 
+        private void OnDisable()
+        {
+            inputSystem.cancel.action.started -= context => cancelOptionsMenu.Invoke();
+        }
+
         public void SetResolution(int resolutionIndex)
         {
             var resolution = addedResolutions[resolutionIndex];
