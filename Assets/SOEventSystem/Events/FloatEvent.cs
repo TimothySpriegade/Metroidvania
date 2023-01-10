@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace EventSystem.Events
+namespace SOEventSystem.Events
 {
     [CreateAssetMenu(menuName = "GameEvents/Game Event <float>")]
     public class FloatEvent : GameEvent<float>

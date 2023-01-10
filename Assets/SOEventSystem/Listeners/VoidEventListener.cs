@@ -1,7 +1,7 @@
-using EventSystem.Events;
-using EventSystem.UnityEvents;
+using SOEventSystem.Events;
+using SOEventSystem.UnityEvents;
 
-namespace EventSystem.Listeners
+namespace SOEventSystem.Listeners
 {
     public class VoidEventListener : GameEventListener<Void, VoidEvent, UnityVoidEvent>
     {

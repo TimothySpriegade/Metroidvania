@@ -1,6 +1,6 @@
 using UnityEngine.Events;
 
-namespace EventSystem.UnityEvents
+namespace SOEventSystem.UnityEvents
 {
     [System.Serializable] public class UnityStringEvent : UnityEvent<string> { }
 }

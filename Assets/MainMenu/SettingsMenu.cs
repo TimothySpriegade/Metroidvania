@@ -56,11 +56,6 @@ namespace MainMenu
             fullscreenToggle.SetIsOnWithoutNotify(Screen.fullScreen);
         }
 
-        private void OnEnable()
-        {
-            throw new NotImplementedException();
-        }
-
         public void SetResolution(int resolutionIndex)
         {
             var resolution = addedResolutions[resolutionIndex];
