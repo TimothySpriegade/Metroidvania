@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace MainMenu
 {
@@ -8,14 +9,17 @@ namespace MainMenu
 
         private void Start()
         {
+            EventSystem.current.SetSelectedGameObject(mainMenuFirstButton);
         }
 
         public void EnteringOptions()
         {
+            EventSystem.current.SetSelectedGameObject(optionsMenuFirstButton);
         }
 
         public void LeavingOptions()
         {
+            EventSystem.current.SetSelectedGameObject(optionsMenuClosedButton);
         }
     }
 }

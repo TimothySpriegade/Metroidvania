@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 
 namespace MainMenu
@@ -12,11 +15,11 @@ namespace MainMenu
         [SerializeField] private Slider masterSlider, musicSlider, effectsSlider;
         [SerializeField] private AudioManager audioManager;
         [SerializeField] private Toggle fullscreenToggle;
-
+        [SerializeField] private UnityEvent cancelOptionsMenu;
+        [SerializeField] private InputSystemUIInputModule inputSystem;
         // Variables
         private List<Resolution> addedResolutions;
-
-
+        
         private void Start()
         {
             //clears DropDown and adds all possible resolutions
@@ -54,6 +57,11 @@ namespace MainMenu
 
             // Initialize fullScreen toggle
             fullscreenToggle.SetIsOnWithoutNotify(Screen.fullScreen);
+        }
+
+        private void OnEnable()
+        {
+            inputSystem.cancel.action.started += context => cancelOptionsMenu.Invoke();
         }
 
         public void SetResolution(int resolutionIndex)
