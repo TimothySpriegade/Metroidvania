@@ -104,7 +104,7 @@ NavMeshSettings:
   serializedVersion: 2
   m_ObjectHideFlags: 0
   m_BuildSettings:
-    serializedVersion: 3
+    serializedVersion: 2
     agentTypeID: 0
     agentRadius: 0.5
     agentHeight: 2
@@ -117,7 +117,7 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualTileSize: 0
     tileSize: 256
-    buildHeightMesh: 0
+    accuratePlacement: 0
     maxJobWorkers: 0
     preserveTilesOutsideBounds: 0
     debug:
@@ -1246,17 +1246,9 @@ Camera:
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
-  m_Iso: 200
-  m_ShutterSpeed: 0.005
-  m_Aperture: 16
-  m_FocusDistance: 10
-  m_FocalLength: 50
-  m_BladeCount: 5
-  m_Curvature: {x: 2, y: 11}
-  m_BarrelClipping: 0.25
-  m_Anamorphism: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
+  m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -2164,11 +2156,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resolutionDropdown: {fileID: 1211918837}
-  mixer: {fileID: 24100000, guid: 948b78ad1aedc9a4bb2a03cea5dac97f, type: 2}
   masterSlider: {fileID: 1581617787}
   musicSlider: {fileID: 1559822288}
   effectsSlider: {fileID: 379586270}
-  manager: {fileID: 669889010}
+  audioManager: {fileID: 669889010}
+  fullscreenToggle: {fileID: 263610180}
 --- !u!1 &982379163
 GameObject:
   m_ObjectHideFlags: 0
@@ -2275,7 +2267,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1660785621}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2301,7 +2293,6 @@ VideoPlayer:
   m_RenderMode: 0
   m_AspectRatio: 5
   m_DataSource: 0
-  m_TimeUpdateMode: 2
   m_PlaybackSpeed: 1
   m_AudioOutputMode: 2
   m_TargetAudioSources:
@@ -2359,7 +2350,6 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
-  m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -3265,7 +3255,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 32
   m_Viewport: {fileID: 1610217763}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 1189080571}
@@ -4374,7 +4364,6 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
-  m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
