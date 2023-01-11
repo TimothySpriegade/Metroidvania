@@ -1,6 +1,5 @@
-﻿using EventSystem.Events;
+﻿using SOEventSystem.Events;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace MainMenu
 {
@@ -11,11 +10,11 @@ namespace MainMenu
         {
             //lädt nächste Szene in Scenemanager - änder sich vllt noch wegen save
             onSceneChange.Invoke("TestLevel");
-            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
         public static void QuitGame()
         {
             Debug.Log("Quit");
+            Application.Quit();
             Application.Quit();
         }
     }
