@@ -1,8 +1,7 @@
-﻿using EventSystem.Events;
-using Unity.VisualScripting;
+﻿using SOEventSystem.Events;
 using UnityEngine;
 
-namespace EventSystem.Tester
+namespace SOEventSystem.Tester
 {
     public class EventTester : MonoBehaviour
     {

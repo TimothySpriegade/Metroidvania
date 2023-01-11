@@ -1,7 +1,8 @@
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 
-namespace EventSystem.Tester
+namespace SOEventSystem.Tester
 {
     [CustomEditor(typeof(EventTester))]
     public class EventTestingInspector : Editor
@@ -20,3 +21,4 @@ namespace EventSystem.Tester
         }
     }
 }
+#endif

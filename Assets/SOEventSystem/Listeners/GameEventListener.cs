@@ -1,8 +1,8 @@
-using EventSystem.Events;
+using SOEventSystem.Events;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace EventSystem.Listeners
+namespace SOEventSystem.Listeners
 {
     //E = GameEvent / UER = Unity Event Response
     public abstract class GameEventListener<T, E, UER> : MonoBehaviour
