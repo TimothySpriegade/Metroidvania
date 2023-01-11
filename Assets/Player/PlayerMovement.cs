@@ -107,6 +107,8 @@ namespace Player
         [Range(0f, 0.5f)]
         private float coyoteTime;
 
+        #endregion
+        
         #region Check Vars
 
         //Set all of these up in the inspector
@@ -127,7 +129,6 @@ namespace Player
 
         #endregion
 
-        #endregion
         #endregion
 
         #region Unity Methods

@@ -18,7 +18,9 @@ public class ShakeDemo : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
+#pragma warning disable CS0618
             Application.LoadLevel(Application.loadedLevel);
+#pragma warning restore CS0618
         }
 
         Slider s = delegate(float val, string prefix, float min, float max, int pad)
