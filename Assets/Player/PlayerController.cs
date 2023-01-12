@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 
 namespace Player
 {
+    [DefaultExecutionOrder(-100)]
     public class PlayerController : MonoBehaviour
     {
         #region Components

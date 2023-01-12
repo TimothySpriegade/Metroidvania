@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using SOEventSystem.Events;
 using UnityEngine;
@@ -26,7 +27,7 @@ namespace Player
         [SerializeField] private float timeUntilJumpApex;
 
         [Space(5)]
-        //Threshold how close to the apex the player has to be to activate the gravity multiplier
+        [Tooltip("Threshold how close to the apex the player has to be to activate the gravity multiplier")]
         [SerializeField]
         private float jumpHangThreshold;
 
@@ -75,7 +76,10 @@ namespace Player
         [SerializeField] private float dashForceMultiplier;
         [SerializeField] private float dashLength;
         [SerializeField] private float dashCooldown;
+        [Tooltip("Tiny amount the dash freezes the game to make the Dash feel more impactful")]
         [SerializeField] private float dashSleepTime;
+        [Tooltip("Deadzone until the game recognizes your input to dash into that direction (0, 0.3) wont make you dash upwards")]
+        [SerializeField] private float controllerInputThreshold;
 
         public float LastPressedDashTime { get; set; }
         private float lastDashed;
@@ -273,7 +277,7 @@ namespace Player
                 Sleep(dashSleepTime);
                 
                 //Normalizes input to ensure that controller wont dash unwanted angles
-                dashDirection = normalizeMoveInput(MoveInput);
+                dashDirection = NormalizeMoveInput(MoveInput);
 
                 //When standing still or dashing down => Dashing forward
                 if (dashDirection == Vector2.down && lastGroundedTime > 0) 
@@ -449,10 +453,10 @@ namespace Player
 
         #region Dash
 
-        private Vector2 normalizeMoveInput(Vector2 moveInput)
+        private Vector2 NormalizeMoveInput(Vector2 moveInput)
         {
-            if (Mathf.Abs(moveInput.x) < 0.4f) moveInput.x = 0;
-            if (Mathf.Abs(moveInput.y) < 0.4f) moveInput.y = 0;
+            if (Mathf.Abs(moveInput.x) < controllerInputThreshold) moveInput.x = 0;
+            if (Mathf.Abs(moveInput.y) < controllerInputThreshold) moveInput.y = 0;
 
             moveInput.x = moveInput.x != 0 ? Mathf.Sign(moveInput.x) : 0;
             moveInput.y = moveInput.y != 0 ? Mathf.Sign(moveInput.y) : 0;
@@ -541,6 +545,5 @@ namespace Player
         }
 
         #endregion
-
     }
 }

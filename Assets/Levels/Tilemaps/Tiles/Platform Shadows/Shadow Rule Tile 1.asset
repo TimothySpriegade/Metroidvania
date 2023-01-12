@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
-  m_Name: Shadow Rule Tile
+  m_Name: Shadow Rule Tile 1
   m_EditorClassIdentifier: 
   m_DefaultSprite: {fileID: 21300018, guid: 9fd88fe8416f10a4b8c6e929bd6932fe, type: 3}
   m_DefaultGameObject: {fileID: 0}
