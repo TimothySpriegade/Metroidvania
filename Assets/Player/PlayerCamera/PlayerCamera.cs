@@ -23,6 +23,7 @@ namespace Player.PlayerCamera
         private void Start()
         {
             player = GameObject.FindGameObjectWithTag("Player");
+            //Its important that the polygon collider is perfectly square shaped. Uneven areas will make the camera jitter around corners
             var levelBorder = GameObject.FindGameObjectWithTag($"LevelBorder")?.GetComponent<PolygonCollider2D>();
             cameraBorder.m_BoundingShape2D = levelBorder;
         }
