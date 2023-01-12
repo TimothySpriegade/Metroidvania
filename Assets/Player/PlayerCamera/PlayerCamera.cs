@@ -23,7 +23,7 @@ namespace Player.PlayerCamera
             player = GameObject.FindGameObjectWithTag("Player");
         }
 
-        private void Update()
+        private void LateUpdate()
         {
             if (!ReferenceEquals(player, null))
             {

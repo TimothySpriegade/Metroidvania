@@ -1,4 +1,5 @@
 using System.Collections;
+using SOEventSystem.Events;
 using UnityEngine;
 
 namespace Player
@@ -7,6 +8,11 @@ namespace Player
     {
         #region Vars
 
+        #region Events
+
+
+        #endregion
+        
         #region Components
         
         private Rigidbody2D rb;
@@ -265,16 +271,17 @@ namespace Player
 
                 //Sleep to add weight behind the dash
                 Sleep(dashSleepTime);
+                
+                //Normalizes input to ensure that controller wont dash unwanted angles
+                dashDirection = normalizeMoveInput(MoveInput);
 
                 //When standing still or dashing down => Dashing forward
-                if (MoveInput == Vector2.down && lastGroundedTime > 0)
+                if (dashDirection == Vector2.down && lastGroundedTime > 0) 
                     dashDirection = isFacingRight ? Vector2.right : Vector2.left;
-                else if (MoveInput != Vector2.zero)
-                    dashDirection = MoveInput;
-                else
+                else if (dashDirection == Vector2.zero)
                     dashDirection = isFacingRight ? Vector2.right : Vector2.left;
 
-                StartCoroutine(nameof(Dash), dashDirection);
+                StartCoroutine(Dash(dashDirection));
             }
 
             #endregion
@@ -442,19 +449,32 @@ namespace Player
 
         #region Dash
 
+        private Vector2 normalizeMoveInput(Vector2 moveInput)
+        {
+            if (Mathf.Abs(moveInput.x) < 0.4f) moveInput.x = 0;
+            if (Mathf.Abs(moveInput.y) < 0.4f) moveInput.y = 0;
+
+            moveInput.x = moveInput.x != 0 ? Mathf.Sign(moveInput.x) : 0;
+            moveInput.y = moveInput.y != 0 ? Mathf.Sign(moveInput.y) : 0;
+
+            return moveInput;
+        }
+
         private IEnumerator Dash(Vector2 direction)
         {
             LastPressedDashTime = 0;
 
             var startTime = Time.time;
+            
+            //Dashes diagonal
             var lengthMultiplier = direction.x != 0 && direction.y != 0 ? 0.75f : 1f;
-
+            
             SetGravityScale(0);
-
+            
             //Keeps player velocity at Dash Speed
             while (Time.time - startTime <= dashLength * lengthMultiplier)
             {
-                rb.velocity = direction.normalized * maxSpeed * dashForceMultiplier;
+                rb.velocity = direction.normalized * (maxSpeed * dashForceMultiplier);
                 //Pauses the loop until the next frame, creating something of a Update loop. 
                 yield return null;
             }
@@ -462,6 +482,7 @@ namespace Player
             //Dash over
             lastDashed = dashCooldown;
             isDashing = false;
+            duringJumpCut = true;
         }
 
         #endregion
@@ -479,7 +500,7 @@ namespace Player
 
         private void CheckDirectionToFace(bool isMovingRight)
         {
-            if (isMovingRight != isFacingRight)
+            if (isMovingRight != isFacingRight && !isDashing)
             {
                 Turn();
             }

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 677236320}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -165,10 +165,10 @@ MonoBehaviour:
   dashLength: 0.25
   dashCooldown: 0.5
   dashSleepTime: 0.05
-  fallGravityMultiplier: 2
-  jumpCutGravityMultiplier: 3.3
-  maxFallSpeed: 18
-  slideSpeed: 6
+  fallGravityMultiplier: 2.3
+  jumpCutGravityMultiplier: 3
+  maxFallSpeed: 16
+  slideSpeed: 3
   coyoteTime: 0.1
   groundCheckPoint: {fileID: 2000500285538828222}
   groundCheckSize: {x: 0.85, y: 0.2}
