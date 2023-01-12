@@ -15,7 +15,6 @@ namespace MainMenu
         {
             Debug.Log("Quit");
             Application.Quit();
-            Application.Quit();
         }
     }
 }

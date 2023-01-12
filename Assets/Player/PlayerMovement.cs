@@ -139,6 +139,9 @@ namespace Player
         {
             
             rb = GetComponent<Rigidbody2D>();
+            var localScale = transform.localScale;
+            groundCheckSize *= localScale;
+            wallCheckSize *= localScale;
             unlockedDash = true;
         }
 
