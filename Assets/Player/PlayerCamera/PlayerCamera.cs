@@ -8,6 +8,7 @@ namespace Player.PlayerCamera
     public class PlayerCamera : MonoBehaviour
     {
         private CinemachineVirtualCamera playerCamera;
+        private CinemachineConfiner2D cameraBorder;
         private GameObject player;
         private CinemachineBasicMultiChannelPerlin cameraShake;
         private float customTime = 1;
@@ -16,11 +17,14 @@ namespace Player.PlayerCamera
         {
             playerCamera = GetComponent<CinemachineVirtualCamera>();
             cameraShake = playerCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+            cameraBorder = GetComponent<CinemachineConfiner2D>();
         }
 
         private void Start()
         {
             player = GameObject.FindGameObjectWithTag("Player");
+            var levelBorder = GameObject.FindGameObjectWithTag($"LevelBorder")?.GetComponent<PolygonCollider2D>();
+            cameraBorder.m_BoundingShape2D = levelBorder;
         }
 
         private void LateUpdate()
