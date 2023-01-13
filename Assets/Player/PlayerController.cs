@@ -103,6 +103,7 @@ namespace Player
             //pause Controls
             pauseInput = data.Controls.Player.Pause;
             pauseInput.Enable();
+            pauseInput.started += OnOpenPause;
         }
 
         private void DisableAllControls()
@@ -114,6 +115,7 @@ namespace Player
             dashInput.started -= OnDashInput;
             dashInput.Disable();
             pauseInput.Disable();
+            pauseInput.started -= OnOpenPause;
             
         }
 
@@ -122,6 +124,10 @@ namespace Player
             //Updating all controls
             DisableAllControls();
             EnableAllControls();
+        }
+        public void OnOpenPause(InputAction.CallbackContext context)
+        {
+
         }
 
         #endregion
