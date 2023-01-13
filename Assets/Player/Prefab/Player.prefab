@@ -157,7 +157,7 @@ MonoBehaviour:
   noJumpInput: 0
   wallJumpLerp: 0.06
   wallJumpTime: 0.3
-  wallJumpForce: {x: 9, y: 20}
+  wallJumpForce: {x: 9, y: 23}
   maxSpeed: 9.5
   runAcceleration: 9.5
   runDeceleration: 9.5
