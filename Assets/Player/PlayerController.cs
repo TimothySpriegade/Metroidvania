@@ -19,6 +19,7 @@ namespace Player
         private InputAction verticalInput;
         private InputAction jumpInput;
         private InputAction dashInput;
+        private InputAction pauseInput;
 
         private float currentHorizontal;
         private float currentVertical;
@@ -98,6 +99,10 @@ namespace Player
             dashInput = data.Controls.Player.Dash;
             dashInput.Enable();
             dashInput.started += OnDashInput;
+
+            //pause Controls
+            pauseInput = data.Controls.Player.Pause;
+            pauseInput.Enable();
         }
 
         private void DisableAllControls()
@@ -108,6 +113,7 @@ namespace Player
             jumpInput.Disable();
             dashInput.started -= OnDashInput;
             dashInput.Disable();
+            pauseInput.Disable();
             
         }
 
