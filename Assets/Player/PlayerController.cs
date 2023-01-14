@@ -23,6 +23,7 @@ namespace Player
 
         private float currentHorizontal;
         private float currentVertical;
+        [SerializeField] private GameObject pauseMenu;
 
         #endregion
     
@@ -76,8 +77,14 @@ namespace Player
             movementScript.LastPressedDashTime = inputBufferTime;
         }
 
+        public void OnOpenPause(InputAction.CallbackContext context)
+        {
+            Time.timeScale = 0;
+            pauseMenu.SetActive(true);
+        }
+
         #endregion
-        
+
         #region Updating Controls
 
         private void EnableAllControls()
@@ -104,6 +111,7 @@ namespace Player
             pauseInput = data.Controls.Player.Pause;
             pauseInput.Enable();
             pauseInput.started += OnOpenPause;
+            
         }
 
         private void DisableAllControls()
@@ -125,10 +133,7 @@ namespace Player
             DisableAllControls();
             EnableAllControls();
         }
-        public void OnOpenPause(InputAction.CallbackContext context)
-        {
-
-        }
+       
 
         #endregion
     }
