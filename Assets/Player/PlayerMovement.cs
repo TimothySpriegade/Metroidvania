@@ -37,6 +37,7 @@ namespace Player
         private float lastGroundedTime;
         private bool duringJumpCut;
         private bool isJumping;
+        [HideInInspector]
         public bool noJumpInput;
 
         #region Wall Jump Vars
@@ -424,6 +425,7 @@ namespace Player
             jumpForce.x *= direction;
 
             if (rb.velocity.y < 0) jumpForce.y -= rb.velocity.y;
+            if (rb.velocity.x != 0) jumpForce.x -= rb.velocity.x;
 
             rb.AddForce(jumpForce, ForceMode2D.Impulse);
         }

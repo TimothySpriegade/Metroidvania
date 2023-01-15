@@ -1,30 +1,30 @@
 using System;
-using System.Collections;
 using SOEventSystem.Events;
 using UnityEngine;
 
 namespace Levels.Traps
 {
-    public class TrapBehaviour : MonoBehaviour
+    public class Spike : MonoBehaviour
     {
-        [SerializeField] private VoidEvent onSpikeHit;
+        [SerializeField] private FloatEvent onSpikeHit;
         [SerializeField] private VoidEvent onSpikeLeave;
-        private float lastHit;
+        [SerializeField] private SpikeData data;
 
-        private void OnCollisionEnter2D(Collision2D col)
+
+        private void OnTriggerEnter2D(Collider2D col)
         {
             if (col.gameObject.CompareTag("Player"))
             {
-                onSpikeHit.Invoke();
-            } 
+                onSpikeHit.Invoke(data.damage);
+            }
         }
 
-        private void OnCollisionExit2D(Collision2D col)
+        private void OnTriggerExit2D(Collider2D col)
         {
             if (col.gameObject.CompareTag("Player"))
             {
                 onSpikeLeave.Invoke();
-            } 
+            }
         }
     }
 }

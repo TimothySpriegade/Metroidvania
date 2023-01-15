@@ -9,6 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a389d24fe355495a82463fb3c574c294, type: 3}
-  m_Name: onSpikeHit
+  m_Script: {fileID: 11500000, guid: f5a743b80fa1e1c449a4581310907746, type: 3}
+  m_Name: spikeData
   m_EditorClassIdentifier: 
+  damage: 1
