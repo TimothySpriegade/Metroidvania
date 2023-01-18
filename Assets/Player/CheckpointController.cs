@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Player
 {
-    public class CheckpointBehavior : MonoBehaviour
+    public class CheckpointController : MonoBehaviour
     {
         private Vector2 checkpointPosition;
         private Rigidbody2D rb;
