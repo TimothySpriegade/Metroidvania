@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 677236320}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -77,8 +77,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1587992795
+  m_SortingLayer: -2
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -104,7 +104,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: 0.009317115}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -115,7 +115,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1, y: 0.9813658}
   m_EdgeRadius: 0
 --- !u!50 &2000500285399010432
 Rigidbody2D:
@@ -157,18 +157,19 @@ MonoBehaviour:
   noJumpInput: 0
   wallJumpLerp: 0.06
   wallJumpTime: 0.3
-  wallJumpForce: {x: 9, y: 20}
+  wallJumpForce: {x: 9, y: 23}
   maxSpeed: 9.5
   runAcceleration: 9.5
   runDeceleration: 9.5
   dashForceMultiplier: 2.5
   dashLength: 0.25
-  dashCooldown: 0.5
+  dashCooldown: 0.35
   dashSleepTime: 0.05
-  fallGravityMultiplier: 2
-  jumpCutGravityMultiplier: 3.3
-  maxFallSpeed: 18
-  slideSpeed: 6
+  controllerInputThreshold: 0.5
+  fallGravityMultiplier: 2.3
+  jumpCutGravityMultiplier: 3
+  maxFallSpeed: 16
+  slideSpeed: 3
   coyoteTime: 0.1
   groundCheckPoint: {fileID: 2000500285538828222}
   groundCheckSize: {x: 0.85, y: 0.2}

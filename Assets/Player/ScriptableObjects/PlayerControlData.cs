@@ -3,14 +3,20 @@ using UnityEngine;
 
 namespace Player.ScriptableObjects
 {
-    [CreateAssetMenu(menuName = "Data/PlayerControlData")]
+    [CreateAssetMenu(menuName = "Data/Player/PlayerControlData")]
     public class PlayerControlData : ScriptableObject
     {
-        [HideInInspector] public PlayerControls Controls;
-        
-        private void OnValidate()
+        private PlayerControls controls;
+
+        [HideInInspector]
+        public PlayerControls Controls
         {
-            Controls ??= new PlayerControls();
+            get
+            {
+                controls ??= new PlayerControls();
+                return controls;
+            }
+            set => controls = value;
         }
     }
 }

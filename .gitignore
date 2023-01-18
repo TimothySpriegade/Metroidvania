@@ -7,3 +7,4 @@
 # Include code
 !Assets/
 !Packages/
+!ProjectSettings/

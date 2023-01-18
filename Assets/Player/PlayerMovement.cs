@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using SOEventSystem.Events;
 using UnityEngine;
 
 namespace Player
@@ -7,6 +9,11 @@ namespace Player
     {
         #region Vars
 
+        #region Events
+
+
+        #endregion
+        
         #region Components
         
         private Rigidbody2D rb;
@@ -20,7 +27,7 @@ namespace Player
         [SerializeField] private float timeUntilJumpApex;
 
         [Space(5)]
-        //Threshold how close to the apex the player has to be to activate the gravity multiplier
+        [Tooltip("Threshold how close to the apex the player has to be to activate the gravity multiplier")]
         [SerializeField]
         private float jumpHangThreshold;
 
@@ -30,6 +37,7 @@ namespace Player
         private float lastGroundedTime;
         private bool duringJumpCut;
         private bool isJumping;
+        [HideInInspector]
         public bool noJumpInput;
 
         #region Wall Jump Vars
@@ -69,7 +77,10 @@ namespace Player
         [SerializeField] private float dashForceMultiplier;
         [SerializeField] private float dashLength;
         [SerializeField] private float dashCooldown;
+        [Tooltip("Tiny amount the dash freezes the game to make the Dash feel more impactful")]
         [SerializeField] private float dashSleepTime;
+        [Tooltip("Deadzone until the game recognizes your input to dash into that direction (0, 0.3) wont make you dash upwards")]
+        [SerializeField] private float controllerInputThreshold;
 
         public float LastPressedDashTime { get; set; }
         private float lastDashed;
@@ -107,6 +118,8 @@ namespace Player
         [Range(0f, 0.5f)]
         private float coyoteTime;
 
+        #endregion
+        
         #region Check Vars
 
         //Set all of these up in the inspector
@@ -128,7 +141,6 @@ namespace Player
         #endregion
 
         #endregion
-        #endregion
 
         #region Unity Methods
 
@@ -138,6 +150,9 @@ namespace Player
         {
             
             rb = GetComponent<Rigidbody2D>();
+            var localScale = transform.localScale;
+            groundCheckSize *= localScale;
+            wallCheckSize *= localScale;
             unlockedDash = true;
         }
 
@@ -246,7 +261,7 @@ namespace Player
 
             #region Dash Checks
 
-            if (lastGroundedTime > 0)
+            if ((lastGroundedTime > 0 || lastLeftWallTouchTime > 0 || lastRightWallTouchTime > 0) && !isJumping)
             {
                 dashRefreshed = true;
             }
@@ -257,20 +272,22 @@ namespace Player
                 isJumping = false;
                 isWallJumping = false;
                 duringJumpCut = false;
+                dashRefreshed = false;
 
 
                 //Sleep to add weight behind the dash
                 Sleep(dashSleepTime);
+                
+                //Normalizes input to ensure that controller wont dash unwanted angles
+                dashDirection = NormalizeMoveInput(MoveInput);
 
                 //When standing still or dashing down => Dashing forward
-                if (MoveInput == Vector2.down && lastGroundedTime > 0)
+                if (dashDirection == Vector2.down && lastGroundedTime > 0) 
                     dashDirection = isFacingRight ? Vector2.right : Vector2.left;
-                else if (MoveInput != Vector2.zero)
-                    dashDirection = MoveInput;
-                else
+                else if (dashDirection == Vector2.zero)
                     dashDirection = isFacingRight ? Vector2.right : Vector2.left;
 
-                StartCoroutine(nameof(Dash), dashDirection);
+                StartCoroutine(Dash(dashDirection));
             }
 
             #endregion
@@ -409,6 +426,7 @@ namespace Player
             jumpForce.x *= direction;
 
             if (rb.velocity.y < 0) jumpForce.y -= rb.velocity.y;
+            if (rb.velocity.x != 0) jumpForce.x -= rb.velocity.x;
 
             rb.AddForce(jumpForce, ForceMode2D.Impulse);
         }
@@ -438,19 +456,32 @@ namespace Player
 
         #region Dash
 
+        private Vector2 NormalizeMoveInput(Vector2 moveInput)
+        {
+            if (Mathf.Abs(moveInput.x) < controllerInputThreshold) moveInput.x = 0;
+            if (Mathf.Abs(moveInput.y) < controllerInputThreshold) moveInput.y = 0;
+
+            moveInput.x = moveInput.x != 0 ? Mathf.Sign(moveInput.x) : 0;
+            moveInput.y = moveInput.y != 0 ? Mathf.Sign(moveInput.y) : 0;
+
+            return moveInput;
+        }
+
         private IEnumerator Dash(Vector2 direction)
         {
             LastPressedDashTime = 0;
 
             var startTime = Time.time;
+            
+            //Dashes diagonal
             var lengthMultiplier = direction.x != 0 && direction.y != 0 ? 0.75f : 1f;
-
+            
             SetGravityScale(0);
-
+            
             //Keeps player velocity at Dash Speed
             while (Time.time - startTime <= dashLength * lengthMultiplier)
             {
-                rb.velocity = direction.normalized * maxSpeed * dashForceMultiplier;
+                rb.velocity = direction.normalized * (maxSpeed * dashForceMultiplier);
                 //Pauses the loop until the next frame, creating something of a Update loop. 
                 yield return null;
             }
@@ -458,6 +489,7 @@ namespace Player
             //Dash over
             lastDashed = dashCooldown;
             isDashing = false;
+            duringJumpCut = true;
         }
 
         #endregion
@@ -475,7 +507,7 @@ namespace Player
 
         private void CheckDirectionToFace(bool isMovingRight)
         {
-            if (isMovingRight != isFacingRight)
+            if (isMovingRight != isFacingRight && !isDashing)
             {
                 Turn();
             }
@@ -516,6 +548,5 @@ namespace Player
         }
 
         #endregion
-
     }
 }

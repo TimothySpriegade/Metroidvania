@@ -16,18 +16,10 @@ namespace SOEventSystem.Tester
 
         public void Invoke()
         {
-            if (voidEvent != null)
-            {
-                voidEvent.Invoke();
-            }
-            if (floatEvent != null)
-            {
-                floatEvent.Invoke(floatInput);
-            } 
-            else if (stringEvent != null)
-            {
-                stringEvent.Invoke(stringInput);
-            }
+            // ReSharper disable Unity.NoNullPropagation
+            voidEvent?.Invoke();
+            floatEvent?.Invoke(floatInput);
+            stringEvent?.Invoke(stringInput);
             
         }
     }

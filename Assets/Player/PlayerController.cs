@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 
 namespace Player
 {
+    [DefaultExecutionOrder(-100)]
     public class PlayerController : MonoBehaviour
     {
         #region Components
@@ -81,21 +82,22 @@ namespace Player
 
         private void EnableAllControls()
         {
+            var controls = data.Controls;
             //Horizontal Controls
-            horizontalInput = data.Controls.Player.Horizontal;
+            horizontalInput = controls.Player.Horizontal;
             horizontalInput.Enable();
 
             //Vertical Controls
-            verticalInput = data.Controls.Player.Vertical;
+            verticalInput = controls.Player.Vertical;
             verticalInput.Enable();
 
             //Jump Controls
-            jumpInput = data.Controls.Player.Jump;
+            jumpInput = controls.Player.Jump;
             jumpInput.Enable();
             jumpInput.started += OnJumpInput;
 
             //Dash Controls
-            dashInput = data.Controls.Player.Dash;
+            dashInput = controls.Player.Dash;
             dashInput.Enable();
             dashInput.started += OnDashInput;
         }
