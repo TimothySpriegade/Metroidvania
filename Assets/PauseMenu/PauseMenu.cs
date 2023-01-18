@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SOEventSystem.Events;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private GameObject escMenu;
     [SerializeField] private GameObject optionsMenu;
     [SerializeField] private GameObject pauseMenu;
+    [SerializeField] private StringEvent backToMenu;
     #endregion
 
     public void ContinueGame()
@@ -24,9 +26,8 @@ public class PauseMenu : MonoBehaviour
         optionsMenu.SetActive(true);
     }
 
-    public void CloseGame()
+    public void BackToMainMenu()
     {
-        Debug.Log("Quit");
-        Application.Quit();
+        backToMenu?.Invoke("MainMenu");
     }
 }
