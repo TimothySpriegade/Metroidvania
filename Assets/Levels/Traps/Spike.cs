@@ -1,4 +1,3 @@
-using System;
 using SOEventSystem.Events;
 using UnityEngine;
 

@@ -261,7 +261,7 @@ namespace Player
 
             #region Dash Checks
 
-            if (lastGroundedTime > 0)
+            if ((lastGroundedTime > 0 || lastLeftWallTouchTime > 0 || lastRightWallTouchTime > 0) && !isJumping)
             {
                 dashRefreshed = true;
             }
@@ -272,6 +272,7 @@ namespace Player
                 isJumping = false;
                 isWallJumping = false;
                 duringJumpCut = false;
+                dashRefreshed = false;
 
 
                 //Sleep to add weight behind the dash
