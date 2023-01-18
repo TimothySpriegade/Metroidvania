@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace MainMenu
+namespace Menus
 {
     public class MenuControl : MonoBehaviour
     {

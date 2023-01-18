@@ -1,4 +1,5 @@
 using Player.ScriptableObjects;
+using SOEventSystem.Events;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,6 +7,12 @@ namespace Player
 {
     public class PlayerController : MonoBehaviour
     {
+        #region Events
+
+        [SerializeField] private VoidEvent onPauseMenuOpen;
+
+        #endregion
+        
         #region Components
 
         [Header("Data")] [SerializeField] private PlayerControlData data;
@@ -23,7 +30,7 @@ namespace Player
 
         private float currentHorizontal;
         private float currentVertical;
-        [SerializeField] private GameObject pauseMenu;
+        
 
         #endregion
     
@@ -77,11 +84,10 @@ namespace Player
             movementScript.LastPressedDashTime = inputBufferTime;
         }
 
-        public void OnOpenPause(InputAction.CallbackContext context)
-        {
-            Time.timeScale = 0;
-            pauseMenu.SetActive(true);
-        }
+        // private void OnOpenPause(InputAction.CallbackContext context)
+        // {
+        //     onPauseMenuOpen.Invoke();
+        // }
 
         #endregion
 
@@ -89,29 +95,30 @@ namespace Player
 
         private void EnableAllControls()
         {
+            var controls = data.Controls;
             //Horizontal Controls
-            horizontalInput = data.Controls.Player.Horizontal;
+            horizontalInput = controls.Movement.Horizontal;
             horizontalInput.Enable();
 
             //Vertical Controls
-            verticalInput = data.Controls.Player.Vertical;
+            verticalInput = controls.Movement.Vertical;
             verticalInput.Enable();
 
             //Jump Controls
-            jumpInput = data.Controls.Player.Jump;
+            jumpInput = controls.Movement.Jump;
             jumpInput.Enable();
             jumpInput.started += OnJumpInput;
 
             //Dash Controls
-            dashInput = data.Controls.Player.Dash;
+            dashInput = controls.Movement.Dash;
             dashInput.Enable();
             dashInput.started += OnDashInput;
 
             //pause Controls
-            pauseInput = data.Controls.Player.Pause;
+            pauseInput = controls.UI.Pause;
             pauseInput.Enable();
-            pauseInput.started += OnOpenPause;
-            
+            pauseInput.started += ctx => onPauseMenuOpen.Invoke();
+
         }
 
         private void DisableAllControls()
@@ -123,7 +130,7 @@ namespace Player
             dashInput.started -= OnDashInput;
             dashInput.Disable();
             pauseInput.Disable();
-            pauseInput.started -= OnOpenPause;
+            pauseInput.started -= ctx => onPauseMenuOpen.Invoke();
             
         }
 
