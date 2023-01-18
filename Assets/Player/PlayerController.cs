@@ -1,3 +1,4 @@
+using System.Collections;
 using Player.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -117,6 +118,22 @@ namespace Player
         {
             //Updating all controls
             DisableAllControls();
+            EnableAllControls();
+        }
+
+        #endregion
+
+        #region Event Handling
+
+        public void OnEnvironmentalTrapHit()
+        {
+            StartCoroutine(ShortControlSuspension());
+        }
+
+        private IEnumerator ShortControlSuspension()
+        {
+            DisableAllControls();
+            yield return new WaitForSecondsRealtime(1);
             EnableAllControls();
         }
 
