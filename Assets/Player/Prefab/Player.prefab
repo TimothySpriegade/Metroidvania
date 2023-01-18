@@ -190,6 +190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e69e1bf82a8da1f408d37f27969bf81e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onPauseMenuOpen: {fileID: 11400000, guid: 7ed37262dd26ff044901e4f9f842dfd5, type: 2}
   data: {fileID: 11400000, guid: 800dafdbf0dd2354d99f53d7f968d032, type: 2}
   inputBufferTime: 0.1
 --- !u!1 &2000500285538828223
