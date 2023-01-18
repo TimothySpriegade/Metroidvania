@@ -97,23 +97,23 @@ namespace Player
         {
             var controls = data.Controls;
             //Horizontal Controls
-            horizontalInput = controls.Player.Horizontal;
+            horizontalInput = controls.Movement.Horizontal;
             horizontalInput = controls.Movement.Horizontal;
             horizontalInput.Enable();
 
             //Vertical Controls
-            verticalInput = controls.Player.Vertical;
+            verticalInput = controls.Movement.Vertical;
             verticalInput = controls.Movement.Vertical;
             verticalInput.Enable();
 
             //Jump Controls
-            jumpInput = controls.Player.Jump;
+            jumpInput = controls.Movement.Jump;
             jumpInput = controls.Movement.Jump;
             jumpInput.Enable();
             jumpInput.started += OnJumpInput;
 
             //Dash Controls
-            dashInput = controls.Player.Dash;
+            dashInput = controls.Movement.Dash;
             dashInput = controls.Movement.Dash;
             dashInput.Enable();
             dashInput.started += OnDashInput;
