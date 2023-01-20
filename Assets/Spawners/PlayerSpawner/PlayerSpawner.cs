@@ -1,6 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Spawners.PlayerSpawner.Constructs;
+using Spawners.PlayerSpawner.ScriptableObject;
 using UnityEngine;
 
 namespace Spawners.PlayerSpawner
@@ -8,33 +9,46 @@ namespace Spawners.PlayerSpawner
     public class PlayerSpawner : MonoBehaviour
     {
         [SerializeField] private GameObject playerPrefab;
-        [SerializeField] private SpawnPositionData spawnPositionData;
-        private Transform[] childTransforms;
+        [SerializeField] private LevelData currentLevel;
+        private static LevelData lastLevel;
+        private Vector2 spawnPosition;
+        
         private void OnEnable()
         {
-            childTransforms = GetAllChildTransforms();
+            //Gets spawn position by comparing child FromLevels with LevelData's LastLevel
+            spawnPosition = GetSpawnPosition();
 
-            var spawnIndex = DecideSpawnPoint();
-            Instantiate(playerPrefab, childTransforms[spawnIndex].position, Quaternion.identity);
-        }
-
-        private Transform[] GetAllChildTransforms()
-        {
-            var allTransforms = new HashSet<Transform>(GetComponentsInChildren<Transform>());
-            allTransforms.Remove(transform);
-            return allTransforms.ToArray();
-        }
-
-        private int DecideSpawnPoint()
-        {
-            switch (spawnPositionData.spawnPosition)
+            //TODO what if there was no PlayerSpawner before? Should we place the currentLevel/LastLevel logic into a SO or do we have some null handling?
+            
+            //Creates Player at Spawn-point
+            try
             {
-                case SpawnPosition.Position1:
-                    return 0;
-                case SpawnPosition.Position2:
-                    return 1;
+                Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
             }
-            return 0;
+            catch (Exception)
+            {
+                // ignored
+            }
+
+
+            //Sets LastLevel to CurrentLevel (LastLevel is only relevant at the start of the scene so it can already be replaced after spawning the player)
+            lastLevel = currentLevel;
         }
+
+        private Vector2 GetSpawnPosition()
+        {
+            //Get all Children
+            var allChildren = new HashSet<PlayerSpawn>(GetComponentsInChildren<PlayerSpawn>());
+
+            //Search for the child who's FromLevel matches the last Level
+            foreach (var child in allChildren.Where(child => child.FromLevel == lastLevel))
+            {
+                return child.transform.position;
+            }
+            
+            //Returns the middle if no child with wanted parameters exists
+            return Vector2.zero;
+        }
+        
     }
 }
