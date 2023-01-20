@@ -71,5 +71,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdc259bdd0f625244b323e449a73041c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 48a1b6a38c5968e428bea6187c07892c, type: 2}
+  direction: 1
   onSceneChange: {fileID: 11400000, guid: caf704787c85da1498c4d9fbefa18b30, type: 2}
   nextLevel: 
