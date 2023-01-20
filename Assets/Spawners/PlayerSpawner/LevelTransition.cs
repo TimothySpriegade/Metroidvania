@@ -20,7 +20,6 @@ namespace Spawners.PlayerSpawner
         {
             if (col.gameObject.CompareTag("Player"))
             {
-                data.playerWasFacingRight = col.GetComponent<PlayerMovement>().IsFacingRight;
                 data.direction = direction;
                 onSceneChange.Invoke(nextLevel);
             }

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using Player;
 using Spawners.PlayerSpawner.ScriptableObject;
 using UnityEngine;
 
@@ -52,7 +53,7 @@ namespace Spawners.PlayerSpawner
 
                 if (data.direction != TransitionDirection.Down)
                 {
-                    //TODO Coroutine
+                    player.GetComponent<PlayerAnimator>().EnteringSceneAnimation(data.direction);
                 }
             }
             catch (Exception)

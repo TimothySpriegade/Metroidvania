@@ -94,7 +94,7 @@ namespace Player
         
         #region Updating Controls
 
-        private void EnableAllControls()
+        public void EnableAllControls()
         {
             var controls = data.Controls;
             //Horizontal Controls
@@ -126,7 +126,7 @@ namespace Player
 
         }
 
-        private void DisableAllControls()
+        public void DisableAllControls()
         {
             horizontalInput.Disable();
             verticalInput.Disable();
@@ -150,12 +150,7 @@ namespace Player
 
         #region Event Handling
 
-        public void OnEnvironmentalTrapHit()
-        {
-            StartCoroutine(ShortControlSuspension());
-        }
-
-        private IEnumerator ShortControlSuspension()
+        public IEnumerator ShortControlSuspension()
         {
             DisableAllControls();
             yield return new WaitForSecondsRealtime(1);

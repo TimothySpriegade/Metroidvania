@@ -6,7 +6,6 @@ namespace Spawners.PlayerSpawner.ScriptableObject
     public class LevelTransitionData : UnityEngine.ScriptableObject
     {
         public LevelData lastLevel;
-        public bool playerWasFacingRight;
         public TransitionDirection direction;
     }
 }
