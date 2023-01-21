@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using Player;
-using Spawners.PlayerSpawner.ScriptableObject;
+using Spawners.PlayerSpawner.ScriptableObjects;
 using UnityEngine;
 
 namespace Spawners.PlayerSpawner

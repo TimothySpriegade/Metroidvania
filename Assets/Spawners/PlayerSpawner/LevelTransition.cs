@@ -1,7 +1,6 @@
 using Player;
 using SOEventSystem.Events;
-using Spawners.PlayerSpawner.ScriptableObject;
-using Unity.VisualScripting;
+using Spawners.PlayerSpawner.ScriptableObjects;
 using UnityEngine;
 
 namespace Spawners.PlayerSpawner

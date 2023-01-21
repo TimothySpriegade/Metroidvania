@@ -1,9 +1,9 @@
 using UnityEngine;
 
-namespace Spawners.PlayerSpawner.ScriptableObject
+namespace Spawners.PlayerSpawner.ScriptableObjects
 {
     [CreateAssetMenu(menuName = "Data/Level Transition/Level Transition Data")]
-    public class LevelTransitionData : UnityEngine.ScriptableObject
+    public class LevelTransitionData : ScriptableObject
     {
         public LevelData lastLevel;
         public TransitionDirection direction;

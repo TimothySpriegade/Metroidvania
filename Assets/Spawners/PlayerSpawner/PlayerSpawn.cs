@@ -1,4 +1,4 @@
-﻿using Spawners.PlayerSpawner.ScriptableObject;
+﻿using Spawners.PlayerSpawner.ScriptableObjects;
 using UnityEngine;
 
 namespace Spawners.PlayerSpawner
