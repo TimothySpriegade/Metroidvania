@@ -52,11 +52,11 @@ namespace Player
 
         
 
-        public void EnteringSceneAnimation(TransitionDirection transitionDirection)
+        public void EnteringSceneAnimation(TransitionDirection transitionDirection, bool rightDrift)
         {
             if (transitionDirection == TransitionDirection.Up)
             {
-                StartCoroutine(UpTransitionAnimation());
+                StartCoroutine(UpTransitionAnimation(rightDrift));
             } 
             else
             {
@@ -65,14 +65,17 @@ namespace Player
             }
         }
 
-        private IEnumerator UpTransitionAnimation()
+        private IEnumerator UpTransitionAnimation(bool rightDrift)
         {
             //Disables Controls
             movement.IgnoreRun = true;
             controller.DisableAllControls();
             
+            //Checks if player goes right or left
+            var force = rightDrift ? upAnimationForce : new Vector2(upAnimationForce.x * -1, upAnimationForce.y);
+            
             //Adds Force
-            rb.AddForce(upAnimationForce, ForceMode2D.Impulse);
+            rb.AddForce(force, ForceMode2D.Impulse);
             
             //Keeps Controls Enabled until the player hits something
             while (!collisionDetected)

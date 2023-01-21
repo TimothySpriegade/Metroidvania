@@ -33,15 +33,19 @@ namespace Spawners.PlayerSpawner
         private Vector2 GetSpawnPosition()
         {
             //Get all Children
-            var allChildren = new HashSet<PlayerSpawn>(GetComponentsInChildren<PlayerSpawn>());
+            var allChildren = new List<PlayerSpawn>(GetComponentsInChildren<PlayerSpawn>());
 
             //Search for the child who's FromLevel matches the last Level
             foreach (var child in allChildren.Where(child => child.FromLevel == data.lastLevel))
             {
                 return child.transform.position;
             }
+
+            //Returns first playerSpawn found
+            if (allChildren.Count > 0) return allChildren.First().transform.position;
             
-            //Returns the middle if no child with wanted parameters exists
+            
+            //Returns the middle if there is no playerSpawn
             return Vector2.zero;
         }
 
@@ -51,9 +55,17 @@ namespace Spawners.PlayerSpawner
             {
                 var player = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
 
+                if (!data.playerWasFacingRight)
+                {
+                    var scale = player.transform.localScale;
+                    scale.x *= -1;
+                    player.transform.localScale = scale;
+                    Debug.Log(player.GetComponent<PlayerMovement>().IsFacingRight);
+                }
+                
                 if (data.direction != TransitionDirection.Down)
                 {
-                    player.GetComponent<PlayerAnimator>().EnteringSceneAnimation(data.direction);
+                    player.GetComponent<PlayerAnimator>().EnteringSceneAnimation(data.direction, data.playerWasFacingRight);
                 }
             }
             catch (Exception)

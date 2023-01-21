@@ -7,5 +7,6 @@ namespace Spawners.PlayerSpawner.ScriptableObject
     {
         public LevelData lastLevel;
         public TransitionDirection direction;
+        public bool playerWasFacingRight;
     }
 }

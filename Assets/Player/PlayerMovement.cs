@@ -68,8 +68,7 @@ namespace Player
 
         public bool IgnoreRun { get; set; }
         public Vector2 MoveInput { get; set; }
-        
-        private bool isFacingRight;
+        public bool IsFacingRight { get; private set; }
 
         #endregion
 
@@ -162,7 +161,7 @@ namespace Player
         {
             //calculating gravity strength using the formula 'gravity = 2 * jumpHeight / timeToJumpApex^2'
             gravityStrength = -(2 * jumpHeight) / (timeUntilJumpApex * timeUntilJumpApex) / -30f;
-            isFacingRight = true;
+            IsFacingRight = true;
         }
 
         #endregion
@@ -192,13 +191,13 @@ namespace Player
                 }
 
                 //Right-Wall check
-                if (Physics2D.OverlapBox(frontWallCheckPoint.position, wallCheckSize, 0, groundLayer) && isFacingRight)
+                if (Physics2D.OverlapBox(frontWallCheckPoint.position, wallCheckSize, 0, groundLayer) && IsFacingRight)
                 {
                     lastRightWallTouchTime = coyoteTime;
                 }
 
                 //Left-Wall check
-                if (Physics2D.OverlapBox(frontWallCheckPoint.position, wallCheckSize, 0, groundLayer) && !isFacingRight)
+                if (Physics2D.OverlapBox(frontWallCheckPoint.position, wallCheckSize, 0, groundLayer) && !IsFacingRight)
                 {
                     lastLeftWallTouchTime = coyoteTime;
                 }
@@ -285,9 +284,9 @@ namespace Player
 
                 //When standing still or dashing down => Dashing forward
                 if (dashDirection == Vector2.down && lastGroundedTime > 0) 
-                    dashDirection = isFacingRight ? Vector2.right : Vector2.left;
+                    dashDirection = IsFacingRight ? Vector2.right : Vector2.left;
                 else if (dashDirection == Vector2.zero)
-                    dashDirection = isFacingRight ? Vector2.right : Vector2.left;
+                    dashDirection = IsFacingRight ? Vector2.right : Vector2.left;
 
                 StartCoroutine(Dash(dashDirection));
             }
@@ -390,7 +389,7 @@ namespace Player
             scale.x *= -1;
             transform.localScale = scale;
 
-            isFacingRight = !isFacingRight;
+            IsFacingRight = !IsFacingRight;
         }
 
         #endregion
@@ -507,7 +506,7 @@ namespace Player
 
         private void CheckDirectionToFace(bool isMovingRight)
         {
-            if (isMovingRight != isFacingRight && !isDashing)
+            if (isMovingRight != IsFacingRight && !isDashing)
             {
                 Turn();
             }
