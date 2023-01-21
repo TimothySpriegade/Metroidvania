@@ -18,7 +18,7 @@ namespace Spawners.PlayerSpawner
         
         private void OnEnable()
         {
-            //Gets spawn position by comparing child FromLevels with LevelData's LastLevel
+            //Gets spawn position by comparing child FromLevels with LevelTransitionData's LastLevel
             spawnPosition = GetSpawnPosition();
             
             //Creates Player at Spawn-point

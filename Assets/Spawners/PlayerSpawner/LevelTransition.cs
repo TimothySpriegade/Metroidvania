@@ -1,6 +1,7 @@
 using Player;
 using SOEventSystem.Events;
 using Spawners.PlayerSpawner.ScriptableObject;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Spawners.PlayerSpawner
@@ -23,6 +24,7 @@ namespace Spawners.PlayerSpawner
                 data.direction = direction;
                 data.playerWasFacingRight = col.GetComponent<PlayerMovement>().IsFacingRight;
                 onSceneChange.Invoke(nextLevel);
+                Destroy(col.gameObject);
             }
         }
     }
