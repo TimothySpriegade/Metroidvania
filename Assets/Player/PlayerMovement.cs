@@ -68,7 +68,7 @@ namespace Player
 
         public bool IgnoreRun { get; set; }
         public Vector2 MoveInput { get; set; }
-        public bool IsFacingRight { get; private set; }
+        public bool IsFacingRight { get; set; }
 
         #endregion
 
@@ -80,7 +80,7 @@ namespace Player
         [SerializeField] private float dashCooldown;
         [Tooltip("Tiny amount the dash freezes the game to make the Dash feel more impactful")]
         [SerializeField] private float dashSleepTime;
-        [Tooltip("Deadzone until the game recognizes your input to dash into that direction (0, 0.3) wont make you dash upwards")]
+        [Tooltip("Dead zone until the game recognizes your input to dash into that direction (0, 0.3) wont make you dash upwards")]
         [SerializeField] private float controllerInputThreshold;
 
         public float LastPressedDashTime { get; set; }
@@ -161,7 +161,6 @@ namespace Player
         {
             //calculating gravity strength using the formula 'gravity = 2 * jumpHeight / timeToJumpApex^2'
             gravityStrength = -(2 * jumpHeight) / (timeUntilJumpApex * timeUntilJumpApex) / -30f;
-            IsFacingRight = true;
         }
 
         #endregion

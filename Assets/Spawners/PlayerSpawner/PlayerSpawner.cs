@@ -20,8 +20,6 @@ namespace Spawners.PlayerSpawner
         {
             //Gets spawn position by comparing child FromLevels with LevelData's LastLevel
             spawnPosition = GetSpawnPosition();
-
-            //TODO what if there was no PlayerSpawner before? Should we place the currentLevel/LastLevel logic into a SO or do we have some null handling?
             
             //Creates Player at Spawn-point
             TryInstantiatePlayer();
@@ -55,12 +53,12 @@ namespace Spawners.PlayerSpawner
             {
                 var player = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
 
-                if (!data.playerWasFacingRight)
+                if (data.playerWasFacingRight)
                 {
                     var scale = player.transform.localScale;
                     scale.x *= -1;
                     player.transform.localScale = scale;
-                    Debug.Log(player.GetComponent<PlayerMovement>().IsFacingRight);
+                    player.GetComponent<PlayerMovement>().IsFacingRight = true;
                 }
                 
                 if (data.direction != TransitionDirection.Down)
@@ -73,16 +71,5 @@ namespace Spawners.PlayerSpawner
                 // ignored
             }
         }
-        
-        private IEnumerator UpAnimation(bool toRight)
-        {
-            yield return null;
-        }
-        
-        private IEnumerator SideAnimation(bool toRight)
-        {
-            yield return null;
-        }
-
     }
 }
