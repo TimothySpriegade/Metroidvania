@@ -63,7 +63,7 @@ MonoBehaviour:
   m_LookaheadSmoothing: 8
   m_LookaheadIgnoreY: 1
   m_XDamping: 0.3
-  m_YDamping: 0.2
+  m_YDamping: 0.7
   m_ZDamping: 1
   m_TargetMovementOnly: 1
   m_ScreenX: 0.507
