@@ -12,10 +12,12 @@ namespace Player
         private PlayerController controller;
         private Rigidbody2D rb;
 
-        private void Start()
+        private void Awake()
         {
             //animator = GetComponent<Animator>();
             rb = GetComponent<Rigidbody2D>();
+            movement = GetComponent<PlayerMovement>();
+            controller = GetComponent<PlayerController>();
         }
 
 

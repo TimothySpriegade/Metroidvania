@@ -44,7 +44,7 @@ namespace Player
     
         #endregion
 
-        private void Start()
+        private void Awake()
         {
             movementScript = GetComponent<PlayerMovement>();
         }
@@ -136,7 +136,6 @@ namespace Player
             dashInput.Disable();
             pauseInput.Disable();
             pauseInput.started -= ctx => onPauseMenuOpen.Invoke();
-            
         }
 
         public void UpdateControls()
