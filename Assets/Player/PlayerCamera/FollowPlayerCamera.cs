@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using Cinemachine;
+using Unity.VisualScripting;
 
 namespace Player.PlayerCamera
 {
@@ -26,7 +28,7 @@ namespace Player.PlayerCamera
 
         private void LateUpdate()
         {
-            if (!ReferenceEquals(player, null))
+            if (!ReferenceEquals(player, null) && !player.IsDestroyed())
             {
                 playerCamera.Follow = player.transform;
             }
