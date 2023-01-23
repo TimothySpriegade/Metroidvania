@@ -1,6 +1,7 @@
 using Mono.Cecil;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GroundEnemyScript : MonoBehaviour
@@ -12,6 +13,7 @@ public class GroundEnemyScript : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private float aggroRange;
     [SerializeField] private float moveSpeed;
+    [SerializeField] private float idleSpeed;
     private float distanceToPlayer;
     #endregion
 
@@ -32,6 +34,7 @@ public class GroundEnemyScript : MonoBehaviour
     #region idle vars+
     [Header("Idle")]
     [SerializeField] Transform[] idlePoints;
+    private int index;
     #endregion
 
     #endregion
@@ -50,7 +53,7 @@ public class GroundEnemyScript : MonoBehaviour
         WallCheck();
         GetDistToPlayer();
         EnemyAI();
-        Debug.Log(distanceToPlayer);
+        //Debug.Log(index);
     }
     #endregion
 
@@ -95,7 +98,17 @@ public class GroundEnemyScript : MonoBehaviour
 
     private void Idle()
     {
-        rb. velocity = Vector2.zero;
+        if (Mathf.Abs(transform.position.x - idlePoints[index].position.x) < 1f)
+        {
+            Debug.Log("!!!");
+            index++;
+            if (index == idlePoints.Length)
+            {
+                index = 0;
+            }
+        }
+        transform.position = Vector2.MoveTowards(transform.position, idlePoints[index].position, idleSpeed * Time.deltaTime);
+
     }
 
     #endregion
