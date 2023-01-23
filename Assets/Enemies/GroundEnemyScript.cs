@@ -10,7 +10,6 @@ public class GroundEnemyScript : MonoBehaviour
     #region Movement vars
 
     [Header("Movement")]
-    [SerializeField] private Transform player;
     [SerializeField] private float aggroRange;
     [SerializeField] private float moveSpeed;
     private float distanceToPlayer;
@@ -22,11 +21,17 @@ public class GroundEnemyScript : MonoBehaviour
     [SerializeField] private float wallcheckRadius;
     [SerializeField] private Transform wallCheckCollider;
     [SerializeField] private LayerMask wallCheckLayer;
+    private GameObject player;
     #endregion
 
     #region Component vars
     [Header("Components")]
     private Rigidbody2D rb;
+    #endregion
+
+    #region idle vars+
+    [Header("Idle")]
+    [SerializeField] Transform[] idlePoints;
     #endregion
 
     #endregion
@@ -36,6 +41,7 @@ public class GroundEnemyScript : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame
@@ -44,15 +50,18 @@ public class GroundEnemyScript : MonoBehaviour
         WallCheck();
         GetDistToPlayer();
         EnemyAI();
-      
-      
+        Debug.Log(distanceToPlayer);
     }
     #endregion
 
     #region DistanceCheck&Chasing
     private void GetDistToPlayer()
     {
-        distanceToPlayer = Vector2.Distance(transform.position, player.position);
+        if(!ReferenceEquals(player, null))
+        {
+            distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
+        }
+       
     }
 
     private void EnemyAI()
@@ -69,7 +78,7 @@ public class GroundEnemyScript : MonoBehaviour
 
     private void ChasePlayer()
     {
-        if(transform.position.x < player.position.x)
+        if(transform.position.x < player.transform.position.x)
         {
             // Gegner  auf der linken Seite des Spieler, laufe rechts
             rb.velocity = new Vector2(moveSpeed, 0);
