@@ -7,12 +7,28 @@ public class GroundEnemyScript : MonoBehaviour
 {
     #region vars
 
+    #region Movement vars
+
+    [Header("Movement")]
     [SerializeField] private Transform player;
     [SerializeField] private float aggroRange;
     [SerializeField] private float moveSpeed;
     private float distanceToPlayer;
-    private bool isFacingRight;
+    #endregion
+
+    #region Check vars
+    [Header("Checks")]
+    [SerializeField] private bool isWalled;
+    [SerializeField] private float wallcheckRadius;
+    [SerializeField] private Transform wallCheckCollider;
+    [SerializeField] private LayerMask wallCheckLayer;
+    #endregion
+
+    #region Component vars
+    [Header("Components")]
     private Rigidbody2D rb;
+    #endregion
+
     #endregion
 
     #region UnityMethods
@@ -25,10 +41,10 @@ public class GroundEnemyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        WallCheck();
         GetDistToPlayer();
-        ChasePlayerAI();
-        IsFacingRight();
-        Flip();
+        EnemyAI();
+      
       
     }
     #endregion
@@ -39,7 +55,7 @@ public class GroundEnemyScript : MonoBehaviour
         distanceToPlayer = Vector2.Distance(transform.position, player.position);
     }
 
-    private void ChasePlayerAI()
+    private void EnemyAI()
     {
         if (distanceToPlayer < aggroRange)
         {
@@ -47,7 +63,7 @@ public class GroundEnemyScript : MonoBehaviour
         }
         else
         {
-            StopChasing();
+            Idle();
         }
     }
 
@@ -57,52 +73,40 @@ public class GroundEnemyScript : MonoBehaviour
         {
             // Gegner  auf der linken Seite des Spieler, laufe rechts
             rb.velocity = new Vector2(moveSpeed, 0);
+            transform.localScale = new Vector2(-1, 1);   
         }
         else
         {
             // Gegner  auf der rechten Seite des Spieler, laufe links
             rb.velocity = new Vector2(-moveSpeed, 0);
+            transform.localScale = new Vector2(1, 1);
         }
         
     }
 
-    private void StopChasing()
+    private void Idle()
     {
         rb. velocity = Vector2.zero;
     }
 
     #endregion
 
-    #region misc
-
-    private void IsFacingRight()
+    #region Checks
+    private void WallCheck() 
     {
-        var scalex = transform.localScale.x;
-        if (scalex == -1) 
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(wallCheckCollider.position, wallcheckRadius, wallCheckLayer);
+        if (colliders.Length>0)
         {
-            isFacingRight = true;
+            isWalled = true;
         }
         else
         {
-            isFacingRight = false;
+            isWalled = false;
         }
     }
-    private void Turn()
-    {
-        var scale = transform.localScale;
-        scale.x *= -1;
-        transform.localScale = scale;
-    }
-    private void Flip()
-    {
-        if (rb.velocity.x == -moveSpeed && isFacingRight) 
-        {
-            Turn();
-        }
-        if (rb.velocity.x == moveSpeed && !isFacingRight)
-        {
-            Turn();
-        }
-    }
+
+    #endregion
+
+    #region misc
     #endregion
 }
