@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GroundEnemyScript : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class GroundEnemyScript : MonoBehaviour
     [SerializeField] private float wallcheckRadius;
     [SerializeField] private Transform wallCheckCollider;
     [SerializeField] private LayerMask wallCheckLayer;
+    private bool isFacingRight;
     private GameObject player;
     #endregion
 
@@ -50,6 +52,11 @@ public class GroundEnemyScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(rb.velocity.x != 0)
+        {
+            CheckDirectionToFace(rb.velocity.x > 0);
+        }
+
         WallCheck();
         GetDistToPlayer();
         EnemyAI();
@@ -84,21 +91,20 @@ public class GroundEnemyScript : MonoBehaviour
         if(transform.position.x < player.transform.position.x)
         {
             // Gegner  auf der linken Seite des Spieler, laufe rechts
-            rb.velocity = new Vector2(moveSpeed, 0);
-            transform.localScale = new Vector2(-1, 1);   
+            rb.velocity = new Vector2(moveSpeed, 0);  
         }
         else
         {
             // Gegner  auf der rechten Seite des Spieler, laufe links
             rb.velocity = new Vector2(-moveSpeed, 0);
-            transform.localScale = new Vector2(1, 1);
         }
         
     }
 
     private void Idle()
     {
-        Debug.Log(transform.position.x - idlePoints[index].position.x);
+        
+
         if (Mathf.Abs(transform.position.x - idlePoints[index].position.x) < 0.02f)
         {
             
@@ -108,8 +114,11 @@ public class GroundEnemyScript : MonoBehaviour
                 index = 0;
             }
         }
-        var target = Vector2.MoveTowards(transform.position, idlePoints[index].position, idleSpeed * Time.deltaTime);
-        transform.position = new Vector2(target.x, transform.position.y);
+        var difference = idlePoints[index].position.x - transform.position.x;
+        var targetSpeed = Mathf.Sign(difference) * idleSpeed;
+        rb.velocity = new Vector2(targetSpeed, rb.velocity.y);
+
+
     }
 
     #endregion
@@ -128,8 +137,25 @@ public class GroundEnemyScript : MonoBehaviour
         }
     }
 
+    private void Flip()
+    {
+        var scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
+
+        isFacingRight = !isFacingRight;
+    }
+    private void CheckDirectionToFace(bool isMovingRight)
+    {
+        if (isMovingRight != isFacingRight)
+        {
+            Flip();
+        }
+    }
+
     #endregion
 
     #region misc
+
     #endregion
 }
