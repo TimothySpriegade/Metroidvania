@@ -98,17 +98,18 @@ public class GroundEnemyScript : MonoBehaviour
 
     private void Idle()
     {
-        if (Mathf.Abs(transform.position.x - idlePoints[index].position.x) < 1f)
+        Debug.Log(transform.position.x - idlePoints[index].position.x);
+        if (Mathf.Abs(transform.position.x - idlePoints[index].position.x) < 0.02f)
         {
-            Debug.Log("!!!");
+            
             index++;
             if (index == idlePoints.Length)
             {
                 index = 0;
             }
         }
-        transform.position = Vector2.MoveTowards(transform.position, idlePoints[index].position, idleSpeed * Time.deltaTime);
-
+        var target = Vector2.MoveTowards(transform.position, idlePoints[index].position, idleSpeed * Time.deltaTime);
+        transform.position = new Vector2(target.x, transform.position.y);
     }
 
     #endregion
