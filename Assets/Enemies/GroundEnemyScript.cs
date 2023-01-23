@@ -1,3 +1,4 @@
+using Mono.Cecil;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,7 @@ public class GroundEnemyScript : MonoBehaviour
     [SerializeField] private float aggroRange;
     [SerializeField] private float moveSpeed;
     private float distanceToPlayer;
+    private bool isFacingRight;
     private Rigidbody2D rb;
     #endregion
 
@@ -25,6 +27,9 @@ public class GroundEnemyScript : MonoBehaviour
     {
         GetDistToPlayer();
         ChasePlayerAI();
+        IsFacingRight();
+        Flip();
+      
     }
     #endregion
 
@@ -42,7 +47,7 @@ public class GroundEnemyScript : MonoBehaviour
         }
         else
         {
-            //stop chasing
+            StopChasing();
         }
     }
 
@@ -58,7 +63,46 @@ public class GroundEnemyScript : MonoBehaviour
             // Gegner  auf der rechten Seite des Spieler, laufe links
             rb.velocity = new Vector2(-moveSpeed, 0);
         }
+        
     }
 
+    private void StopChasing()
+    {
+        rb. velocity = Vector2.zero;
+    }
+
+    #endregion
+
+    #region misc
+
+    private void IsFacingRight()
+    {
+        var scalex = transform.localScale.x;
+        if (scalex == -1) 
+        {
+            isFacingRight = true;
+        }
+        else
+        {
+            isFacingRight = false;
+        }
+    }
+    private void Turn()
+    {
+        var scale = transform.localScale;
+        scale.x *= -1;
+        transform.localScale = scale;
+    }
+    private void Flip()
+    {
+        if (rb.velocity.x == -moveSpeed && isFacingRight) 
+        {
+            Turn();
+        }
+        if (rb.velocity.x == moveSpeed && !isFacingRight)
+        {
+            Turn();
+        }
+    }
     #endregion
 }
