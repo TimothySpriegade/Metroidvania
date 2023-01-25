@@ -35,7 +35,7 @@ namespace Player
         private float lastGroundedTime;
         private bool duringJumpCut;
         private bool isJumping;
-        [HideInInspector] bool noJumpInput;
+        [HideInInspector] public bool noJumpInput;
 
         #region Wall Jump Vars
 
