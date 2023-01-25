@@ -25,7 +25,8 @@ namespace Player
         private PlayerAnimatorState currentState;
 
         #endregion
-        
+
+        private Vector2 velocity; //TODO remove debug
         
         private void Awake()
         {
@@ -45,7 +46,6 @@ namespace Player
         public void ChangeAnimationState(PlayerAnimatorState newState)
         {
             //Stop if currently played Animation matches attempted animation
-            Debug.LogWarning("Tried to play an Animation that is already being played");
             if (currentState == newState) return;
             
             //Play animation
@@ -137,7 +137,6 @@ public enum PlayerAnimatorState
     PlayerWalk,
     PlayerJump,
     PlayerJumpEnd,
-    PlayerFall,
     PlayerDeath,
     PlayerDash,
     PlayerAttack
