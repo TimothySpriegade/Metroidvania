@@ -21,6 +21,7 @@ namespace Player
 
         [SerializeField] private Vector2 upAnimationForce;
         private bool collisionDetected;
+        private float animationBlock;
 
         private PlayerAnimatorState currentState;
 
@@ -35,7 +36,12 @@ namespace Player
             movement = GetComponent<PlayerMovement>();
             controller = GetComponent<PlayerController>();
         }
-        
+
+        private void Update()
+        {
+            animationBlock -= Time.deltaTime;
+        }
+
         private void OnCollisionEnter2D(Collision2D col)
         {
             collisionDetected = true;
@@ -46,10 +52,24 @@ namespace Player
         public void ChangeAnimationState(PlayerAnimatorState newState)
         {
             //Stop if currently played Animation matches attempted animation
-            if (currentState == newState) return;
+            if (currentState == newState || animationBlock >= 0) return;
             
             //Play animation
             animator.Play(newState.ToString());
+            
+            switch (newState)
+            {
+                case PlayerAnimatorState.PlayerLand:
+                    //Land FX
+                    animationBlock = 0.1f;
+                    break;
+                case PlayerAnimatorState.PlayerJump:
+                    //Jump FX
+                    break;
+                case PlayerAnimatorState.PlayerDash:
+                    //Dash FX
+                    break;
+            }
             
             //replace currentState
             currentState = newState;
@@ -139,5 +159,6 @@ public enum PlayerAnimatorState
     PlayerJumpEnd,
     PlayerDeath,
     PlayerDash,
-    PlayerAttack
+    PlayerAttack,
+    PlayerLand
 }

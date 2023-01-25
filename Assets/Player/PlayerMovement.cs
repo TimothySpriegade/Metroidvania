@@ -185,6 +185,11 @@ namespace Player
                 //Ground Check
                 if (Physics2D.OverlapBox(groundCheckPoint.position, groundCheckSize, 0, groundLayer))
                 {
+                    if(lastGroundedTime < -0.1f)
+                    {
+                        animator.ChangeAnimationState(PlayerAnimatorState.PlayerLand);
+                    }
+                    
                     lastGroundedTime = coyoteTime;
                 }
 
@@ -339,11 +344,13 @@ namespace Player
 
             #region Animation Handler
 
+            //At the top of jump
             if (lastGroundedTime < 0 && !isDashing && (CanJumpHang() || rb.velocity.y < 0))
             {
                 animator.ChangeAnimationState(PlayerAnimatorState.PlayerJumpEnd);
             }
             
+            //Walking or Idling and not in landing Animation
             if (IsNotJumping() && Mathf.Abs(rb.velocity.x) > 0.01f)
             {
                 animator.ChangeAnimationState(PlayerAnimatorState.PlayerWalk);
