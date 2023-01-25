@@ -11,6 +11,7 @@ namespace Player
         #region Components
 
         private Animator animator;
+        private SpriteRenderer spriteRenderer;
         private PlayerMovement movement;
         private PlayerController controller;
         private Rigidbody2D rb;
@@ -27,12 +28,11 @@ namespace Player
         private PlayerAnimatorState currentState;
 
         #endregion
-
-        private Vector2 velocity; //TODO remove debug
         
         private void Awake()
         {
-            animator = GetComponent<Animator>();
+            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+            animator = spriteRenderer.GetComponent<Animator>();
             rb = GetComponent<Rigidbody2D>();
             movement = GetComponent<PlayerMovement>();
             controller = GetComponent<PlayerController>();
@@ -53,7 +53,7 @@ namespace Player
         public void ChangeAnimationState(PlayerAnimatorState newState)
         {
             //Stop if currently played Animation matches attempted animation
-            if (currentState == newState || animationBlock >= 0 || !disabledAnimation) return;
+            if (currentState == newState || animationBlock >= 0 || disabledAnimation) return;
             
             //Play animation
             animator.Play(newState.ToString());
@@ -67,9 +67,6 @@ namespace Player
                 case PlayerAnimatorState.PlayerJump:
                     //Jump FX
                     break;
-                case PlayerAnimatorState.PlayerDash:
-                    //Dash FX
-                    break;
                 case PlayerAnimatorState.PlayerDeath:
                     //DeathFX
                     disabledAnimation = true;
@@ -80,8 +77,39 @@ namespace Player
             currentState = newState;
         }
 
+        public IEnumerator DashAnimation(Vector2 direction, float length, bool isFacingRight)
+        {
+            var startTime = Time.time;
+
+            var degrees = 0;
+            //Rotation depending on the direction
+            if (direction.y != 0)
+            {
+                degrees = direction.x == 0 ? 90 : 45;
+                if (direction.y > 0) degrees *= -1;
+            }
+            //Weird Euler shenanigans
+            if (isFacingRight) degrees *= -1;
+
+            //Applying Rotation
+            spriteRenderer.transform.rotation = Quaternion.Euler(0, 0, degrees);
+
+            //Playing Animation
+            animator.Play(PlayerAnimatorState.PlayerDash.ToString());
+            currentState = PlayerAnimatorState.PlayerDash;
+
+            //Keeping Rotation for Dash length
+            while (Time.time - startTime < length + 0.1f)
+            {
+                yield return null;
+            }
+
+            spriteRenderer.transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        
         #endregion
 
+        
         #region Event Handling
 
         public void OnEnvironmentalTrapHit()

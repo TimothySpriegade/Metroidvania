@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a2c3bb32bdd1d3c4dbddd1b44ea31e57
+guid: b050b9004f9a9ec4eb20079cdfdc74f1
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -105,34 +105,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Idle_0
+      name: PlayerDash_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 63
-        width: 20
-        height: 20
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 1}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8de54e5463da4064f99b1dea359cc10b
-      internalID: 1764633350
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Idle_1
-      rect:
-        serializedVersion: 2
-        x: 21
-        y: 63
-        width: 20
-        height: 20
+        y: 0
+        width: 29
+        height: 22
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -140,20 +119,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ad89e6e751c1e6843906f223880fa3e2
-      internalID: 1964959520
+      spriteID: ef7094b3d8833d74085415c99981e811
+      internalID: 271165626
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Idle_2
+      name: PlayerDash_3
       rect:
         serializedVersion: 2
-        x: 42
-        y: 63
-        width: 20
-        height: 20
+        x: 106
+        y: 0
+        width: 37
+        height: 22
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -161,209 +140,41 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 37774d6380166004f8ce588ee7bfb668
-      internalID: 1081898834
+      spriteID: 0096328cb7479014db71a7c4bd77746c
+      internalID: -1087948607
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Idle_3
+      name: PlayerDash_1
+      rect:
+        serializedVersion: 2
+        x: 29
+        y: 0
+        width: 33
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e0ef714ea83471469c462f997ad9acd
+      internalID: -624707575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerDash_2
       rect:
         serializedVersion: 2
         x: 63
-        y: 63
-        width: 20
-        height: 20
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 1}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f77084fed1f89eb42ba969a0948a0be9
-      internalID: -1275710179
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Walk_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 41
-        width: 20
-        height: 20
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 49f0baf5600319a4fa968269aa1f3495
-      internalID: 1235119003
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Walk_1
-      rect:
-        serializedVersion: 2
-        x: 20
-        y: 41
-        width: 20
-        height: 20
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4a6c3cd48d5dce04d952ba00acaf0fce
-      internalID: -625312313
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Walk_2
-      rect:
-        serializedVersion: 2
-        x: 40
-        y: 41
-        width: 20
-        height: 20
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5f3978af57985b049aa054e93d37750c
-      internalID: 819776042
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Walk_3
-      rect:
-        serializedVersion: 2
-        x: 60
-        y: 41
-        width: 20
-        height: 20
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 12f5c2cd9a4913746858c9afab2258c1
-      internalID: -992983504
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Walk_4
-      rect:
-        serializedVersion: 2
-        x: 81
-        y: 41
-        width: 20
-        height: 20
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2143bfc20f5962242b9cd0229c8f6165
-      internalID: -2030208343
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Jump_Start
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 19
-        width: 20
-        height: 21
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8cba91b08e0e5f34a94bdb777c317f5a
-      internalID: -397163947
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Jump_End
-      rect:
-        serializedVersion: 2
-        x: 21
-        y: 22
-        width: 20
-        height: 18
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8e52e4434b8053b47b82d8aa042223f6
-      internalID: -1811533953
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Fall
-      rect:
-        serializedVersion: 2
-        x: 42
-        y: 21
-        width: 20
-        height: 20
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 42abcfb547e0105418a07199b44ccdba
-      internalID: -1405166874
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Land_0
-      rect:
-        serializedVersion: 2
-        x: 0
         y: 0
-        width: 20
-        height: 19
+        width: 41
+        height: 22
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -371,20 +182,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d1fdb6c74005f8241b6f0d6fcd11f970
-      internalID: 896692500
+      spriteID: 6d33ed2c8d9f2e24c97bf235fc17154a
+      internalID: 1976265061
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Land_1
+      name: PlayerDash_4
       rect:
         serializedVersion: 2
-        x: 21
+        x: 144
         y: 0
-        width: 20
-        height: 19
+        width: 28
+        height: 22
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -392,8 +203,71 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6c048245b7179204dac8613d7ad783c5
-      internalID: -429178485
+      spriteID: dcd31012c4a3c1b4f98c7f7292d4259a
+      internalID: 874710897
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerDash_5
+      rect:
+        serializedVersion: 2
+        x: 173
+        y: 0
+        width: 24
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0fe1be809a1c2a84e9efd8880eb7e774
+      internalID: 1880440580
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerDash_6
+      rect:
+        serializedVersion: 2
+        x: 197
+        y: 0
+        width: 26
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3cc3d107e742e684091ed91862c4ccd0
+      internalID: 1281192512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerDash_7
+      rect:
+        serializedVersion: 2
+        x: 223
+        y: 0
+        width: 28
+        height: 22
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 46bba46cb11bd85448d3588604177d17
+      internalID: 656868059
       vertices: []
       indices: 
       edges: []
@@ -409,20 +283,17 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Fall: -1405166874
-      Idle_1: 1964959520
-      Walk_0: 1235119003
-      Idle_3: -1275710179
-      Walk_4: -2030208343
-      Idle_0: 1764633350
-      Land_0: 896692500
-      Walk_2: 819776042
-      Jump_End: -1811533953
-      Walk_3: -992983504
-      Idle_2: 1081898834
-      Walk_1: -625312313
-      Jump_Start: -397163947
-      Land_1: -429178485
+      PlayerDash_6: 1281192512
+      Temple Dash Character Dash_7: -1403289131
+      PlayerDash_3: -1087948607
+      PlayerDash_4: 874710897
+      PlayerDash_5: 1880440580
+      Temple Dash Character Dash_6: 538055684
+      PlayerDash_2: 1976265061
+      PlayerDash_1: -624707575
+      PlayerDash_7: 656868059
+      PlayerDash_0: 271165626
+      Temple Dash Character Dash_5: -1660069806
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

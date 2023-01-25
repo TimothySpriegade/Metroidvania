@@ -45,8 +45,6 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 2800000, guid: 77b33e4052477744d8c8175d54408ad3, type: 3}
-    - {fileID: 2800000, guid: 05d494e42ba2e9d4b8374f5b5c72206c, type: 3}
-    - {fileID: 2800000, guid: 56f28dad7c473974b8cf5d55d26f0589, type: 3}
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
@@ -78,18 +76,6 @@ SpriteAtlas:
   - {fileID: -618021533, guid: 77b33e4052477744d8c8175d54408ad3, type: 3}
   - {fileID: -1876072382, guid: 77b33e4052477744d8c8175d54408ad3, type: 3}
   - {fileID: 595853567, guid: 77b33e4052477744d8c8175d54408ad3, type: 3}
-  - {fileID: 1519303117, guid: 05d494e42ba2e9d4b8374f5b5c72206c, type: 3}
-  - {fileID: 84281337, guid: 05d494e42ba2e9d4b8374f5b5c72206c, type: 3}
-  - {fileID: -599938213, guid: 05d494e42ba2e9d4b8374f5b5c72206c, type: 3}
-  - {fileID: -1670058698, guid: 05d494e42ba2e9d4b8374f5b5c72206c, type: 3}
-  - {fileID: -402974967, guid: 05d494e42ba2e9d4b8374f5b5c72206c, type: 3}
-  - {fileID: 1740691300, guid: 05d494e42ba2e9d4b8374f5b5c72206c, type: 3}
-  - {fileID: -15468671, guid: 05d494e42ba2e9d4b8374f5b5c72206c, type: 3}
-  - {fileID: -15468671, guid: 56f28dad7c473974b8cf5d55d26f0589, type: 3}
-  - {fileID: 2133474603, guid: 56f28dad7c473974b8cf5d55d26f0589, type: 3}
-  - {fileID: -2067840303, guid: 56f28dad7c473974b8cf5d55d26f0589, type: 3}
-  - {fileID: 1207458328, guid: 56f28dad7c473974b8cf5d55d26f0589, type: 3}
-  - {fileID: 1132534463, guid: 56f28dad7c473974b8cf5d55d26f0589, type: 3}
   m_PackedSpriteNamesToIndex:
   - 16x16 Shadows_10
   - 16x16 Shadows_11
@@ -117,18 +103,6 @@ SpriteAtlas:
   - 16x16 Shadows_22
   - 16x16 Shadows_25
   - 16x16 Shadows_24
-  - temple-tileset_6
-  - temple-tileset_7
-  - temple-tileset_4
-  - temple-tileset_5
-  - temple-tileset_8
-  - temple-tileset_9
-  - temple-tileset_10
-  - temple-tileset_4
-  - temple-tileset_2
-  - temple-tileset_3
-  - temple-tileset_0
-  - temple-tileset_1
   m_RenderDataMap: {}
   m_Tag: SpriteAtlas
   m_IsVariant: 0

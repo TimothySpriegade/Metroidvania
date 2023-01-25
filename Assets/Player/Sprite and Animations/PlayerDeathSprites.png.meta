@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 05d494e42ba2e9d4b8374f5b5c72206c
+guid: 60b35940a53c8cc43bf19741d66f3d99
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -105,148 +105,64 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: temple-tileset_4
+      name: PlayerDeath_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 32
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0563aedee1692b44ba7a9f152a18fe6b
-      internalID: -599938213
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: temple-tileset_5
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 32
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f9cf57cff04a71248a9d5baa24a9a495
-      internalID: -1670058698
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: temple-tileset_6
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b1a72c5d9dfc94042b4652a31026ea24
-      internalID: 1519303117
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: temple-tileset_7
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3bce7b8db2c89fc45803fb60c0ec899e
-      internalID: 84281337
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: temple-tileset_8
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 41c5bac187c7fa546a1fcd3cbeb8b2fa
-      internalID: -402974967
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: temple-tileset_9
-      rect:
-        serializedVersion: 2
-        x: 32
         y: 0
-        width: 16
-        height: 16
+        width: 19
+        height: 19
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 863739fbbc8c2ac4e885f35517a5bf95
-      internalID: 1740691300
+      spriteID: dcd3f16b11cf307418f3e5b5b810df72
+      internalID: 1625136718
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: temple-tileset_10
+      name: PlayerDeath_1
       rect:
         serializedVersion: 2
-        x: 0
-        y: 112
-        width: 112
-        height: 16
+        x: 19
+        y: 0
+        width: 19
+        height: 19
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 878b851c2ab8bef41bc74f286e40d2f6
-      internalID: -15468671
+      spriteID: 50dd27e41c741a0498dccbea94effeb5
+      internalID: -452162500
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PlayerDeath_2
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 0
+        width: 19
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70de6562c5de9104499ae2472bb3f449
+      internalID: -752124751
       vertices: []
       indices: 
       edges: []
@@ -262,17 +178,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      temple-tileset_4: -599938213
-      temple-tileset_2: 2133474603
-      temple-tileset_3: -2067840303
-      temple-tileset_0: 1207458328
-      temple-tileset_6: 1519303117
-      temple-tileset_10: -15468671
-      temple-tileset_7: 84281337
-      temple-tileset_1: 1132534463
-      temple-tileset_5: -1670058698
-      temple-tileset_8: -402974967
-      temple-tileset_9: 1740691300
+      PlayerDeath_0: 1625136718
+      PlayerDeath_2: -752124751
+      PlayerDeath_1: -452162500
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

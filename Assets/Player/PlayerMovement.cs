@@ -185,7 +185,7 @@ namespace Player
                 //Ground Check
                 if (Physics2D.OverlapBox(groundCheckPoint.position, groundCheckSize, 0, groundLayer))
                 {
-                    if(lastGroundedTime < -0.1f)
+                    if(lastGroundedTime < -0.1f && !isDashing)
                     {
                         animator.ChangeAnimationState(PlayerAnimatorState.PlayerLand);
                     }
@@ -291,7 +291,7 @@ namespace Player
                 else if (dashDirection == Vector2.zero)
                     dashDirection = IsFacingRight ? Vector2.right : Vector2.left;
 
-                StartCoroutine(Dash(dashDirection));
+                StartCoroutine(Dash());
             }
 
             #endregion
@@ -344,20 +344,23 @@ namespace Player
 
             #region Animation Handler
 
-            //At the top of jump
-            if (lastGroundedTime < 0 && !isDashing && (CanJumpHang() || rb.velocity.y < 0))
+            if (!isDashing)
             {
-                animator.ChangeAnimationState(PlayerAnimatorState.PlayerJumpEnd);
-            }
-            
-            //Walking or Idling and not in landing Animation
-            if (IsNotJumping() && Mathf.Abs(rb.velocity.x) > 0.01f)
-            {
-                animator.ChangeAnimationState(PlayerAnimatorState.PlayerWalk);
-            }
-            else if (IsNotJumping() && Mathf.Abs(rb.velocity.x) < 0.01f)
-            {
-                animator.ChangeAnimationState(PlayerAnimatorState.PlayerIdle);
+                //At the top of jump
+                if (lastGroundedTime < 0 && (CanJumpHang() || rb.velocity.y < 0))
+                {
+                    animator.ChangeAnimationState(PlayerAnimatorState.PlayerJumpEnd);
+                }
+
+                //Walking or Idling and not in landing Animation
+                if (IsNotJumping() && Mathf.Abs(rb.velocity.x) > 0.01f)
+                {
+                    animator.ChangeAnimationState(PlayerAnimatorState.PlayerWalk);
+                }
+                else if (IsNotJumping() && Mathf.Abs(rb.velocity.x) < 0.01f)
+                {
+                    animator.ChangeAnimationState(PlayerAnimatorState.PlayerIdle);
+                }
             }
 
             #endregion
@@ -492,24 +495,24 @@ namespace Player
             return moveInput;
         }
 
-        private IEnumerator Dash(Vector2 direction)
+        private IEnumerator Dash()
         {
             LastPressedDashTime = 0;
 
             //Animator
-            animator.ChangeAnimationState(PlayerAnimatorState.PlayerDash);
+            StartCoroutine(animator.DashAnimation(dashDirection, dashLength, IsFacingRight));
 
             var startTime = Time.time;
 
             //Dashes diagonal
-            var lengthMultiplier = direction.x != 0 && direction.y != 0 ? 0.75f : 1f;
+            var lengthMultiplier = dashDirection.x != 0 && dashDirection.y != 0 ? 0.75f : 1f;
 
             SetGravityScale(0);
 
             //Keeps player velocity at Dash Speed
             while (Time.time - startTime <= dashLength * lengthMultiplier)
             {
-                rb.velocity = direction.normalized * (maxSpeed * dashForceMultiplier);
+                rb.velocity = dashDirection.normalized * (maxSpeed * dashForceMultiplier);
                 //Pauses the loop until the next frame, creating something of a Update loop. 
                 yield return null;
             }
