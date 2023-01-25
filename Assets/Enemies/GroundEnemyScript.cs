@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 public class GroundEnemyScript : MonoBehaviour
@@ -15,15 +17,21 @@ public class GroundEnemyScript : MonoBehaviour
     [SerializeField] private float aggroRange;
     [SerializeField] private float moveSpeed;
     [SerializeField] private float idleSpeed;
+    [SerializeField] private float jumpForce;
+    [SerializeField] private float fallVelocity;
+    [SerializeField] private float normalGravity;
     private float distanceToPlayer;
     #endregion
 
     #region Check vars
     [Header("Checks")]
     [SerializeField] private bool isWalled;
-    [SerializeField] private float wallcheckRadius;
+    [SerializeField] private bool isGrounded;
     [SerializeField] private Transform wallCheckCollider;
-    [SerializeField] private LayerMask wallCheckLayer;
+    [SerializeField] private Transform groundCheckCollider;
+    [SerializeField] private LayerMask wallAndGroundCheckLayer;
+    private float wallcheckRadius = 0.2f;
+    private float groundCheckRadius = 0.2f;
     private bool isFacingRight;
     private GameObject player;
     #endregion
@@ -42,6 +50,7 @@ public class GroundEnemyScript : MonoBehaviour
     #endregion
 
     #region UnityMethods
+
     // Start is called before the first frame update
     void Start()
     {
@@ -58,21 +67,16 @@ public class GroundEnemyScript : MonoBehaviour
         }
 
         WallCheck();
+        GroundCheck();
         GetDistToPlayer();
         EnemyAI();
-        //Debug.Log(index);
+        Jump();
+        
     }
+
     #endregion
 
-    #region DistanceCheck&Chasing
-    private void GetDistToPlayer()
-    {
-        if(!ReferenceEquals(player, null))
-        {
-            distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
-        }
-       
-    }
+    #region Chasing
 
     private void EnemyAI()
     {
@@ -91,14 +95,16 @@ public class GroundEnemyScript : MonoBehaviour
         if(transform.position.x < player.transform.position.x)
         {
             // Gegner  auf der linken Seite des Spieler, laufe rechts
-            rb.velocity = new Vector2(moveSpeed, 0);  
+            //rb.velocity = new Vector2(moveSpeed, 0);  
+            rb.AddForce(moveSpeed * Vector2.right, ForceMode2D.Force);
         }
         else
         {
             // Gegner  auf der rechten Seite des Spieler, laufe links
-            rb.velocity = new Vector2(-moveSpeed, 0);
+            //rb.velocity = new Vector2(-moveSpeed, 0);}
+            rb.AddForce(moveSpeed * Vector2.left, ForceMode2D.Force);
         }
-        
+
     }
 
     private void Idle()
@@ -126,7 +132,7 @@ public class GroundEnemyScript : MonoBehaviour
     #region Checks
     private void WallCheck() 
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(wallCheckCollider.position, wallcheckRadius, wallCheckLayer);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(wallCheckCollider.position, wallcheckRadius, wallAndGroundCheckLayer);
         if (colliders.Length>0)
         {
             isWalled = true;
@@ -136,6 +142,36 @@ public class GroundEnemyScript : MonoBehaviour
             isWalled = false;
         }
     }
+    private void GetDistToPlayer()
+    {
+        if (!ReferenceEquals(player, null))
+        {
+            distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
+        }
+
+    }
+    private void CheckDirectionToFace(bool isMovingRight)
+    {
+        if (isMovingRight != isFacingRight)
+        {
+            Flip();
+        }
+    }
+    private void GroundCheck()
+    {
+        if(Physics2D.OverlapCircle(groundCheckCollider.position, groundCheckRadius, wallAndGroundCheckLayer)) 
+        { 
+            isGrounded = true; 
+        }
+        else 
+        { 
+        isGrounded = false; 
+        }
+    }
+
+    #endregion
+
+    #region misc
 
     private void Flip()
     {
@@ -145,17 +181,24 @@ public class GroundEnemyScript : MonoBehaviour
 
         isFacingRight = !isFacingRight;
     }
-    private void CheckDirectionToFace(bool isMovingRight)
+
+    private void Jump()
     {
-        if (isMovingRight != isFacingRight)
+        if(isWalled)
         {
-            Flip();
+            rb.velocity = new Vector2(rb.velocity.y, jumpForce);
+            rb.velocity.Normalize();
+        }
+        if (rb.velocity.y < 0)
+        {
+            rb.gravityScale = fallVelocity;
+        }
+        else
+        {
+            rb.gravityScale = normalGravity;
         }
     }
 
-    #endregion
-
-    #region misc
 
     #endregion
 }

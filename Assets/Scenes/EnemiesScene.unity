@@ -338,7 +338,7 @@ GameObject:
   m_Component:
   - component: {fileID: 570062818}
   m_Layer: 0
-  m_Name: Enemy and Movementpattern
+  m_Name: BasicEnemy and Movementpattern
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -665,8 +665,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1088583856}
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -2.07, y: -0.17, z: 0}
-  m_LocalScale: {x: 1.8079823, y: 0.9572644, z: 1}
+  m_LocalPosition: {x: -2.07, y: -0.53, z: 0}
+  m_LocalScale: {x: 1.09, y: 0.9572644, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -734,8 +734,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11f3d48a06136094baf0166832c2f39f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aggroRange: 1
-  moveSpeed: 4
+  aggroRange: 5
+  moveSpeed: 6
   idleSpeed: 2
   isWalled: 0
   wallcheckRadius: 0.2
@@ -1057,7 +1057,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2078652314}
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 7.47, y: -0.17, z: 0}
+  m_LocalPosition: {x: 7.47, y: -0.92, z: 0}
   m_LocalScale: {x: 1.8079823, y: 0.9572644, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
