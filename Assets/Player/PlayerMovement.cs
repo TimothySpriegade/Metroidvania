@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using SOEventSystem.Events;
 using UnityEngine;
 
 namespace Player
@@ -11,12 +9,12 @@ namespace Player
 
         #region Events
 
-
         #endregion
-        
+
         #region Components
-        
+
         private Rigidbody2D rb;
+        private Animator animator;
 
         #endregion
 
@@ -37,8 +35,7 @@ namespace Player
         private float lastGroundedTime;
         private bool duringJumpCut;
         private bool isJumping;
-        [HideInInspector]
-        public bool noJumpInput;
+        [HideInInspector] bool noJumpInput;
 
         #region Wall Jump Vars
 
@@ -120,7 +117,7 @@ namespace Player
         private float coyoteTime;
 
         #endregion
-        
+
         #region Check Vars
 
         //Set all of these up in the inspector
@@ -149,12 +146,16 @@ namespace Player
 
         private void Awake()
         {
-            
+            //Getting Components
             rb = GetComponent<Rigidbody2D>();
+            animator = GetComponent<Animator>();
+
+            //Scaling check sizes with player scaling
             var localScale = transform.localScale;
             groundCheckSize *= localScale;
             wallCheckSize *= localScale;
-            unlockedDash = true;
+            
+            unlockedDash = true; // TODO remove when Dash unlock system is implemented
         }
 
         private void Start()
@@ -400,6 +401,9 @@ namespace Player
             LastPressedJumpTime = 0;
             lastGroundedTime = 0;
 
+            //Animator
+            animator.SetTrigger(""); //TODO name trigger
+            
             //We increase the force applied if we are falling
             //This means we'll always feel like we jump the same amount 
             var jumpForce = timeUntilJumpApex * gravityStrength * 30;
@@ -469,6 +473,9 @@ namespace Player
         {
             LastPressedDashTime = 0;
 
+            //Animator
+            animator.SetTrigger(""); //TODO set name
+            
             var startTime = Time.time;
             
             //Dashes diagonal
