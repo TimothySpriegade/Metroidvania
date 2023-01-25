@@ -9,7 +9,7 @@ namespace MainMenu
         public void PlayGame()
         {
             //lädt nächste Szene in Scenemanager - änder sich vllt noch wegen save
-            onSceneChange.Invoke("TestLevel");
+            onSceneChange.Invoke("TestLevel07");
         }
         public static void QuitGame()
         {

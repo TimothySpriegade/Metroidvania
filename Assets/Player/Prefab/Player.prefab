@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2000500285399010432}
   - component: {fileID: 2000500285399010433}
   - component: {fileID: 677236320}
+  - component: {fileID: 1310483499268890299}
   - component: {fileID: 6558469077213246299}
   m_Layer: 0
   m_Name: Player
@@ -31,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 2000500285399010438}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.63, y: -0.4, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2000500286482218050}
@@ -194,6 +195,19 @@ MonoBehaviour:
   onPauseMenuOpen: {fileID: 11400000, guid: 7ed37262dd26ff044901e4f9f842dfd5, type: 2}
   data: {fileID: 11400000, guid: 800dafdbf0dd2354d99f53d7f968d032, type: 2}
   inputBufferTime: 0.1
+--- !u!114 &1310483499268890299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2000500285399010438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97285fa1ebf6bb044afbe33a7d46598a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  upAnimationForce: {x: 5, y: 15}
 --- !u!114 &6558469077213246299
 MonoBehaviour:
   m_ObjectHideFlags: 0

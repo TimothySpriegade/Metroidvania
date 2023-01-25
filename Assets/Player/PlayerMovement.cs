@@ -66,8 +66,9 @@ namespace Player
         [SerializeField] private float runAcceleration;
         [SerializeField] private float runDeceleration;
 
+        public bool IgnoreRun { get; set; }
         public Vector2 MoveInput { get; set; }
-        private static bool isFacingRight;
+        public bool IsFacingRight { get; set; }
 
         #endregion
 
@@ -79,7 +80,7 @@ namespace Player
         [SerializeField] private float dashCooldown;
         [Tooltip("Tiny amount the dash freezes the game to make the Dash feel more impactful")]
         [SerializeField] private float dashSleepTime;
-        [Tooltip("Deadzone until the game recognizes your input to dash into that direction (0, 0.3) wont make you dash upwards")]
+        [Tooltip("Dead zone until the game recognizes your input to dash into that direction (0, 0.3) wont make you dash upwards")]
         [SerializeField] private float controllerInputThreshold;
 
         public float LastPressedDashTime { get; set; }
@@ -160,7 +161,6 @@ namespace Player
         {
             //calculating gravity strength using the formula 'gravity = 2 * jumpHeight / timeToJumpApex^2'
             gravityStrength = -(2 * jumpHeight) / (timeUntilJumpApex * timeUntilJumpApex) / -30f;
-            isFacingRight = true;
         }
 
         #endregion
@@ -190,13 +190,13 @@ namespace Player
                 }
 
                 //Right-Wall check
-                if (Physics2D.OverlapBox(frontWallCheckPoint.position, wallCheckSize, 0, groundLayer) && isFacingRight)
+                if (Physics2D.OverlapBox(frontWallCheckPoint.position, wallCheckSize, 0, groundLayer) && IsFacingRight)
                 {
                     lastRightWallTouchTime = coyoteTime;
                 }
 
                 //Left-Wall check
-                if (Physics2D.OverlapBox(frontWallCheckPoint.position, wallCheckSize, 0, groundLayer) && !isFacingRight)
+                if (Physics2D.OverlapBox(frontWallCheckPoint.position, wallCheckSize, 0, groundLayer) && !IsFacingRight)
                 {
                     lastLeftWallTouchTime = coyoteTime;
                 }
@@ -283,9 +283,9 @@ namespace Player
 
                 //When standing still or dashing down => Dashing forward
                 if (dashDirection == Vector2.down && lastGroundedTime > 0) 
-                    dashDirection = isFacingRight ? Vector2.right : Vector2.left;
+                    dashDirection = IsFacingRight ? Vector2.right : Vector2.left;
                 else if (dashDirection == Vector2.zero)
-                    dashDirection = isFacingRight ? Vector2.right : Vector2.left;
+                    dashDirection = IsFacingRight ? Vector2.right : Vector2.left;
 
                 StartCoroutine(Dash(dashDirection));
             }
@@ -341,14 +341,12 @@ namespace Player
 
         private void FixedUpdate()
         {
-            if (!isDashing)
-            {
-                //Run
-                if (isWallJumping)
-                    Run(wallJumpLerp);
-                else
-                    Run(1);
-            }
+            if (isDashing || IgnoreRun) return;
+            //Run
+            if (isWallJumping)
+                Run(wallJumpLerp);
+            else
+                Run(1);
         }
 
         #endregion
@@ -390,7 +388,7 @@ namespace Player
             scale.x *= -1;
             transform.localScale = scale;
 
-            isFacingRight = !isFacingRight;
+            IsFacingRight = !IsFacingRight;
         }
 
         #endregion
@@ -507,7 +505,7 @@ namespace Player
 
         private void CheckDirectionToFace(bool isMovingRight)
         {
-            if (isMovingRight != isFacingRight && !isDashing)
+            if (isMovingRight != IsFacingRight && !isDashing)
             {
                 Turn();
             }
