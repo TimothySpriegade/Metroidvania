@@ -21,6 +21,7 @@ namespace Player
 
         [SerializeField] private Vector2 upAnimationForce;
         private bool collisionDetected;
+        private bool disabledAnimation;
         private float animationBlock;
 
         private PlayerAnimatorState currentState;
@@ -52,7 +53,7 @@ namespace Player
         public void ChangeAnimationState(PlayerAnimatorState newState)
         {
             //Stop if currently played Animation matches attempted animation
-            if (currentState == newState || animationBlock >= 0) return;
+            if (currentState == newState || animationBlock >= 0 || !disabledAnimation) return;
             
             //Play animation
             animator.Play(newState.ToString());
@@ -69,6 +70,10 @@ namespace Player
                 case PlayerAnimatorState.PlayerDash:
                     //Dash FX
                     break;
+                case PlayerAnimatorState.PlayerDeath:
+                    //DeathFX
+                    disabledAnimation = true;
+                    break;
             }
             
             //replace currentState
@@ -82,6 +87,11 @@ namespace Player
         public void OnEnvironmentalTrapHit()
         {
             StartCoroutine(controller.ShortControlSuspension());
+        }
+
+        public void OnDeath()
+        {
+            ChangeAnimationState(PlayerAnimatorState.PlayerDeath);
         }
 
         #endregion
