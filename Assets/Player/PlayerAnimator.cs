@@ -22,12 +22,14 @@ namespace Player
         [SerializeField] private Vector2 upAnimationForce;
         private bool collisionDetected;
 
+        private PlayerAnimatorState currentState;
+
         #endregion
         
         
         private void Awake()
         {
-            //animator = GetComponent<Animator>();
+            animator = GetComponent<Animator>();
             rb = GetComponent<Rigidbody2D>();
             movement = GetComponent<PlayerMovement>();
             controller = GetComponent<PlayerController>();
@@ -38,6 +40,22 @@ namespace Player
             collisionDetected = true;
         }
 
+        #region Animation Handling
+
+        public void ChangeAnimationState(PlayerAnimatorState newState)
+        {
+            //Stop if currently played Animation matches attempted animation
+            Debug.LogWarning("Tried to play an Animation that is already being played");
+            if (currentState == newState) return;
+            
+            //Play animation
+            animator.Play(newState.ToString());
+            
+            //replace currentState
+            currentState = newState;
+        }
+
+        #endregion
 
         #region Event Handling
 
@@ -111,4 +129,16 @@ namespace Player
 
         #endregion
     }
+}
+
+public enum PlayerAnimatorState
+{
+    PlayerIdle,
+    PlayerWalk,
+    PlayerJump,
+    PlayerJumpEnd,
+    PlayerFall,
+    PlayerDeath,
+    PlayerDash,
+    PlayerAttack
 }
