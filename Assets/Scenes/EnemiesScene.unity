@@ -361,6 +361,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &676885403
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 676885404}
+  m_Layer: 0
+  m_Name: Groundcheck
+  m_TagString: Untagged
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &676885404
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 676885403}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 849363707}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &790996976
 GameObject:
   m_ObjectHideFlags: 0
@@ -558,6 +589,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 83440872}
+  - {fileID: 676885404}
   m_Father: {fileID: 1260303115}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -734,13 +766,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11f3d48a06136094baf0166832c2f39f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aggroRange: 5
-  moveSpeed: 6
-  idleSpeed: 2
+  aggroRange: 7
+  moveSpeed: 3
+  idleSpeed: 3
+  jumpForce: 9
+  fallVelocity: 4.5
+  normalGravity: 1.6
   isWalled: 0
-  wallcheckRadius: 0.2
+  isGrounded: 0
   wallCheckCollider: {fileID: 83440872}
-  wallCheckLayer:
+  groundCheckCollider: {fileID: 676885404}
+  wallAndGroundCheckLayer:
     serializedVersion: 2
     m_Bits: 64
   idlePoints:
@@ -787,7 +823,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 1.6
   m_Material: {fileID: 0}
   m_Interpolate: 1
   m_SleepingMode: 0

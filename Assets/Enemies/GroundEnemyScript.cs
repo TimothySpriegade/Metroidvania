@@ -32,6 +32,7 @@ public class GroundEnemyScript : MonoBehaviour
     [SerializeField] private LayerMask wallAndGroundCheckLayer;
     private float wallcheckRadius = 0.2f;
     private float groundCheckRadius = 0.2f;
+    private bool isJumping;
     private bool isFacingRight;
     private GameObject player;
     #endregion
@@ -94,14 +95,10 @@ public class GroundEnemyScript : MonoBehaviour
     {
         if(transform.position.x < player.transform.position.x)
         {
-            // Gegner  auf der linken Seite des Spieler, laufe rechts
-            //rb.velocity = new Vector2(moveSpeed, 0);  
             rb.AddForce(moveSpeed * Vector2.right, ForceMode2D.Force);
         }
         else
         {
-            // Gegner  auf der rechten Seite des Spieler, laufe links
-            //rb.velocity = new Vector2(-moveSpeed, 0);}
             rb.AddForce(moveSpeed * Vector2.left, ForceMode2D.Force);
         }
 
@@ -161,7 +158,8 @@ public class GroundEnemyScript : MonoBehaviour
     {
         if(Physics2D.OverlapCircle(groundCheckCollider.position, groundCheckRadius, wallAndGroundCheckLayer)) 
         { 
-            isGrounded = true; 
+            isGrounded = true;
+            isJumping = false;
         }
         else 
         { 
@@ -186,13 +184,15 @@ public class GroundEnemyScript : MonoBehaviour
     {
         if(isWalled)
         {
-            rb.velocity = new Vector2(rb.velocity.y, jumpForce);
-            rb.velocity.Normalize();
+            rb.velocity = Vector2.up * jumpForce;
+            isJumping = true;
         }
+
         if (rb.velocity.y < 0)
         {
             rb.gravityScale = fallVelocity;
         }
+
         else
         {
             rb.gravityScale = normalGravity;
