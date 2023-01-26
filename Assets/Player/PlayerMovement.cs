@@ -185,6 +185,7 @@ namespace Player
                 //Ground Check
                 if (Physics2D.OverlapBox(groundCheckPoint.position, groundCheckSize, 0, groundLayer))
                 {
+                    //just landed
                     if(lastGroundedTime < -0.1f && !isDashing)
                     {
                         animator.ChangeAnimationState(PlayerAnimatorState.PlayerLand);
@@ -447,6 +448,9 @@ namespace Player
             lastRightWallTouchTime = 0;
             lastLeftWallTouchTime = 0;
             lastWallJumped = 0;
+            
+            //animator
+            animator.ChangeAnimationState(PlayerAnimatorState.PlayerJump);
 
             var jumpForce = wallJumpForce;
 
@@ -570,7 +574,7 @@ namespace Player
 
         private bool IsNotJumping()
         {
-            return (isWallJumping || isJumping) && Mathf.Abs(rb.velocity.y) <= 0.005f || lastGroundedTime > 0;
+            return (isWallJumping || isJumping) && rb.velocity.y <= 0 || lastGroundedTime > 0;
         }
 
         private bool CanDash()
