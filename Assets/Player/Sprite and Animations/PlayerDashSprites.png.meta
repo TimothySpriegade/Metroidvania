@@ -110,7 +110,7 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 29
+        width: 32
         height: 22
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -129,9 +129,9 @@ TextureImporter:
       name: PlayerDash_3
       rect:
         serializedVersion: 2
-        x: 106
+        x: 135
         y: 0
-        width: 37
+        width: 39
         height: 22
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -150,9 +150,9 @@ TextureImporter:
       name: PlayerDash_1
       rect:
         serializedVersion: 2
-        x: 29
+        x: 37
         y: 0
-        width: 33
+        width: 40
         height: 22
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -171,9 +171,9 @@ TextureImporter:
       name: PlayerDash_2
       rect:
         serializedVersion: 2
-        x: 63
+        x: 83
         y: 0
-        width: 41
+        width: 52
         height: 22
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -192,12 +192,12 @@ TextureImporter:
       name: PlayerDash_4
       rect:
         serializedVersion: 2
-        x: 144
+        x: 174
         y: 0
-        width: 28
+        width: 29
         height: 22
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      alignment: 9
+      pivot: {x: 0.49999946, y: 0.50758934}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -213,7 +213,7 @@ TextureImporter:
       name: PlayerDash_5
       rect:
         serializedVersion: 2
-        x: 173
+        x: 204
         y: 0
         width: 24
         height: 22
@@ -234,7 +234,7 @@ TextureImporter:
       name: PlayerDash_6
       rect:
         serializedVersion: 2
-        x: 197
+        x: 228
         y: 0
         width: 26
         height: 22
@@ -255,7 +255,7 @@ TextureImporter:
       name: PlayerDash_7
       rect:
         serializedVersion: 2
-        x: 223
+        x: 254
         y: 0
         width: 28
         height: 22
