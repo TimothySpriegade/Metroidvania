@@ -11,6 +11,7 @@ namespace Player
         #region Components
 
         private Animator animator;
+        private SpriteRenderer spriteRenderer;
         private PlayerMovement movement;
         private PlayerController controller;
         private Rigidbody2D rb;
@@ -21,29 +22,104 @@ namespace Player
 
         [SerializeField] private Vector2 upAnimationForce;
         private bool collisionDetected;
+        private bool disabledAnimation;
+        private float animationBlock;
+
+        private PlayerAnimatorState currentState;
 
         #endregion
         
-        
         private void Awake()
         {
-            //animator = GetComponent<Animator>();
+            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+            animator = spriteRenderer.GetComponent<Animator>();
             rb = GetComponent<Rigidbody2D>();
             movement = GetComponent<PlayerMovement>();
             controller = GetComponent<PlayerController>();
         }
-        
+
+        private void Update()
+        {
+            animationBlock -= Time.deltaTime;
+        }
+
         private void OnCollisionEnter2D(Collision2D col)
         {
             collisionDetected = true;
         }
 
+        #region Animation Handling
 
+        public void ChangeAnimationState(PlayerAnimatorState newState)
+        {
+            //Stop if currently played Animation matches attempted animation
+            if (currentState == newState || animationBlock >= 0 || disabledAnimation) return;
+            
+            //Play animation
+            animator.Play(newState.ToString());
+            
+            switch (newState)
+            {
+                case PlayerAnimatorState.PlayerLand:
+                    //Land FX
+                    animationBlock = 0.1f;
+                    break;
+                case PlayerAnimatorState.PlayerJump:
+                    //Jump FX
+                    break;
+                case PlayerAnimatorState.PlayerDeath:
+                    //DeathFX
+                    disabledAnimation = true;
+                    break;
+            }
+            
+            //replace currentState
+            currentState = newState;
+        }
+
+        public IEnumerator DashAnimation(Vector2 direction, float length, bool isFacingRight)
+        {
+            var startTime = Time.time;
+
+            var degrees = 0;
+            //Rotation depending on the direction
+            if (direction.y != 0)
+            {
+                degrees = direction.x == 0 ? 90 : 45;
+                if (direction.y > 0) degrees *= -1;
+            }
+            //Weird Euler shenanigans
+            if (isFacingRight) degrees *= -1;
+
+            //Applying Rotation
+            spriteRenderer.transform.rotation = Quaternion.Euler(0, 0, degrees);
+
+            //Playing Animation
+            animator.Play(PlayerAnimatorState.PlayerDash.ToString());
+            currentState = PlayerAnimatorState.PlayerDash;
+
+            //Keeping Rotation for Dash length
+            while (Time.time - startTime < length + 0.1f)
+            {
+                yield return null;
+            }
+
+            spriteRenderer.transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        
+        #endregion
+
+        
         #region Event Handling
 
         public void OnEnvironmentalTrapHit()
         {
             StartCoroutine(controller.ShortControlSuspension());
+        }
+
+        public void OnDeath()
+        {
+            ChangeAnimationState(PlayerAnimatorState.PlayerDeath);
         }
 
         #endregion
@@ -111,4 +187,16 @@ namespace Player
 
         #endregion
     }
+}
+
+public enum PlayerAnimatorState
+{
+    PlayerIdle,
+    PlayerWalk,
+    PlayerJump,
+    PlayerJumpEnd,
+    PlayerDeath,
+    PlayerDash,
+    PlayerAttack,
+    PlayerLand
 }

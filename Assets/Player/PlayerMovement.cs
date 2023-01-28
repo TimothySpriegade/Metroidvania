@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using SOEventSystem.Events;
 using UnityEngine;
 
 namespace Player
@@ -11,19 +9,18 @@ namespace Player
 
         #region Events
 
-
         #endregion
-        
+
         #region Components
-        
+
         private Rigidbody2D rb;
+        private PlayerAnimator animator;
 
         #endregion
 
         #region Jump Vars
 
-        [Header("Jump")] 
-        [SerializeField] private float jumpHeight;
+        [Header("Jump")] [SerializeField] private float jumpHeight;
         [SerializeField] private float timeUntilJumpApex;
 
         [Space(5)]
@@ -37,13 +34,11 @@ namespace Player
         private float lastGroundedTime;
         private bool duringJumpCut;
         private bool isJumping;
-        [HideInInspector]
-        public bool noJumpInput;
+        [HideInInspector] public bool noJumpInput;
 
         #region Wall Jump Vars
 
-        [Header("Wall Jump")] 
-        [SerializeField] private float wallJumpLerp;
+        [Header("Wall Jump")] [SerializeField] private float wallJumpLerp;
 
         //time until you can wall jump again
         [SerializeField] private float wallJumpTime;
@@ -61,8 +56,7 @@ namespace Player
 
         #region Run Vars
 
-        [Header("Movement")] 
-        [SerializeField] private float maxSpeed;
+        [Header("Movement")] [SerializeField] private float maxSpeed;
         [SerializeField] private float runAcceleration;
         [SerializeField] private float runDeceleration;
 
@@ -74,14 +68,17 @@ namespace Player
 
         #region Dash Vars
 
-        [Header("Dash")] 
-        [SerializeField] private float dashForceMultiplier;
+        [Header("Dash")] [SerializeField] private float dashForceMultiplier;
         [SerializeField] private float dashLength;
         [SerializeField] private float dashCooldown;
-        [Tooltip("Tiny amount the dash freezes the game to make the Dash feel more impactful")]
-        [SerializeField] private float dashSleepTime;
-        [Tooltip("Dead zone until the game recognizes your input to dash into that direction (0, 0.3) wont make you dash upwards")]
-        [SerializeField] private float controllerInputThreshold;
+
+        [Tooltip("Tiny amount the dash freezes the game to make the Dash feel more impactful")] [SerializeField]
+        private float dashSleepTime;
+
+        [Tooltip(
+            "Dead zone until the game recognizes your input to dash into that direction (0, 0.3) wont make you dash upwards")]
+        [SerializeField]
+        private float controllerInputThreshold;
 
         public float LastPressedDashTime { get; set; }
         private float lastDashed;
@@ -97,8 +94,7 @@ namespace Player
 
         #region Gravity Vars
 
-        [Header("Gravity")] 
-        [SerializeField] private float fallGravityMultiplier;
+        [Header("Gravity")] [SerializeField] private float fallGravityMultiplier;
         [SerializeField] private float jumpCutGravityMultiplier;
         [SerializeField] private float maxFallSpeed;
 
@@ -120,12 +116,11 @@ namespace Player
         private float coyoteTime;
 
         #endregion
-        
+
         #region Check Vars
 
         //Set all of these up in the inspector
-        [Header("Checks")] 
-        [SerializeField] private Transform groundCheckPoint;
+        [Header("Checks")] [SerializeField] private Transform groundCheckPoint;
 
         [SerializeField] private Vector2 groundCheckSize;
         [Space(5)] [SerializeField] private Transform frontWallCheckPoint;
@@ -136,25 +131,29 @@ namespace Player
 
         #region Layers and Tags
 
-        [Header("Layers & Tags")] 
-        [SerializeField] private LayerMask groundLayer;
+        [Header("Layers & Tags")] [SerializeField]
+        private LayerMask groundLayer;
 
         #endregion
 
         #endregion
-
+        
         #region Unity Methods
 
         #region Start methods
 
         private void Awake()
         {
-            
+            //Getting Components
             rb = GetComponent<Rigidbody2D>();
+            animator = GetComponent<PlayerAnimator>();
+
+            //Scaling check sizes with player scaling
             var localScale = transform.localScale;
             groundCheckSize *= localScale;
             wallCheckSize *= localScale;
-            unlockedDash = true;
+
+            unlockedDash = true; // TODO remove when Dash unlock system is implemented
         }
 
         private void Start()
@@ -186,6 +185,12 @@ namespace Player
                 //Ground Check
                 if (Physics2D.OverlapBox(groundCheckPoint.position, groundCheckSize, 0, groundLayer))
                 {
+                    //just landed
+                    if(lastGroundedTime < -0.1f && !isDashing)
+                    {
+                        animator.ChangeAnimationState(PlayerAnimatorState.PlayerLand);
+                    }
+                    
                     lastGroundedTime = coyoteTime;
                 }
 
@@ -277,17 +282,17 @@ namespace Player
 
                 //Sleep to add weight behind the dash
                 Sleep(dashSleepTime);
-                
+
                 //Normalizes input to ensure that controller wont dash unwanted angles
                 dashDirection = NormalizeMoveInput(MoveInput);
 
                 //When standing still or dashing down => Dashing forward
-                if (dashDirection == Vector2.down && lastGroundedTime > 0) 
+                if (dashDirection == Vector2.down && lastGroundedTime > 0)
                     dashDirection = IsFacingRight ? Vector2.right : Vector2.left;
                 else if (dashDirection == Vector2.zero)
                     dashDirection = IsFacingRight ? Vector2.right : Vector2.left;
 
-                StartCoroutine(Dash(dashDirection));
+                StartCoroutine(Dash());
             }
 
             #endregion
@@ -302,7 +307,7 @@ namespace Player
             }
 
             #endregion
-
+            
             #region Gravity Handler
 
             if (!isDashing)
@@ -316,7 +321,7 @@ namespace Player
                     rb.velocity = new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -maxFallSpeed));
                 }
                 //Jump Hang
-                else if ((isJumping || isWallJumping) && Mathf.Abs(rb.velocity.y) < jumpHangThreshold)
+                else if (CanJumpHang())
                 {
                     SetGravityScale(gravityStrength * jumpHangGravityMultiplier);
                 }
@@ -333,6 +338,29 @@ namespace Player
                 else
                 {
                     SetGravityScale(gravityStrength);
+                }
+            }
+
+            #endregion
+
+            #region Animation Handler
+
+            if (!isDashing)
+            {
+                //At the top of jump
+                if (lastGroundedTime < 0 && (CanJumpHang() || rb.velocity.y < 0))
+                {
+                    animator.ChangeAnimationState(PlayerAnimatorState.PlayerJumpEnd);
+                }
+
+                //Walking or Idling and not in landing Animation
+                if (IsNotJumping() && Mathf.Abs(rb.velocity.x) > 0.01f)
+                {
+                    animator.ChangeAnimationState(PlayerAnimatorState.PlayerWalk);
+                }
+                else if (IsNotJumping() && Mathf.Abs(rb.velocity.x) < 0.01f)
+                {
+                    animator.ChangeAnimationState(PlayerAnimatorState.PlayerIdle);
                 }
             }
 
@@ -400,6 +428,9 @@ namespace Player
             LastPressedJumpTime = 0;
             lastGroundedTime = 0;
 
+            //Animator
+            animator.ChangeAnimationState(PlayerAnimatorState.PlayerJump);
+
             //We increase the force applied if we are falling
             //This means we'll always feel like we jump the same amount 
             var jumpForce = timeUntilJumpApex * gravityStrength * 30;
@@ -417,6 +448,9 @@ namespace Player
             lastRightWallTouchTime = 0;
             lastLeftWallTouchTime = 0;
             lastWallJumped = 0;
+            
+            //animator
+            animator.ChangeAnimationState(PlayerAnimatorState.PlayerJump);
 
             var jumpForce = wallJumpForce;
 
@@ -465,21 +499,24 @@ namespace Player
             return moveInput;
         }
 
-        private IEnumerator Dash(Vector2 direction)
+        private IEnumerator Dash()
         {
             LastPressedDashTime = 0;
 
+            //Animator
+            StartCoroutine(animator.DashAnimation(dashDirection, dashLength, IsFacingRight));
+
             var startTime = Time.time;
-            
+
             //Dashes diagonal
-            var lengthMultiplier = direction.x != 0 && direction.y != 0 ? 0.75f : 1f;
-            
+            var lengthMultiplier = dashDirection.x != 0 && dashDirection.y != 0 ? 0.75f : 1f;
+
             SetGravityScale(0);
-            
+
             //Keeps player velocity at Dash Speed
             while (Time.time - startTime <= dashLength * lengthMultiplier)
             {
-                rb.velocity = direction.normalized * (maxSpeed * dashForceMultiplier);
+                rb.velocity = dashDirection.normalized * (maxSpeed * dashForceMultiplier);
                 //Pauses the loop until the next frame, creating something of a Update loop. 
                 yield return null;
             }
@@ -543,6 +580,11 @@ namespace Player
         private bool CanDash()
         {
             return unlockedDash && !isDashing && lastDashed < 0 && dashRefreshed;
+        }
+
+        private bool CanJumpHang()
+        {
+            return (isJumping || isWallJumping) && Mathf.Abs(rb.velocity.y) < jumpHangThreshold;
         }
 
         #endregion
