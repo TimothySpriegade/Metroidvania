@@ -15,11 +15,12 @@ public class GroundEnemyScript : MonoBehaviour
 
     [Header("Movement")]
     [SerializeField] private float aggroRange;
-    [SerializeField] private float moveSpeed;
+    [SerializeField] private float accelRate;
     [SerializeField] private float idleSpeed;
     [SerializeField] private float jumpForce;
     [SerializeField] private float fallVelocity;
     [SerializeField] private float normalGravity;
+    [SerializeField] private float maxSpeed;
     private float distanceToPlayer;
     #endregion
 
@@ -56,6 +57,7 @@ public class GroundEnemyScript : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        
         player = GameObject.FindGameObjectWithTag("Player");
     }
 
@@ -73,6 +75,10 @@ public class GroundEnemyScript : MonoBehaviour
         EnemyAI();
         Jump();
         
+    }
+    private void FixedUpdate()
+    {
+      
     }
 
     #endregion
@@ -95,11 +101,13 @@ public class GroundEnemyScript : MonoBehaviour
     {
         if(transform.position.x < player.transform.position.x)
         {
-            rb.AddForce(moveSpeed * Vector2.right, ForceMode2D.Force);
+            rb.AddForce(accelRate * Vector2.right, ForceMode2D.Force);
+            rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
         }
         else
         {
-            rb.AddForce(moveSpeed * Vector2.left, ForceMode2D.Force);
+            rb.AddForce(accelRate * Vector2.left, ForceMode2D.Force);
+            rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
         }
 
     }
@@ -188,7 +196,7 @@ public class GroundEnemyScript : MonoBehaviour
             isJumping = true;
         }
 
-        if (rb.velocity.y < 0)
+        if (rb.velocity.y < 0 && !isGrounded)
         {
             rb.gravityScale = fallVelocity;
         }
