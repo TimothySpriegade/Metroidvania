@@ -1,15 +1,17 @@
 using SOEventSystem.Events;
 using UnityEngine;
 
-namespace Menus.PauseMenu
+namespace _Core._4_Menus.PauseMenu
 {
     public class PauseMenu : MonoBehaviour
     {
         #region vars
+
         [SerializeField] private GameObject menu;
         [SerializeField] private GameObject optionsMenu;
         [SerializeField] private GameObject pauseMenu;
         [SerializeField] private StringEvent onBackToMainMenu;
+
         #endregion
 
         public void OpenPauseMenu()
@@ -34,7 +36,5 @@ namespace Menus.PauseMenu
         {
             onBackToMainMenu?.Invoke("MainMenu");
         }
-    
-       
     }
 }

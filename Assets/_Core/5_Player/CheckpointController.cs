@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Player
+namespace _Core._5_Player
 {
     public class CheckpointController : MonoBehaviour
     {

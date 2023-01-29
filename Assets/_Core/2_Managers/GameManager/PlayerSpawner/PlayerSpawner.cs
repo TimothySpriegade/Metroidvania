@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Player;
-using Spawners.PlayerSpawner.ScriptableObjects;
+using _Core._2_Managers.GameManager.PlayerSpawner.ScriptableObjects;
+using _Core._5_Player;
 using UnityEngine;
 
-namespace Spawners.PlayerSpawner
+namespace _Core._2_Managers.GameManager.PlayerSpawner
 {
     public class PlayerSpawner : MonoBehaviour
     {
@@ -13,12 +13,12 @@ namespace Spawners.PlayerSpawner
         [SerializeField] private LevelTransitionData data;
         [SerializeField] private LevelData currentLevel;
         private Vector2 spawnPosition;
-        
+
         private void OnEnable()
         {
             //Gets spawn position by comparing child FromLevels with LevelTransitionData's LastLevel
             spawnPosition = GetSpawnPosition();
-            
+
             //Creates Player at Spawn-point
             TryInstantiatePlayer();
 
@@ -39,8 +39,8 @@ namespace Spawners.PlayerSpawner
 
             //Returns first playerSpawn found
             if (allChildren.Count > 0) return allChildren.First().transform.position;
-            
-            
+
+
             //Returns the middle if there is no playerSpawn
             return Vector2.zero;
         }
@@ -58,10 +58,11 @@ namespace Spawners.PlayerSpawner
                     player.transform.localScale = scale;
                     player.GetComponent<PlayerMovement>().IsFacingRight = true;
                 }
-                
+
                 if (data.direction != TransitionDirection.Down)
                 {
-                    player.GetComponent<PlayerAnimator>().EnteringSceneAnimation(data.direction, data.playerWasFacingRight);
+                    player.GetComponent<PlayerAnimator>()
+                        .EnteringSceneAnimation(data.direction, data.playerWasFacingRight);
                 }
             }
             catch (Exception)

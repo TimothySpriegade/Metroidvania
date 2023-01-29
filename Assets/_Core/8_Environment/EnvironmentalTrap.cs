@@ -1,7 +1,7 @@
 using SOEventSystem.Events;
 using UnityEngine;
 
-namespace Levels.Traps
+namespace _Core._8_Environment
 {
     public class EnvironmentalTrap : MonoBehaviour
     {
@@ -11,10 +11,7 @@ namespace Levels.Traps
 
         private void OnTriggerEnter2D(Collider2D col)
         {
-            if (col.gameObject.CompareTag("Player"))
-            {
-                onEnvironmentalTrapHit.Invoke(data.damage);
-            }
+            if (col.gameObject.CompareTag("Player")) onEnvironmentalTrapHit.Invoke(data.damage);
         }
     }
 }

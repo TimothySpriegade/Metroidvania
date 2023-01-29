@@ -1,23 +1,26 @@
 ﻿using System.Collections.Generic;
+using _Core._2_Managers.AudioManager;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
 
-namespace MainMenu
+namespace _Core._4_Menus.SettingsMenu
 {
     public class SettingsMenu : MonoBehaviour
     {
         // Components
-        [SerializeField] private TMPro.TMP_Dropdown resolutionDropdown;
+        [SerializeField] private TMP_Dropdown resolutionDropdown;
         [SerializeField] private Slider masterSlider, musicSlider, effectsSlider;
         [SerializeField] private AudioManager audioManager;
         [SerializeField] private Toggle fullscreenToggle;
         [SerializeField] private UnityEvent cancelOptionsMenu;
         [SerializeField] private InputSystemUIInputModule inputSystem;
+
         // Variables
         private List<Resolution> addedResolutions;
-        
+
         private void Start()
         {
             //clears DropDown and adds all possible resolutions

@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Scenes.LoadingScreen
+namespace _Core._2_Managers.ProjectSceneManager.LoadingScreen
 {
     public class SceneManaging : MonoBehaviour
     {
@@ -22,7 +22,7 @@ namespace Scenes.LoadingScreen
         {
             loadingAnimator.SetTrigger("onSceneChange");
             yield return new WaitForSeconds(loadingAnimator.GetCurrentAnimatorStateInfo(0).length);
-            
+
             SceneManager.LoadScene(scene);
         }
     }

@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Player
+namespace _Core._5_Player
 {
     public class PlayerMovement : MonoBehaviour
     {
@@ -137,7 +137,7 @@ namespace Player
         #endregion
 
         #endregion
-        
+
         #region Unity Methods
 
         #region Start methods
@@ -186,11 +186,11 @@ namespace Player
                 if (Physics2D.OverlapBox(groundCheckPoint.position, groundCheckSize, 0, groundLayer))
                 {
                     //just landed
-                    if(lastGroundedTime < -0.1f && !isDashing)
+                    if (lastGroundedTime < -0.1f && !isDashing)
                     {
                         animator.ChangeAnimationState(PlayerAnimatorState.PlayerLand);
                     }
-                    
+
                     lastGroundedTime = coyoteTime;
                 }
 
@@ -214,10 +214,7 @@ namespace Player
             if (MoveInput.x != 0)
                 CheckDirectionToFace(MoveInput.x > 0);
 
-            if (noJumpInput)
-            {
-                if (CanJumpCut()) duringJumpCut = true;
-            }
+            if (noJumpInput && CanJumpCut()) duringJumpCut = true;
 
             #endregion
 
@@ -225,21 +222,12 @@ namespace Player
 
             if (!isDashing)
             {
-                if (IsNotJumping())
-                {
-                    isJumping = false;
-                }
+                if (IsNotJumping()) isJumping = false;
 
                 //time after having performed a wall jump surpasses chosen jump time
-                if (lastWallJumped < -wallJumpTime)
-                {
-                    isWallJumping = false;
-                }
+                if (lastWallJumped < -wallJumpTime) isWallJumping = false;
 
-                if (lastGroundedTime > 0 && !isJumping)
-                {
-                    duringJumpCut = false;
-                }
+                if (lastGroundedTime > 0 && !isJumping) duringJumpCut = false;
 
                 //Jump
                 if (CanJump() && LastPressedJumpTime > 0)
@@ -256,7 +244,7 @@ namespace Player
                     isJumping = false;
                     duringJumpCut = false;
 
-                    var awayFromWallDirection = (lastRightWallTouchTime > 0) ? -1 : 1;
+                    var awayFromWallDirection = lastRightWallTouchTime > 0 ? -1 : 1;
 
                     WallJump(awayFromWallDirection);
                 }
@@ -301,13 +289,10 @@ namespace Player
 
             isSliding = CanSlide();
 
-            if (isSliding)
-            {
-                duringJumpCut = false;
-            }
+            if (isSliding) duringJumpCut = false;
 
             #endregion
-            
+
             #region Gravity Handler
 
             if (!isDashing)
@@ -392,12 +377,12 @@ namespace Player
             float accelRate;
 
             if (lastGroundedTime > 0)
-                accelRate = (Mathf.Abs(desiredSpeed) > 0.01f) ? runAcceleration : runDeceleration;
+                accelRate = Mathf.Abs(desiredSpeed) > 0.01f ? runAcceleration : runDeceleration;
             else
-                accelRate = (Mathf.Abs(desiredSpeed) > 0.01f) ? runAcceleration : runDeceleration;
+                accelRate = Mathf.Abs(desiredSpeed) > 0.01f ? runAcceleration : runDeceleration;
 
             //calculating accelerating using formula: 1 / Time.fixedDeltaTime * acceleration / max Speed
-            accelRate = ((1 / Time.fixedDeltaTime) * accelRate) / maxSpeed;
+            accelRate = (1 / Time.fixedDeltaTime) * accelRate / maxSpeed;
 
             //difference current and desired speed
             var speedDiff = desiredSpeed - rb.velocity.x;
@@ -448,7 +433,7 @@ namespace Player
             lastRightWallTouchTime = 0;
             lastLeftWallTouchTime = 0;
             lastWallJumped = 0;
-            
+
             //animator
             animator.ChangeAnimationState(PlayerAnimatorState.PlayerJump);
 
@@ -542,10 +527,7 @@ namespace Player
 
         private void CheckDirectionToFace(bool isMovingRight)
         {
-            if (isMovingRight != IsFacingRight && !isDashing)
-            {
-                Turn();
-            }
+            if (isMovingRight != IsFacingRight && !isDashing) Turn();
         }
 
         private bool CanJump()
