@@ -5,7 +5,6 @@
 !.gitignore
 
 # Include code
-!Assets/_Core
-!Assets/_Framework
+!Assets/
 !Packages/
 !ProjectSettings/
