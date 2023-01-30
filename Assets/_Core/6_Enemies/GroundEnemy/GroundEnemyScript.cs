@@ -36,14 +36,16 @@ namespace _Core._6_Enemies.GroundEnemy
         #region Component vars
         [Header("Components")]
         private Rigidbody2D rb;
+        [SerializeField] private EnemyData enemyData;
         #endregion
 
-        #region idle vars+
+        #region idle vars
         [Header("Idle")]
         [SerializeField] private Transform[] idlePoints;
         private int index;
         #endregion
 
+        
         #endregion
 
         #region UnityMethods
@@ -52,14 +54,13 @@ namespace _Core._6_Enemies.GroundEnemy
         private void Start()
         {
             rb = GetComponent<Rigidbody2D>();
-        
             player = GameObject.FindGameObjectWithTag("Player");
         }
 
         // Update is called once per frame
         private void Update()
         {
-            if(rb.velocity.x != 0)
+            if (rb.velocity.x != 0)
             {
                 CheckDirectionToFace(rb.velocity.x > 0);
             }
@@ -69,11 +70,11 @@ namespace _Core._6_Enemies.GroundEnemy
             GetDistToPlayer();
             EnemyAI();
             Jump();
-        
+
         }
         private void FixedUpdate()
         {
-      
+
         }
 
         #endregion
@@ -94,26 +95,24 @@ namespace _Core._6_Enemies.GroundEnemy
 
         private void ChasePlayer()
         {
-            if(transform.position.x < player.transform.position.x)
+            if (transform.position.x < player.transform.position.x)
             {
                 rb.AddForce(accelRate * Vector2.right, ForceMode2D.Force);
-                rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
+                rb.velocity = Vector3.ClampMagnitude(rb.velocity, enemyData.enemySpeed);
             }
             else
             {
                 rb.AddForce(accelRate * Vector2.left, ForceMode2D.Force);
-                rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
+                rb.velocity = Vector3.ClampMagnitude(rb.velocity, enemyData.enemySpeed);
             }
 
         }
 
         private void Idle()
         {
-        
-
             if (Mathf.Abs(transform.position.x - idlePoints[index].position.x) < 0.02f)
             {
-            
+
                 index++;
                 if (index == idlePoints.Length)
                 {
@@ -123,8 +122,6 @@ namespace _Core._6_Enemies.GroundEnemy
             var difference = idlePoints[index].position.x - transform.position.x;
             var targetSpeed = Mathf.Sign(difference) * idleSpeed;
             rb.velocity = new Vector2(targetSpeed, rb.velocity.y);
-
-
         }
 
         #endregion
@@ -162,21 +159,13 @@ namespace _Core._6_Enemies.GroundEnemy
         }
         private void GroundCheck()
         {
-            if(Physics2D.OverlapCircle(groundCheckCollider.position, GroundCheckRadius, wallAndGroundCheckLayer)) 
-            { 
-                isGrounded = true;
-            }
-            else 
-            { 
-                isGrounded = false; 
-            }
+            isGrounded = Physics2D.OverlapCircle(groundCheckCollider.position, GroundCheckRadius, wallAndGroundCheckLayer);
         }
-
         #endregion
 
         #region misc
 
-        private void Flip()
+         private void Flip()
         {
             var scale = transform.localScale;
             scale.x *= -1;
@@ -187,7 +176,7 @@ namespace _Core._6_Enemies.GroundEnemy
 
         private void Jump()
         {
-            if(isWalled)
+            if (isWalled)
             {
                 rb.velocity = Vector2.up * jumpForce;
             }
@@ -203,6 +192,7 @@ namespace _Core._6_Enemies.GroundEnemy
             }
         }
 
+        
 
         #endregion
     }

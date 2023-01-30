@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Player.ScriptableObjects;
 using SOEventSystem.Events;
@@ -19,9 +20,10 @@ namespace Player
 
         [Header("Data")] [SerializeField] private PlayerControlData data;
         private PlayerMovement movementScript;
+        private PlayerCombat combatScript;
 
         #endregion
-    
+
         #region Input Vars
 
         private InputAction horizontalInput;
@@ -48,6 +50,7 @@ namespace Player
         private void Awake()
         {
             movementScript = GetComponent<PlayerMovement>();
+            combatScript = GetComponent<PlayerCombat>();
         }
 
         private void OnEnable()
@@ -86,13 +89,18 @@ namespace Player
             movementScript.LastPressedDashTime = inputBufferTime;
         }
 
+        private void OnAttackInput(InputAction.CallbackContext context)
+        {
+            combatScript.LastPressedAttackTime = inputBufferTime;
+        }
+
         // private void OnOpenPause(InputAction.CallbackContext context)
         // {
         //     onPauseMenuOpen.Invoke();
         // }
 
         #endregion
-        
+
         #region Updating Controls
 
         public void EnableAllControls()
@@ -119,6 +127,7 @@ namespace Player
             //Attack Controlls
             attackInput = controls.Movement.Attack;
             attackInput.Enable();
+            attackInput.started += OnAttackInput;
 
             //pause Controls
             pauseInput = controls.UI.Pause;
@@ -128,6 +137,8 @@ namespace Player
             
 
         }
+
+       
 
         public void DisableAllControls()
         {

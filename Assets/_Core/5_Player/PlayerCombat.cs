@@ -1,3 +1,4 @@
+using SOEventSystem.Events;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,23 +15,28 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private Transform attackPoint;
     [SerializeField] private float attackRange;
     [SerializeField] private LayerMask enemyLayer;
+    public float LastPressedAttackTime { get; set; }
 
     #endregion
 
-    #region Input
+    #region events
 
-    [Header("Input")]
-    [SerializeField] private InputActionReference attackInput;
+    [Header("Events")]
+    [SerializeField] private FloatEvent onDamageGiven;
 
     #endregion
+
+
 
     #endregion
 
     #region UnityMethods
 
-    public void Update()
+    private void Update()
     {
-       if (attackInput != null) 
+        LastPressedAttackTime -= Time.deltaTime;
+
+        if (LastPressedAttackTime > 0) //TODO Movementbedingungen hinzufügen
         {
             Attack();
         }
@@ -44,7 +50,7 @@ public class PlayerCombat : MonoBehaviour
 
         foreach(Collider2D enemy in hitEnemies) 
         {
-            Debug.Log("hit" + enemy.name);
+            onDamageGiven.Invoke(1);
         }
     }
 
