@@ -29,6 +29,7 @@ namespace Player
         private InputAction jumpInput;
         private InputAction dashInput;
         private InputAction pauseInput;
+        private InputAction attackInput;
 
         private float currentHorizontal;
         private float currentVertical;
@@ -99,30 +100,32 @@ namespace Player
             var controls = data.Controls;
             //Horizontal Controls
             horizontalInput = controls.Movement.Horizontal;
-            horizontalInput = controls.Movement.Horizontal;
             horizontalInput.Enable();
 
             //Vertical Controls
             verticalInput = controls.Movement.Vertical;
-            verticalInput = controls.Movement.Vertical;
             verticalInput.Enable();
 
             //Jump Controls
-            jumpInput = controls.Movement.Jump;
             jumpInput = controls.Movement.Jump;
             jumpInput.Enable();
             jumpInput.started += OnJumpInput;
 
             //Dash Controls
             dashInput = controls.Movement.Dash;
-            dashInput = controls.Movement.Dash;
             dashInput.Enable();
             dashInput.started += OnDashInput;
+
+            //Attack Controlls
+            attackInput = controls.Movement.Attack;
+            attackInput.Enable();
 
             //pause Controls
             pauseInput = controls.UI.Pause;
             pauseInput.Enable();
             pauseInput.started += ctx => onPauseMenuOpen.Invoke();
+
+            
 
         }
 
@@ -135,6 +138,7 @@ namespace Player
             dashInput.started -= OnDashInput;
             dashInput.Disable();
             pauseInput.Disable();
+            attackInput.Disable();
             pauseInput.started -= ctx => onPauseMenuOpen.Invoke();
         }
 

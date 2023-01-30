@@ -29,7 +29,6 @@ namespace _Core._6_Enemies.GroundEnemy
         private const float WallCheckRadius = 0.2f;
         private const float GroundCheckRadius = 0.2f;
         // TODO value assigned but never used
-        private bool isJumping;
         private bool isFacingRight;
         private GameObject player;
         #endregion
@@ -166,7 +165,6 @@ namespace _Core._6_Enemies.GroundEnemy
             if(Physics2D.OverlapCircle(groundCheckCollider.position, GroundCheckRadius, wallAndGroundCheckLayer)) 
             { 
                 isGrounded = true;
-                isJumping = false;
             }
             else 
             { 
@@ -192,7 +190,6 @@ namespace _Core._6_Enemies.GroundEnemy
             if(isWalled)
             {
                 rb.velocity = Vector2.up * jumpForce;
-                isJumping = true;
             }
 
             if (rb.velocity.y < 0 && !isGrounded)
