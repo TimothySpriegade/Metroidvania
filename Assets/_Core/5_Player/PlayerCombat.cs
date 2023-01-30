@@ -1,9 +1,11 @@
+using Player;
 using SOEventSystem.Events;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+
 
 public class PlayerCombat : MonoBehaviour
 {
@@ -26,16 +28,24 @@ public class PlayerCombat : MonoBehaviour
 
     #endregion
 
-
+    #region components
+    [Header("components")]
+    private PlayerAnimator animator;
+    #endregion
 
     #endregion
 
     #region UnityMethods
 
+    private void Start()
+    {
+        animator= GetComponent<PlayerAnimator>();
+    }
     private void Update()
     {
         LastPressedAttackTime -= Time.deltaTime;
-
+        Debug.Log(Time.deltaTime);
+        
         if (LastPressedAttackTime > 0) //TODO Movementbedingungen hinzufügen
         {
             Attack();
@@ -46,6 +56,8 @@ public class PlayerCombat : MonoBehaviour
 
     void Attack()
     {
+        LastPressedAttackTime = 0;
+        animator.ChangeAnimationState(PlayerAnimatorState.PlayerAttack);
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
 
         foreach(Collider2D enemy in hitEnemies) 

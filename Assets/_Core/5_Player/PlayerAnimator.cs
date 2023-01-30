@@ -64,6 +64,10 @@ namespace Player
                     //Land FX
                     animationBlock = 0.1f;
                     break;
+                case PlayerAnimatorState.PlayerAttack:
+                    //Attack FX
+                    animationBlock = animator.GetCurrentAnimatorStateInfo(0).length;
+                    break;
                 case PlayerAnimatorState.PlayerJump:
                     //Jump FX
                     break;
@@ -106,10 +110,10 @@ namespace Player
 
             spriteRenderer.transform.rotation = Quaternion.Euler(0, 0, 0);
         }
-        
+
         #endregion
 
-        
+
         #region Event Handling
 
         public void OnEnvironmentalTrapHit()
