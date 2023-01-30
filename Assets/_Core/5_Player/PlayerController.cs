@@ -101,22 +101,18 @@ namespace _Core._5_Player
             var controls = data.Controls;
             //Horizontal Controls
             horizontalInput = controls.Movement.Horizontal;
-            horizontalInput = controls.Movement.Horizontal;
             horizontalInput.Enable();
 
             //Vertical Controls
-            verticalInput = controls.Movement.Vertical;
             verticalInput = controls.Movement.Vertical;
             verticalInput.Enable();
 
             //Jump Controls
             jumpInput = controls.Movement.Jump;
-            jumpInput = controls.Movement.Jump;
             jumpInput.Enable();
             jumpInput.started += OnJumpInput;
 
             //Dash Controls
-            dashInput = controls.Movement.Dash;
             dashInput = controls.Movement.Dash;
             dashInput.Enable();
             dashInput.started += OnDashInput;
