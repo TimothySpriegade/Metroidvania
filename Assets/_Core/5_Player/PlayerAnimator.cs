@@ -61,7 +61,7 @@ namespace _Core._5_Player
             {
                 case PlayerAnimatorState.PlayerLand:
                     //Land FX
-                    animationBlock = 0.1f;
+                    animationBlock = animator.GetCurrentAnimatorStateInfo(0).length;
                     break;
                 case PlayerAnimatorState.PlayerJump:
                     //Jump FX
