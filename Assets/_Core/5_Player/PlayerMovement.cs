@@ -194,16 +194,20 @@ namespace _Core._5_Player
                     lastGroundedTime = coyoteTime;
                 }
 
-                //Right-Wall check
-                if (Physics2D.OverlapBox(frontWallCheckPoint.position, wallCheckSize, 0, groundLayer) && IsFacingRight)
+                var wallCollider = Physics2D.OverlapBox(frontWallCheckPoint.position, wallCheckSize, 0, groundLayer);
+                // if there is a collision and the wall has the tag "AllowWallJump"
+                if (wallCollider && wallCollider.CompareTag($"AllowWallJump"))
                 {
-                    lastRightWallTouchTime = coyoteTime;
-                }
-
-                //Left-Wall check
-                if (Physics2D.OverlapBox(frontWallCheckPoint.position, wallCheckSize, 0, groundLayer) && !IsFacingRight)
-                {
-                    lastLeftWallTouchTime = coyoteTime;
+                    //Right wall check
+                    if (IsFacingRight)
+                    {
+                        lastRightWallTouchTime = coyoteTime;
+                    }
+                    //Left wall check
+                    else
+                    {
+                        lastLeftWallTouchTime = coyoteTime;
+                    }
                 }
             }
 

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - LevelBorder
   - EnvironmentalTrapCheckpoint
+  - AllowWallJump
   layers:
   - Default
   - TransparentFX
