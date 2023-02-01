@@ -10,5 +10,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 65e7865379b64faa9b2022092baebcf3, type: 3}
-  m_Name: LabyrinthA 1
+  m_Name: LabyrinthC
   m_EditorClassIdentifier: 
