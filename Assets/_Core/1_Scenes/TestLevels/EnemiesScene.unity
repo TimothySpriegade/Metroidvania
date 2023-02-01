@@ -130,6 +130,50 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1260303116, guid: 74e216763e2731944bd656b8251b82bf, type: 3}
+      propertyPath: enemy
+      value: 
+      objectReference: {fileID: 296843741}
+    - target: {fileID: 1260303116, guid: 74e216763e2731944bd656b8251b82bf, type: 3}
+      propertyPath: knockbackStrength
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1260303116, guid: 74e216763e2731944bd656b8251b82bf, type: 3}
+      propertyPath: knockbackStrengthX
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1260303116, guid: 74e216763e2731944bd656b8251b82bf, type: 3}
+      propertyPath: knockbackStrengthY
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1321748379, guid: 74e216763e2731944bd656b8251b82bf, type: 3}
+      propertyPath: unityEventResponse.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1321748379, guid: 74e216763e2731944bd656b8251b82bf, type: 3}
+      propertyPath: unityEventResponse.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1321748379, guid: 74e216763e2731944bd656b8251b82bf, type: 3}
+      propertyPath: unityEventResponse.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 296843737}
+    - target: {fileID: 1321748379, guid: 74e216763e2731944bd656b8251b82bf, type: 3}
+      propertyPath: unityEventResponse.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1321748379, guid: 74e216763e2731944bd656b8251b82bf, type: 3}
+      propertyPath: unityEventResponse.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: TakeKnockback
+      objectReference: {fileID: 0}
+    - target: {fileID: 1321748379, guid: 74e216763e2731944bd656b8251b82bf, type: 3}
+      propertyPath: unityEventResponse.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: EnemyCombat, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1321748379, guid: 74e216763e2731944bd656b8251b82bf, type: 3}
+      propertyPath: unityEventResponse.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5557741930351372052, guid: 74e216763e2731944bd656b8251b82bf, type: 3}
       propertyPath: m_Name
       value: GroundEnemy
@@ -180,6 +224,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 74e216763e2731944bd656b8251b82bf, type: 3}
+--- !u!114 &296843737 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1260303116, guid: 74e216763e2731944bd656b8251b82bf, type: 3}
+  m_PrefabInstance: {fileID: 50978117}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0af644476c6f7b94881930424f1e49b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &296843741 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3551867281052211297, guid: 74e216763e2731944bd656b8251b82bf, type: 3}
+  m_PrefabInstance: {fileID: 50978117}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &301236672
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -189,7 +249,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1451295692, guid: 9da77d02a34e91f40a4e06f8c3f5a6d4, type: 3}
       propertyPath: attackRange
-      value: 0.76
+      value: 0.91
       objectReference: {fileID: 0}
     - target: {fileID: 1451295692, guid: 9da77d02a34e91f40a4e06f8c3f5a6d4, type: 3}
       propertyPath: onDamageGiven
@@ -298,7 +358,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5.43
+  orthographic size: 12.13
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -322,7 +382,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 790996976}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.07, y: 1.82, z: -10}
+  m_LocalPosition: {x: -1.82, y: 6.82, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -545,7 +605,7 @@ Transform:
   m_GameObject: {fileID: 1869634514}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.0052, y: -1.5066, z: 0}
-  m_LocalScale: {x: 19.944187, y: 0.9572644, z: 1}
+  m_LocalScale: {x: 56.755173, y: 0.9572644, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

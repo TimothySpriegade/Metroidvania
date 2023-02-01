@@ -44,7 +44,6 @@ public class PlayerCombat : MonoBehaviour
     private void Update()
     {
         LastPressedAttackTime -= Time.deltaTime;
-        Debug.Log(Time.deltaTime);
         
         if (LastPressedAttackTime > 0) //TODO Movementbedingungen hinzufügen
         {
