@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c21730df12da344e83fa7f65ab6efcc, type: 3}
   m_Name: LevelTransitionData
   m_EditorClassIdentifier: 
-  lastLevel: {fileID: 11400000, guid: 7c9dfb1759d64df409a8cb2496e2ff52, type: 2}
-  playerWasFacingRight: 1
+  lastLevel: {fileID: 11400000, guid: f70ba5fb5a111ee4991beb6b3a102078, type: 2}
+  playerWasFacingRight: 0
