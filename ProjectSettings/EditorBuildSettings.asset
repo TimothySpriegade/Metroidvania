@@ -6,13 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/_Core/1_Scenes/Menus/MainMenu.unity
-    guid: 4d0c1d942f62ff84a825ad3631672cbe
+    path: Assets/_Core/1_Scenes/Levels/Level01.unity
+    guid: b455279d2c5610546ad36e7c1b780334
   - enabled: 1
-    path: Assets/_Core/1_Scenes/Levels/LabyrinthBaseLevel.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
-    path: Assets/_Core/1_Scenes/Levels/TestLevel07.unity
-    guid: 8914cf2ac9a0db84a9dc1106bb93ddc2
+    path: Assets/_Core/1_Scenes/Levels/Special Levels/Tutorial.unity
+    guid: 3cf54d1905575f74d87b0f4cf7faa587
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 13c9fdc758ce2f143bfb2d4a8d8d3581, type: 2}
