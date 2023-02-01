@@ -13926,6 +13926,14 @@ PrefabInstance:
       propertyPath: FromLevel
       value: 
       objectReference: {fileID: 11400000, guid: 5b8ec49393dd2814485c42004861b78d, type: 2}
+    - target: {fileID: 6951648964692986197, guid: 77872237b43c5fb4abafeb9b745f3108, type: 3}
+      propertyPath: direction
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6951648964692986197, guid: 77872237b43c5fb4abafeb9b745f3108, type: 3}
+      propertyPath: fromLevel
+      value: 
+      objectReference: {fileID: 11400000, guid: 5b8ec49393dd2814485c42004861b78d, type: 2}
     - target: {fileID: 6951648964692986198, guid: 77872237b43c5fb4abafeb9b745f3108, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -14222,6 +14230,14 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6951648964692986197, guid: 77872237b43c5fb4abafeb9b745f3108, type: 3}
       propertyPath: FromLevel
+      value: 
+      objectReference: {fileID: 11400000, guid: c8b32bd7280c77843840668e4997054b, type: 2}
+    - target: {fileID: 6951648964692986197, guid: 77872237b43c5fb4abafeb9b745f3108, type: 3}
+      propertyPath: direction
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6951648964692986197, guid: 77872237b43c5fb4abafeb9b745f3108, type: 3}
+      propertyPath: fromLevel
       value: 
       objectReference: {fileID: 11400000, guid: c8b32bd7280c77843840668e4997054b, type: 2}
     - target: {fileID: 6951648964692986198, guid: 77872237b43c5fb4abafeb9b745f3108, type: 3}
