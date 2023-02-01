@@ -53,12 +53,9 @@ namespace _Core._2_Managers.GameManager.PlayerSpawner
             {
                 var player = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
 
-                if (data.playerWasFacingRight)
+                if (ShouldTurnPlayer())
                 {
-                    var scale = player.transform.localScale;
-                    scale.x *= -1;
-                    player.transform.localScale = scale;
-                    player.GetComponent<PlayerMovement>().IsFacingRight = true;
+                    TurnPlayer(player);
                 }
 
                 player.GetComponent<PlayerAnimator>()
@@ -68,6 +65,21 @@ namespace _Core._2_Managers.GameManager.PlayerSpawner
             {
                 Debug.LogWarning("Player prefab is missing from PlayerSpawner");
             }
+        }
+
+        private bool ShouldTurnPlayer()
+        {
+            //Dont turn if the player goes left and only go right if the player was facing right or enters a RightAnimation
+            return direction != TransitionDirection.Left && data.playerWasFacingRight 
+                   || direction == TransitionDirection.Right;
+        }
+
+        private static void TurnPlayer(GameObject player)
+        {
+            var scale = player.transform.localScale;
+            scale.x *= -1;
+            player.transform.localScale = scale;
+            player.GetComponent<PlayerMovement>().IsFacingRight = true;
         }
 
         private Vector2 ExtractChildInformation(PlayerSpawn child)

@@ -28,6 +28,7 @@ namespace _Core._5_Player
 
         #endregion
 
+       
         private void Awake()
         {
             spriteRenderer = GetComponentInChildren<SpriteRenderer>();

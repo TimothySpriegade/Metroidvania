@@ -7,7 +7,7 @@ namespace _Core._2_Managers.GameManager.PlayerSpawner
     {
         //If this LevelData matches lastLevel then this Spawn-point is chosen
         public LevelData fromLevel;
-        
+
         //spawn Animation
         public TransitionDirection direction;
     }
