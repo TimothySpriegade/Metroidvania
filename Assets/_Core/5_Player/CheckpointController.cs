@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 namespace _Core._5_Player
@@ -10,6 +11,7 @@ namespace _Core._5_Player
         private void Start()
         {
             rb = GetComponent<Rigidbody2D>();
+            DOVirtual.DelayedCall(0.2f, () => checkpointPosition = transform.position, false);
         }
 
         private void OnTriggerEnter2D(Collider2D col)
