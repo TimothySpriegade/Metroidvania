@@ -54,6 +54,7 @@ namespace _Core._5_Player
         {
             //Stop if currently played Animation matches attempted animation
             if (currentState == newState || animationBlock >= 0 || disabledAnimation) return;
+            // if(animationBlock >= 0) DOVirtual.DelayedCall(animationBlock, ChangeAnimationState(newState)); TODO uncomment
 
             //Play animation
             animator.Play(newState.ToString());
