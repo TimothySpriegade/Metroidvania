@@ -70,7 +70,7 @@ namespace _Core._2_Managers.GameManager.PlayerSpawner
         private bool ShouldTurnPlayer()
         {
             //Dont turn if the player goes left and only go right if the player was facing right or enters a RightAnimation
-            return direction != TransitionDirection.Left && data.playerWasFacingRight 
+            return direction != TransitionDirection.Left && data.playerWasFacingRight
                    || direction == TransitionDirection.Right;
         }
 
