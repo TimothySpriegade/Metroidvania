@@ -9,10 +9,46 @@ EditorBuildSettings:
     path: Assets/_Core/1_Scenes/Menus/MainMenu.unity
     guid: 4d0c1d942f62ff84a825ad3631672cbe
   - enabled: 1
-    path: Assets/_Core/1_Scenes/Levels/TestLevel01.unity
+    path: Assets/_Core/1_Scenes/Levels/Level01.unity
+    guid: b455279d2c5610546ad36e7c1b780334
+  - enabled: 1
+    path: Assets/_Core/1_Scenes/Levels/Level02.unity
+    guid: 51a39a4c6d441974fa5921b63597277d
+  - enabled: 1
+    path: Assets/_Core/1_Scenes/Levels/Level03.unity
+    guid: 1537b6792786a144295a76b244035ad2
+  - enabled: 1
+    path: Assets/_Core/1_Scenes/Levels/Level04.unity
+    guid: b0e0c5748d5fe4b478675d75ddd0502c
+  - enabled: 1
+    path: Assets/_Core/1_Scenes/Levels/Level05.unity
+    guid: bb7cf779ec3fcbc438dae00d165ee86f
+  - enabled: 1
+    path: Assets/_Core/1_Scenes/Levels/Level06.unity
+    guid: f207d69a3198ed149a5c5d545e034733
+  - enabled: 1
+    path: Assets/_Core/1_Scenes/Levels/Level07.unity
+    guid: 42def00c207945545873b66f1c80d829
+  - enabled: 1
+    path: Assets/_Core/1_Scenes/Levels/Labyrinth/LabyrinthStartLevel.unity
+    guid: 283e985919777b644b2b3a740da01336
+  - enabled: 1
+    path: Assets/_Core/1_Scenes/Levels/Labyrinth/LabyrinthLevelA.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/_Core/1_Scenes/Levels/TestLevel07.unity
-    guid: 8914cf2ac9a0db84a9dc1106bb93ddc2
+    path: Assets/_Core/1_Scenes/Levels/Labyrinth/LabyrinthLevelB.unity
+    guid: 6fd0af6bc26047c44b0029550a0e1c65
+  - enabled: 1
+    path: Assets/_Core/1_Scenes/Levels/Labyrinth/LabyrinthEndLevel.unity
+    guid: 6a837469ef7600449aeefa886475c20c
+  - enabled: 1
+    path: Assets/_Core/1_Scenes/Levels/Special Levels/BossLevel.unity
+    guid: 5dbe62738f9b9f044aa9c3a2c078428f
+  - enabled: 1
+    path: Assets/_Core/1_Scenes/Levels/Special Levels/AbilityLevel.unity
+    guid: 41fbf3418e33dad4ba2ae7a35638f21b
+  - enabled: 1
+    path: Assets/_Core/1_Scenes/Levels/Special Levels/Tutorial.unity
+    guid: 3cf54d1905575f74d87b0f4cf7faa587
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 13c9fdc758ce2f143bfb2d4a8d8d3581, type: 2}
