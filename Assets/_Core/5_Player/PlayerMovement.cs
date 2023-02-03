@@ -68,7 +68,9 @@ namespace _Core._5_Player
 
         #region Dash Vars
 
-        [Header("Dash")] [SerializeField] private float dashForceMultiplier;
+        [Header("Dash")] 
+        [SerializeField] private bool forceHorizontalDirection;
+        [SerializeField] private float dashForceMultiplier;
         [SerializeField] private float dashLength;
         [SerializeField] private float dashCooldown;
 
@@ -279,9 +281,7 @@ namespace _Core._5_Player
                 dashDirection = NormalizeMoveInput(MoveInput);
 
                 //When standing still or dashing down => Dashing forward
-                if (dashDirection == Vector2.down && lastGroundedTime > 0)
-                    dashDirection = IsFacingRight ? Vector2.right : Vector2.left;
-                else if (dashDirection == Vector2.zero)
+                if (dashDirection == Vector2.down && lastGroundedTime > 0 || dashDirection == Vector2.zero)
                     dashDirection = IsFacingRight ? Vector2.right : Vector2.left;
 
                 StartCoroutine(Dash());
@@ -482,8 +482,8 @@ namespace _Core._5_Player
             if (Mathf.Abs(moveInput.x) < controllerInputThreshold) moveInput.x = 0;
             if (Mathf.Abs(moveInput.y) < controllerInputThreshold) moveInput.y = 0;
 
-            moveInput.x = moveInput.x != 0 ? Mathf.Sign(moveInput.x) : 0;
-            moveInput.y = moveInput.y != 0 ? Mathf.Sign(moveInput.y) : 0;
+            
+            moveInput.y = moveInput.y != 0 && !forceHorizontalDirection ? Mathf.Sign(moveInput.y) : 0;
 
             return moveInput;
         }
