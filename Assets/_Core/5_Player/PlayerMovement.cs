@@ -482,7 +482,7 @@ namespace _Core._5_Player
             if (Mathf.Abs(moveInput.x) < controllerInputThreshold) moveInput.x = 0;
             if (Mathf.Abs(moveInput.y) < controllerInputThreshold) moveInput.y = 0;
 
-            
+            moveInput.x = moveInput.x != 0 ? Mathf.Sign(moveInput.x) : 0;
             moveInput.y = moveInput.y != 0 && !forceHorizontalDirection ? Mathf.Sign(moveInput.y) : 0;
 
             return moveInput;
