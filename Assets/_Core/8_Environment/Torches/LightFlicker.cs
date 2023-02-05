@@ -12,7 +12,7 @@ namespace _Core._8_Environment.Torch
         private float intensity;
         private float offset;
 
-        private void Start()
+        private void Awake()
         {
             //Get a reference to the Light component on the child game object
             localLight = GetComponentInChildren<Light2D>();
