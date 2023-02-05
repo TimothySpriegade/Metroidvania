@@ -6,7 +6,6 @@ namespace _Core._2_Managers.GameManager.PlayerSpawner.ScriptableObjects
     public class LevelTransitionData : ScriptableObject
     {
         public LevelData lastLevel;
-        public TransitionDirection direction;
         public bool playerWasFacingRight;
     }
 }

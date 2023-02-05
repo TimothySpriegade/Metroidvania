@@ -10,7 +10,6 @@ namespace _Core._2_Managers.GameManager.PlayerSpawner
     {
         //Transition data manipulation
         [SerializeField] private LevelTransitionData data;
-        [SerializeField] private TransitionDirection direction;
 
         //Scene change
         [SerializeField] private StringEvent onSceneChange;
@@ -20,7 +19,6 @@ namespace _Core._2_Managers.GameManager.PlayerSpawner
         {
             if (col.gameObject.CompareTag("Player"))
             {
-                data.direction = direction;
                 data.playerWasFacingRight = col.GetComponent<PlayerMovement>().IsFacingRight;
                 onSceneChange.Invoke(nextLevel);
                 Destroy(col.gameObject);

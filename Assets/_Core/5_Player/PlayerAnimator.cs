@@ -28,6 +28,7 @@ namespace _Core._5_Player
 
         #endregion
 
+
         private void Awake()
         {
             spriteRenderer = GetComponentInChildren<SpriteRenderer>();
@@ -61,7 +62,7 @@ namespace _Core._5_Player
             {
                 case PlayerAnimatorState.PlayerLand:
                     //Land FX
-                    animationBlock = 0.1f;
+                    animationBlock = animator.GetCurrentAnimatorStateInfo(0).length;
                     break;
                 case PlayerAnimatorState.PlayerJump:
                     //Jump FX
@@ -120,14 +121,20 @@ namespace _Core._5_Player
 
         public void EnteringSceneAnimation(TransitionDirection transitionDirection, bool rightDrift)
         {
-            if (transitionDirection == TransitionDirection.Up)
+            switch (transitionDirection)
             {
-                StartCoroutine(UpTransitionAnimation(rightDrift));
-            }
-            else
-            {
-                var direction = transitionDirection == TransitionDirection.Right ? 1 : -1;
-                StartCoroutine(SideTransitionAnimation(direction));
+                case TransitionDirection.Up:
+                    StartCoroutine(UpTransitionAnimation(rightDrift));
+                    return;
+                case TransitionDirection.Down:
+                    StartCoroutine(DownTransitionAnimation());
+                    return;
+                default:
+                {
+                    var direction = transitionDirection == TransitionDirection.Right ? 1 : -1;
+                    StartCoroutine(SideTransitionAnimation(direction));
+                    break;
+                }
             }
         }
 
@@ -169,6 +176,23 @@ namespace _Core._5_Player
 
             //Activates Controls
             movement.IgnoreRun = false;
+            controller.EnableAllControls();
+        }
+
+        private IEnumerator DownTransitionAnimation()
+        {
+            //Disables Controls
+            controller.DisableAllControls();
+
+            var startTime = Time.time;
+
+            //Sets player velocity sidewards for .6 seconds
+            while (Time.time - startTime <= 0.6f)
+            {
+                yield return null;
+            }
+
+            //Activates Controls
             controller.EnableAllControls();
         }
 

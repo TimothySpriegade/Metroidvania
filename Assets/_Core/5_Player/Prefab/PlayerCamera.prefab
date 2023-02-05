@@ -163,7 +163,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
-    FieldOfView: 69.514694
+    FieldOfView: 71.89531
     OrthographicSize: 7.35
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -193,7 +193,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BoundingShape2D: {fileID: 0}
-  m_Damping: 3
+  m_Damping: 1
   m_MaxWindowSize: 0
 --- !u!114 &2125240342475363997
 MonoBehaviour:

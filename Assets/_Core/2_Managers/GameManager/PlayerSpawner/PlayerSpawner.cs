@@ -13,6 +13,7 @@ namespace _Core._2_Managers.GameManager.PlayerSpawner
         [SerializeField] private LevelTransitionData data;
         [SerializeField] private LevelData currentLevel;
         private Vector2 spawnPosition;
+        private TransitionDirection direction;
 
         private void OnEnable()
         {
@@ -32,16 +33,17 @@ namespace _Core._2_Managers.GameManager.PlayerSpawner
             var allChildren = new List<PlayerSpawn>(GetComponentsInChildren<PlayerSpawn>());
 
             //Search for the child who's FromLevel matches the last Level
-            foreach (var child in allChildren.Where(child => child.FromLevel == data.lastLevel))
+            foreach (var child in allChildren.Where(child => child.fromLevel == data.lastLevel))
             {
-                return child.transform.position;
+                return ExtractChildInformation(child);
             }
 
             //Returns first playerSpawn found
-            if (allChildren.Count > 0) return allChildren.First().transform.position;
+            if (allChildren.Count > 0) return ExtractChildInformation(allChildren.First());
 
 
             //Returns the middle if there is no playerSpawn
+            direction = TransitionDirection.Down;
             return Vector2.zero;
         }
 
@@ -51,24 +53,39 @@ namespace _Core._2_Managers.GameManager.PlayerSpawner
             {
                 var player = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
 
-                if (data.playerWasFacingRight)
+                if (ShouldTurnPlayer())
                 {
-                    var scale = player.transform.localScale;
-                    scale.x *= -1;
-                    player.transform.localScale = scale;
-                    player.GetComponent<PlayerMovement>().IsFacingRight = true;
+                    TurnPlayer(player);
                 }
 
-                if (data.direction != TransitionDirection.Down)
-                {
-                    player.GetComponent<PlayerAnimator>()
-                        .EnteringSceneAnimation(data.direction, data.playerWasFacingRight);
-                }
+                player.GetComponent<PlayerAnimator>()
+                    .EnteringSceneAnimation(direction, data.playerWasFacingRight);
             }
             catch (Exception)
             {
-                // ignored
+                Debug.LogWarning("Player prefab is missing from PlayerSpawner");
             }
+        }
+
+        private bool ShouldTurnPlayer()
+        {
+            //Dont turn if the player goes left and only go right if the player was facing right or enters a RightAnimation
+            return direction != TransitionDirection.Left && data.playerWasFacingRight
+                   || direction == TransitionDirection.Right;
+        }
+
+        private static void TurnPlayer(GameObject player)
+        {
+            var scale = player.transform.localScale;
+            scale.x *= -1;
+            player.transform.localScale = scale;
+            player.GetComponent<PlayerMovement>().IsFacingRight = true;
+        }
+
+        private Vector2 ExtractChildInformation(PlayerSpawn child)
+        {
+            direction = child.direction;
+            return child.transform.position;
         }
     }
 }
