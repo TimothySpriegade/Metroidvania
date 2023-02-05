@@ -265,6 +265,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: DoorLight
       objectReference: {fileID: 0}
+    - target: {fileID: 4070768472221509402, guid: f4e26dccc4948fd44844109fb8fcb986, type: 3}
+      propertyPath: m_NormalMapQuality
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4070768472221509402, guid: f4e26dccc4948fd44844109fb8fcb986, type: 3}
+      propertyPath: m_NormalMapDistance
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4070768472221509403, guid: f4e26dccc4948fd44844109fb8fcb986, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -45825,6 +45833,14 @@ PrefabInstance:
     - target: {fileID: 4070768472221509401, guid: f4e26dccc4948fd44844109fb8fcb986, type: 3}
       propertyPath: m_Name
       value: DoorLight
+      objectReference: {fileID: 0}
+    - target: {fileID: 4070768472221509402, guid: f4e26dccc4948fd44844109fb8fcb986, type: 3}
+      propertyPath: m_NormalMapQuality
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4070768472221509402, guid: f4e26dccc4948fd44844109fb8fcb986, type: 3}
+      propertyPath: m_NormalMapDistance
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4070768472221509403, guid: f4e26dccc4948fd44844109fb8fcb986, type: 3}
       propertyPath: m_RootOrder

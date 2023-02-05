@@ -155,7 +155,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -176,7 +176,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -184,6 +184,27 @@ TextureImporter:
       bones: []
       spriteID: ad2662d70b7ad9f4fa603a67bae3dcd2
       internalID: 2144951738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Background_Sprites_4
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6dab820f202ccb044bd88a602289d072
+      internalID: 86570138
       vertices: []
       indices: 
       edges: []
@@ -202,6 +223,7 @@ TextureImporter:
       Background_Sprites_3: 2144951738
       Background_Sprites_0: 692865408
       Background_Sprites_2: -125977645
+      Background_Sprites_4: 86570138
       Background_Sprites_1: 1534384209
   spritePackingTag: 
   pSDRemoveMatte: 0
