@@ -1,3 +1,4 @@
+using _Core._6_Enemies.ScriptableObjects;
 using UnityEngine;
 
 namespace _Core._6_Enemies.GroundEnemy
@@ -8,7 +9,7 @@ namespace _Core._6_Enemies.GroundEnemy
 
         #region Movement vars
 
-        [Header("Movement")]
+        [Header("Movement")] 
         [SerializeField] private float aggroRange;
         [SerializeField] private float accelRate;
         [SerializeField] private float idleSpeed;
@@ -17,35 +18,42 @@ namespace _Core._6_Enemies.GroundEnemy
         [SerializeField] private float normalGravity;
         [SerializeField] private float maxSpeed;
         private float distanceToPlayer;
+
         #endregion
 
         #region Check vars
-        [Header("Checks")]
+
+        [Header("Checks")] 
         [SerializeField] private bool isWalled;
         [SerializeField] private bool isGrounded;
         [SerializeField] private Transform wallCheckCollider;
         [SerializeField] private Transform groundCheckCollider;
         [SerializeField] private LayerMask wallAndGroundCheckLayer;
         private const float WallCheckRadius = 0.2f;
+
         private const float GroundCheckRadius = 0.2f;
+
         // TODO value assigned but never used
         private bool isFacingRight;
         private GameObject player;
+
         #endregion
 
         #region Component vars
-        [Header("Components")]
-        private Rigidbody2D rb;
+
+        [Header("Components")] private Rigidbody2D rb;
         [SerializeField] private EnemyData enemyData;
+
         #endregion
 
         #region idle vars
-        [Header("Idle")]
+
+        [Header("Idle")] 
         [SerializeField] private Transform[] idlePoints;
         private int index;
+
         #endregion
 
-        
         #endregion
 
         #region UnityMethods
@@ -70,11 +78,6 @@ namespace _Core._6_Enemies.GroundEnemy
             GetDistToPlayer();
             EnemyAI();
             Jump();
-
-        }
-        private void FixedUpdate()
-        {
-
         }
 
         #endregion
@@ -105,20 +108,19 @@ namespace _Core._6_Enemies.GroundEnemy
                 rb.AddForce(accelRate * Vector2.left, ForceMode2D.Force);
                 rb.velocity = Vector3.ClampMagnitude(rb.velocity, enemyData.enemySpeed);
             }
-
         }
 
         private void Idle()
         {
             if (Mathf.Abs(transform.position.x - idlePoints[index].position.x) < 0.02f)
             {
-
                 index++;
                 if (index == idlePoints.Length)
                 {
                     index = 0;
                 }
             }
+
             var difference = idlePoints[index].position.x - transform.position.x;
             var targetSpeed = Mathf.Sign(difference) * idleSpeed;
             rb.velocity = new Vector2(targetSpeed, rb.velocity.y);
@@ -127,9 +129,11 @@ namespace _Core._6_Enemies.GroundEnemy
         #endregion
 
         #region Checks
+
         private void WallCheck()
         {
-            var colliders = Physics2D.OverlapCircleAll(wallCheckCollider.position, WallCheckRadius, wallAndGroundCheckLayer);
+            var colliders =
+                Physics2D.OverlapCircleAll(wallCheckCollider.position, WallCheckRadius, wallAndGroundCheckLayer);
             if (colliders.Length > 0)
             {
                 isWalled = true;
@@ -142,14 +146,15 @@ namespace _Core._6_Enemies.GroundEnemy
             // TODO alternative:
             //isWalled = Physics2D.OverlapCircle(wallCheckCollider.position, WallCheckRadius, wallAndGroundCheckLayer);
         }
+
         private void GetDistToPlayer()
         {
             if (!ReferenceEquals(player, null))
             {
                 distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
             }
-
         }
+
         private void CheckDirectionToFace(bool isMovingRight)
         {
             if (isMovingRight != isFacingRight)
@@ -157,15 +162,18 @@ namespace _Core._6_Enemies.GroundEnemy
                 Flip();
             }
         }
+
         private void GroundCheck()
         {
-            isGrounded = Physics2D.OverlapCircle(groundCheckCollider.position, GroundCheckRadius, wallAndGroundCheckLayer);
+            isGrounded =
+                Physics2D.OverlapCircle(groundCheckCollider.position, GroundCheckRadius, wallAndGroundCheckLayer);
         }
+
         #endregion
 
         #region misc
 
-         private void Flip()
+        private void Flip()
         {
             var scale = transform.localScale;
             scale.x *= -1;
@@ -191,8 +199,6 @@ namespace _Core._6_Enemies.GroundEnemy
                 rb.gravityScale = normalGravity;
             }
         }
-
-        
 
         #endregion
     }

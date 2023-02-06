@@ -1,11 +1,12 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Data/Enemy/EnemyData")]
-public class EnemyData : ScriptableObject
+namespace _Core._6_Enemies.ScriptableObjects
 {
-
-    public float enemyMaxHealth;
-    public float enemySpeed;
-    public float enemyDamage;
-    
+    [CreateAssetMenu(menuName = "Data/Enemy/EnemyData")]
+    public class EnemyData : ScriptableObject
+    {
+        public float enemyMaxHealth;
+        public float enemySpeed;
+        public float enemyDamage;
+    }
 }
