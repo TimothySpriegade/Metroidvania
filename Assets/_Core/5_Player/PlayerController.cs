@@ -1,5 +1,5 @@
-using System.Collections;
 using _Core._5_Player.ScriptableObjects;
+using DG.Tweening;
 using SOEventSystem.Events;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -14,7 +14,7 @@ namespace _Core._5_Player
         [SerializeField] private VoidEvent onPauseMenuOpen;
 
         #endregion
-
+        
         #region Components
 
         [Header("Data")] [SerializeField] private PlayerControlData data;
@@ -146,11 +146,10 @@ namespace _Core._5_Player
 
         #region Event Handling
 
-        public IEnumerator ShortControlSuspension()
+        public void ShortControlSuspension(float duration)
         {
             DisableAllControls();
-            yield return new WaitForSecondsRealtime(1);
-            EnableAllControls();
+            DOVirtual.DelayedCall(duration, EnableAllControls);
         }
 
         #endregion

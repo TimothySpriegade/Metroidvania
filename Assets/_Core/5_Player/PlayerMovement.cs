@@ -1,4 +1,5 @@
 using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 
 namespace _Core._5_Player
@@ -79,8 +80,7 @@ namespace _Core._5_Player
         [Tooltip("Tiny amount the dash freezes the game to make the Dash feel more impactful")] [SerializeField]
         private float dashSleepTime;
 
-        [Tooltip(
-            "Dead zone until the game recognizes your input to dash into that direction (0, 0.3) wont make you dash upwards")]
+        [Tooltip("Dead zone until the game recognizes your input to dash into that direction (0, 0.3) wont make you dash upwards")]
         [SerializeField]
         private float controllerInputThreshold;
 
@@ -463,21 +463,11 @@ namespace _Core._5_Player
 
         #region Sleep Methods
 
-        private void Sleep(float duration)
+        private static void Sleep(float duration)
         {
-            //Starts Coroutine which pauses game for short time
-            //Coroutines can happen in multiple frames.
-            //If you have a loop that counts 5000 times in Update() then those 5000 times would happen in 1 frame.
-            //With coroutines you can split that into multiple frames
-            StartCoroutine(nameof(PerformSleep), duration);
-        }
-
-        private IEnumerator PerformSleep(float duration)
-        {
-            //timescale = speed at which the game moves. 0 = game doesnt move / 1 = normal speed
+            //stops time and resumes it after the given duration
             Time.timeScale = 0;
-            yield return new WaitForSecondsRealtime(duration);
-            Time.timeScale = 1;
+            DOVirtual.DelayedCall(duration, () => Time.timeScale = 1);
         }
 
         #endregion

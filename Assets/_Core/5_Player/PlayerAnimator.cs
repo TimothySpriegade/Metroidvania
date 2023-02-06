@@ -109,11 +109,6 @@ namespace _Core._5_Player
 
         #region Event Handling
 
-        public void OnEnvironmentalTrapHit()
-        {
-            StartCoroutine(controller.ShortControlSuspension());
-        }
-
         public void OnDeath()
         {
             ChangeAnimationState(PlayerAnimatorState.PlayerDeath);
