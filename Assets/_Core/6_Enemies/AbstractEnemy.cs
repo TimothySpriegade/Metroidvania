@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace _Core._6_Enemies
 {
-    public abstract class AbstractFlippableEnemy : MonoBehaviour, IEnemy
+    public abstract class AbstractEnemy : MonoBehaviour, IEnemy
     {
         #region Variables
 
