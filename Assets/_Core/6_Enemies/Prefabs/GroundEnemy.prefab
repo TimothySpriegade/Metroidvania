@@ -49,8 +49,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1260303116}
-        m_TargetAssemblyTypeName: EnemyCombat, Assembly-CSharp
-        m_MethodName: TakeDamage
+        m_TargetAssemblyTypeName: _Core._6_Enemies.EnemyCombat, Assembly-CSharp
+        m_MethodName: OnDamageTaken
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -191,14 +191,11 @@ MonoBehaviour:
   aggroRange: 7
   accelRate: 3
   idleSpeed: 3
-  jumpForce: 9
+  jumpForce: 35
   fallVelocity: 4.5
   normalGravity: 1.6
-  maxSpeed: 7
-  isWalled: 0
-  isGrounded: 0
-  wallCheckCollider: {fileID: 3551867282111373186}
-  groundCheckCollider: {fileID: 3551867281635399926}
+  wallCheckPoint: {fileID: 3551867282111373186}
+  groundCheckPoint: {fileID: 3551867281635399926}
   wallAndGroundCheckLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -218,6 +215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0af644476c6f7b94881930424f1e49b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  knockbackStrength: {x: 4, y: 1}
   enemyData: {fileID: 11400000, guid: 953c4e1b2f145bc468a441b0b763ad5d, type: 2}
 --- !u!1 &3551867281140130956
 GameObject:

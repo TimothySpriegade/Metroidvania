@@ -63,8 +63,8 @@ namespace _Core._6_Enemies
             var direction = enemy.isFacingRight ? Vector2.left : Vector2.right;
             
             rb.velocity = Vector3.zero;
-            rb.AddForce(knockbackStrength.x * 1000 * direction, ForceMode2D.Force);
-            rb.AddForce(knockbackStrength.y * 1000 * Vector2.up, ForceMode2D.Force);
+            rb.AddForce(knockbackStrength.x * 100 *  direction, ForceMode2D.Impulse);
+            rb.AddForce(knockbackStrength.y * 100 * Vector2.up, ForceMode2D.Impulse);
         }
     }
 }

@@ -1,6 +1,3 @@
-using System.Collections;
-using _Core._5_Player;
-using Player.ScriptableObjects;
 using _Core._5_Player.ScriptableObjects;
 using DG.Tweening;
 using SOEventSystem.Events;
