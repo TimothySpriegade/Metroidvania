@@ -12,13 +12,13 @@ namespace _Core._6_Enemies.GroundEnemy
         [Header("Movement")] 
         [SerializeField] private float aggroRange;
         [SerializeField] private float accelRate;
-        [SerializeField] private float idleSpeed;
         [SerializeField] private float jumpForce;
         [SerializeField] private float fallVelocity;
         [SerializeField] private float normalGravity;
 
         private float distanceToPlayer;
         public bool isFacingRight { get; private set; }
+        public bool duringAnimation { get; set; }
 
         #endregion
 
@@ -74,8 +74,12 @@ namespace _Core._6_Enemies.GroundEnemy
             isWalled = CollisionCheck(wallCheckPoint, WallCheckRadius);
             isGrounded = CollisionCheck(groundCheckPoint, GroundCheckRadius);
             GetDistToPlayer();
-            EnemyAI();
-            Jump();
+            
+            if (!duringAnimation)
+            {
+                EnemyAI();
+                Jump();
+            }
         }
 
         #endregion
@@ -99,7 +103,7 @@ namespace _Core._6_Enemies.GroundEnemy
             var direction = transform.position.x < player.transform.position.x ? Vector2.right : Vector2.left;
 
             rb.AddForce(accelRate * direction, ForceMode2D.Force);
-            rb.velocity = Vector3.ClampMagnitude(rb.velocity, enemyData.enemySpeed);
+            CapSpeed(enemyData.chaseSpeed);
         }
 
         private void Idle()
@@ -114,8 +118,9 @@ namespace _Core._6_Enemies.GroundEnemy
             }
 
             var difference = idlePoints[index].position.x - transform.position.x;
-            var targetSpeed = Mathf.Sign(difference) * idleSpeed;
-            rb.velocity = new Vector2(targetSpeed, rb.velocity.y);
+            var targetSpeed = Mathf.Sign(difference) * accelRate;
+            rb.AddForce(Vector2.right * targetSpeed, ForceMode2D.Force);
+            CapSpeed(enemyData.idleSpeed);
         }
 
         #endregion
@@ -171,6 +176,13 @@ namespace _Core._6_Enemies.GroundEnemy
             {
                 rb.gravityScale = normalGravity;
             }
+        }
+
+        private void CapSpeed(float maxSpeed)
+        {
+            var newHorizontalVelocity = Mathf.Clamp(rb.velocity.x, -maxSpeed, maxSpeed);
+            var newVerticalVelocity = Mathf.Clamp(rb.velocity.y, -enemyData.maxFallSpeed, jumpForce);
+            rb.velocity = new Vector2(newHorizontalVelocity, newVerticalVelocity);
         }
 
         #endregion

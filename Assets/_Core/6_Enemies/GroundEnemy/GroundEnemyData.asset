@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4c0528d7cf9c84b9bd36d575e5b343, type: 3}
   m_Name: GroundEnemyData
   m_EditorClassIdentifier: 
-  enemyMaxHealth: 3
-  enemySpeed: 7
-  enemyDamage: 1
+  maxHealth: 3
+  chaseSpeed: 7
+  idleSpeed: 3
+  maxFallSpeed: 16
+  damage: 1

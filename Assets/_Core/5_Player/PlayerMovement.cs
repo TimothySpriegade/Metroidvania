@@ -325,7 +325,7 @@ namespace _Core._5_Player
                     SetGravityScale(gravityStrength * fallGravityMultiplier);
                     //caps fall-speed at max fall speed or at sliding speed
                     rb.velocity = isSliding
-                        ? new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -slideSpeed))
+                        ? new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -slideSpeed)) // TODO Mathf.Clamp \o/
                         : new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -maxFallSpeed));
                 }
                 else
