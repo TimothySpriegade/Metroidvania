@@ -1,10 +1,9 @@
-using _Core._6_Enemies.ScriptableObjects;
 using Unity.VisualScripting;
 using UnityEngine;
 
 namespace _Core._6_Enemies.GroundEnemy
 {
-    public class GroundEnemyScript : MonoBehaviour, IEnemy
+    public class GroundEnemyScript : AbstractFlippableEnemy
     {
         #region vars
 
@@ -18,8 +17,6 @@ namespace _Core._6_Enemies.GroundEnemy
         [SerializeField] private float normalGravity;
 
         private float distanceToPlayer;
-        public bool isFacingRight { get; private set; }
-        public bool duringAnimation { get; set; }
 
         #endregion
 
@@ -30,7 +27,7 @@ namespace _Core._6_Enemies.GroundEnemy
         private bool isGrounded;
         [SerializeField] private Transform wallCheckPoint;
         [SerializeField] private Transform groundCheckPoint;
-        [SerializeField] private LayerMask wallAndGroundCheckLayer;
+        
 
         private const float WallCheckRadius = 0.2f;
         private const float GroundCheckRadius = 0.2f;
@@ -39,10 +36,6 @@ namespace _Core._6_Enemies.GroundEnemy
 
         #region Component vars
 
-        [Header("Components")] 
-        [SerializeField] private EnemyData enemyData;
-
-        private Rigidbody2D rb;
         private GameObject player;
 
         #endregion
@@ -81,11 +74,13 @@ namespace _Core._6_Enemies.GroundEnemy
                 EnemyAI();
                 Jump();
             }
+
+            rb.gravityScale = IsFalling() ? fallVelocity : normalGravity;
         }
 
         #endregion
 
-        #region Chasing
+        #region Enemy AI
 
         private void EnemyAI()
         {
@@ -97,6 +92,11 @@ namespace _Core._6_Enemies.GroundEnemy
             {
                 Idle();
             }
+
+            if (isWalled && isGrounded)
+            {
+                Jump();
+            }
         }
 
         private void ChasePlayer()
@@ -104,7 +104,7 @@ namespace _Core._6_Enemies.GroundEnemy
             var direction = transform.position.x < player.transform.position.x ? Vector2.right : Vector2.left;
 
             rb.AddForce(accelRate * direction, ForceMode2D.Force);
-            CapSpeed(enemyData.chaseSpeed);
+            CapSpeed(enemyData.chaseSpeed, jumpForce);
         }
 
         private void Idle()
@@ -121,16 +121,7 @@ namespace _Core._6_Enemies.GroundEnemy
             var difference = idlePoints[index].position.x - transform.position.x;
             var targetSpeed = Mathf.Sign(difference) * accelRate;
             rb.AddForce(Vector2.right * targetSpeed, ForceMode2D.Force);
-            CapSpeed(enemyData.idleSpeed);
-        }
-
-        #endregion
-
-        #region Checks
-
-        private bool CollisionCheck(Transform checkPoint, float radius)
-        {
-            return Physics2D.OverlapCircle(checkPoint.position, radius, wallAndGroundCheckLayer);
+            CapSpeed(enemyData.idleSpeed, jumpForce);
         }
 
         private void GetDistToPlayer()
@@ -141,51 +132,22 @@ namespace _Core._6_Enemies.GroundEnemy
             }
         }
 
-        private void CheckDirectionToFace(bool isMovingRight)
-        {
-            if (isMovingRight != isFacingRight)
-            {
-                Flip();
-            }
-        }
-
-        #endregion
-
-        #region misc
-
-        private void Flip()
-        {
-            var scale = transform.localScale;
-            scale.x *= -1;
-            transform.localScale = scale;
-
-            isFacingRight = !isFacingRight;
-        }
-
         private void Jump()
         {
-            if (isWalled && isGrounded)
-            {
-                rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            }
-
-            if (rb.velocity.y < 0 && !isGrounded)
-            {
-                rb.gravityScale = fallVelocity;
-            }
-            else
-            {
-                rb.gravityScale = normalGravity;
-            }
-        }
-
-        private void CapSpeed(float maxSpeed)
-        {
-            var newHorizontalVelocity = Mathf.Clamp(rb.velocity.x, -maxSpeed, maxSpeed);
-            var newVerticalVelocity = Mathf.Clamp(rb.velocity.y, -enemyData.maxFallSpeed, jumpForce);
-            rb.velocity = new Vector2(newHorizontalVelocity, newVerticalVelocity);
+            isGrounded = false;
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
 
         #endregion
+
+        #region Checks
+
+        private bool IsFalling()
+        {
+            return rb.velocity.y < 0 && !isGrounded;
+        }
+
+        #endregion
+        
     }
 }
