@@ -52,9 +52,8 @@ namespace _Core._6_Enemies.GroundEnemy
 
         #region UnityMethods
 
-        private void Start()
+        protected override void OnStarting()
         {
-            rb = GetComponent<Rigidbody2D>();
             player = GameObject.FindGameObjectWithTag("Player");
         }
 
@@ -82,7 +81,7 @@ namespace _Core._6_Enemies.GroundEnemy
 
         #region Enemy AI
 
-        private void EnemyAI()
+        protected override void EnemyAI()
         {
             if (distanceToPlayer <= aggroRange)
             {
