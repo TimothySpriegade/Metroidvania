@@ -1,4 +1,5 @@
 using _Core._6_Enemies.ScriptableObjects;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace _Core._6_Enemies.GroundEnemy
@@ -134,7 +135,7 @@ namespace _Core._6_Enemies.GroundEnemy
 
         private void GetDistToPlayer()
         {
-            if (!ReferenceEquals(player, null))
+            if (!ReferenceEquals(player, null) && !player.IsDestroyed())
             {
                 distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
             }
