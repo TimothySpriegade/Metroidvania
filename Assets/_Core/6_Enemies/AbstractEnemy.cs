@@ -13,7 +13,7 @@ namespace _Core._6_Enemies
         protected Rigidbody2D rb;
 
         [SerializeField] protected EnemyData enemyData;
-        [SerializeField] protected LayerMask wallAndGroundCheckLayer;
+        [SerializeField] protected LayerMask collisionCheckLayer;
 
         #endregion
 
@@ -41,7 +41,7 @@ namespace _Core._6_Enemies
 
         protected bool CollisionCheck(Transform checkPoint, float radius)
         {
-            return Physics2D.OverlapCircle(checkPoint.position, radius, wallAndGroundCheckLayer);
+            return Physics2D.OverlapCircle(checkPoint.position, radius, collisionCheckLayer);
         }
         
         protected void CapSpeed(float maxSpeed, float maxJump)
