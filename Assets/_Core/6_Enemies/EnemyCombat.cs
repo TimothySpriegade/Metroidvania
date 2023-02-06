@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace _Core._6_Enemies
 {
-    public class EnemyCombat : MonoBehaviour
+    public class EnemyCombat : Destructible
     {
         #region Movement vars
 
@@ -22,43 +22,19 @@ namespace _Core._6_Enemies
 
         #endregion
 
-        #region Combat Vars
-
-        private float enemyHealth;
-
-        #endregion
-
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
             enemy = (IEnemy)GetComponent(typeof(IEnemy));
-            enemyHealth = enemyData.maxHealth;
+            health = enemyData.maxHealth;
         }
 
-        private void Update()
+        public override void OnDamageTaken(float damage)
         {
-            Death();
-        }
-
-        private void Death()
-        {
-            if (enemyHealth <= 0)
-            {
-                Destroy(transform.parent.gameObject);
-            }
-        }
-
-        public void OnDamageTaken(float damage)
-        {
-            TakeDamage(damage);
+            base.OnDamageTaken(damage);
             TakeKnockback();
         }
-
-        private void TakeDamage(float damage)
-        {
-            enemyHealth -= damage;
-        }
-
+        
         private void TakeKnockback()
         {
             enemy.duringAnimation = true;
