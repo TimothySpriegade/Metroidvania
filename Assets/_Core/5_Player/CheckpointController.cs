@@ -1,6 +1,7 @@
+using DG.Tweening;
 using UnityEngine;
 
-namespace Player
+namespace _Core._5_Player
 {
     public class CheckpointController : MonoBehaviour
     {
@@ -10,6 +11,7 @@ namespace Player
         private void Start()
         {
             rb = GetComponent<Rigidbody2D>();
+            DOVirtual.DelayedCall(0.2f, () => checkpointPosition = transform.position, false);
         }
 
         private void OnTriggerEnter2D(Collider2D col)

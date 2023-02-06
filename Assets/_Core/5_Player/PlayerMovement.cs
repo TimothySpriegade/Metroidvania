@@ -1,7 +1,8 @@
 using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 
-namespace Player
+namespace _Core._5_Player
 {
     public class PlayerMovement : MonoBehaviour
     {
@@ -32,8 +33,10 @@ namespace Player
 
         public float LastPressedJumpTime { get; set; }
         private float lastGroundedTime;
+        private float lastLandedTime;
         private bool duringJumpCut;
         private bool isJumping;
+        
         [HideInInspector] public bool noJumpInput;
 
         #region Wall Jump Vars
@@ -68,15 +71,16 @@ namespace Player
 
         #region Dash Vars
 
-        [Header("Dash")] [SerializeField] private float dashForceMultiplier;
+        [Header("Dash")] 
+        [SerializeField] private bool forceHorizontalDirection;
+        [SerializeField] private float dashForceMultiplier;
         [SerializeField] private float dashLength;
         [SerializeField] private float dashCooldown;
 
         [Tooltip("Tiny amount the dash freezes the game to make the Dash feel more impactful")] [SerializeField]
         private float dashSleepTime;
 
-        [Tooltip(
-            "Dead zone until the game recognizes your input to dash into that direction (0, 0.3) wont make you dash upwards")]
+        [Tooltip("Dead zone until the game recognizes your input to dash into that direction (0, 0.3) wont make you dash upwards")]
         [SerializeField]
         private float controllerInputThreshold;
 
@@ -137,7 +141,7 @@ namespace Player
         #endregion
 
         #endregion
-        
+
         #region Unity Methods
 
         #region Start methods
@@ -169,6 +173,7 @@ namespace Player
             #region Timers
 
             lastGroundedTime -= Time.deltaTime;
+            lastLandedTime -= Time.deltaTime;
             LastPressedJumpTime -= Time.deltaTime;
             LastPressedDashTime -= Time.deltaTime;
             lastLeftWallTouchTime -= Time.deltaTime;
@@ -186,24 +191,29 @@ namespace Player
                 if (Physics2D.OverlapBox(groundCheckPoint.position, groundCheckSize, 0, groundLayer))
                 {
                     //just landed
-                    if(lastGroundedTime < -0.1f && !isDashing)
+                    if (lastGroundedTime < -0.1f && !isDashing)
                     {
+                        lastLandedTime = 0.1f;
                         animator.ChangeAnimationState(PlayerAnimatorState.PlayerLand);
                     }
-                    
+
                     lastGroundedTime = coyoteTime;
                 }
 
-                //Right-Wall check
-                if (Physics2D.OverlapBox(frontWallCheckPoint.position, wallCheckSize, 0, groundLayer) && IsFacingRight)
+                var wallCollider = Physics2D.OverlapBox(frontWallCheckPoint.position, wallCheckSize, 0, groundLayer);
+                // if there is a collision and the wall has the tag "AllowWallJump"
+                if (wallCollider && wallCollider.CompareTag($"AllowWallJump"))
                 {
-                    lastRightWallTouchTime = coyoteTime;
-                }
-
-                //Left-Wall check
-                if (Physics2D.OverlapBox(frontWallCheckPoint.position, wallCheckSize, 0, groundLayer) && !IsFacingRight)
-                {
-                    lastLeftWallTouchTime = coyoteTime;
+                    //Right wall check
+                    if (IsFacingRight)
+                    {
+                        lastRightWallTouchTime = coyoteTime;
+                    }
+                    //Left wall check
+                    else
+                    {
+                        lastLeftWallTouchTime = coyoteTime;
+                    }
                 }
             }
 
@@ -214,10 +224,7 @@ namespace Player
             if (MoveInput.x != 0)
                 CheckDirectionToFace(MoveInput.x > 0);
 
-            if (noJumpInput)
-            {
-                if (CanJumpCut()) duringJumpCut = true;
-            }
+            if (noJumpInput && CanJumpCut()) duringJumpCut = true;
 
             #endregion
 
@@ -225,21 +232,12 @@ namespace Player
 
             if (!isDashing)
             {
-                if (IsNotJumping())
-                {
-                    isJumping = false;
-                }
+                if (IsNotJumpingAnymore()) isJumping = false;
 
                 //time after having performed a wall jump surpasses chosen jump time
-                if (lastWallJumped < -wallJumpTime)
-                {
-                    isWallJumping = false;
-                }
+                if (lastWallJumped < -wallJumpTime) isWallJumping = false;
 
-                if (lastGroundedTime > 0 && !isJumping)
-                {
-                    duringJumpCut = false;
-                }
+                if (lastGroundedTime > 0 && !isJumping) duringJumpCut = false;
 
                 //Jump
                 if (CanJump() && LastPressedJumpTime > 0)
@@ -256,7 +254,7 @@ namespace Player
                     isJumping = false;
                     duringJumpCut = false;
 
-                    var awayFromWallDirection = (lastRightWallTouchTime > 0) ? -1 : 1;
+                    var awayFromWallDirection = lastRightWallTouchTime > 0 ? -1 : 1;
 
                     WallJump(awayFromWallDirection);
                 }
@@ -287,9 +285,7 @@ namespace Player
                 dashDirection = NormalizeMoveInput(MoveInput);
 
                 //When standing still or dashing down => Dashing forward
-                if (dashDirection == Vector2.down && lastGroundedTime > 0)
-                    dashDirection = IsFacingRight ? Vector2.right : Vector2.left;
-                else if (dashDirection == Vector2.zero)
+                if (dashDirection == Vector2.down && lastGroundedTime > 0 || dashDirection == Vector2.zero)
                     dashDirection = IsFacingRight ? Vector2.right : Vector2.left;
 
                 StartCoroutine(Dash());
@@ -301,13 +297,10 @@ namespace Player
 
             isSliding = CanSlide();
 
-            if (isSliding)
-            {
-                duringJumpCut = false;
-            }
+            if (isSliding) duringJumpCut = false;
 
             #endregion
-            
+
             #region Gravity Handler
 
             if (!isDashing)
@@ -354,13 +347,16 @@ namespace Player
                 }
 
                 //Walking or Idling and not in landing Animation
-                if (IsNotJumping() && Mathf.Abs(rb.velocity.x) > 0.01f)
+                if (IsNotJumping() && lastLandedTime <= 0)
                 {
-                    animator.ChangeAnimationState(PlayerAnimatorState.PlayerWalk);
-                }
-                else if (IsNotJumping() && Mathf.Abs(rb.velocity.x) < 0.01f)
-                {
-                    animator.ChangeAnimationState(PlayerAnimatorState.PlayerIdle);
+                    if (Mathf.Abs(rb.velocity.x) >= 0.01f)
+                    {
+                        animator.ChangeAnimationState(PlayerAnimatorState.PlayerWalk);
+                    }
+                    else if (Mathf.Abs(rb.velocity.x) < 0.01f)
+                    {
+                        animator.ChangeAnimationState(PlayerAnimatorState.PlayerIdle);
+                    }
                 }
             }
 
@@ -392,12 +388,12 @@ namespace Player
             float accelRate;
 
             if (lastGroundedTime > 0)
-                accelRate = (Mathf.Abs(desiredSpeed) > 0.01f) ? runAcceleration : runDeceleration;
+                accelRate = Mathf.Abs(desiredSpeed) > 0.01f ? runAcceleration : runDeceleration;
             else
-                accelRate = (Mathf.Abs(desiredSpeed) > 0.01f) ? runAcceleration : runDeceleration;
+                accelRate = Mathf.Abs(desiredSpeed) > 0.01f ? runAcceleration : runDeceleration;
 
             //calculating accelerating using formula: 1 / Time.fixedDeltaTime * acceleration / max Speed
-            accelRate = ((1 / Time.fixedDeltaTime) * accelRate) / maxSpeed;
+            accelRate = (1 / Time.fixedDeltaTime) * accelRate / maxSpeed;
 
             //difference current and desired speed
             var speedDiff = desiredSpeed - rb.velocity.x;
@@ -448,7 +444,7 @@ namespace Player
             lastRightWallTouchTime = 0;
             lastLeftWallTouchTime = 0;
             lastWallJumped = 0;
-            
+
             //animator
             animator.ChangeAnimationState(PlayerAnimatorState.PlayerJump);
 
@@ -467,21 +463,11 @@ namespace Player
 
         #region Sleep Methods
 
-        private void Sleep(float duration)
+        private static void Sleep(float duration)
         {
-            //Starts Coroutine which pauses game for short time
-            //Coroutines can happen in multiple frames.
-            //If you have a loop that counts 5000 times in Update() then those 5000 times would happen in 1 frame.
-            //With coroutines you can split that into multiple frames
-            StartCoroutine(nameof(PerformSleep), duration);
-        }
-
-        private IEnumerator PerformSleep(float duration)
-        {
-            //timescale = speed at which the game moves. 0 = game doesnt move / 1 = normal speed
+            //stops time and resumes it after the given duration
             Time.timeScale = 0;
-            yield return new WaitForSecondsRealtime(duration);
-            Time.timeScale = 1;
+            DOVirtual.DelayedCall(duration, () => Time.timeScale = 1);
         }
 
         #endregion
@@ -494,7 +480,7 @@ namespace Player
             if (Mathf.Abs(moveInput.y) < controllerInputThreshold) moveInput.y = 0;
 
             moveInput.x = moveInput.x != 0 ? Mathf.Sign(moveInput.x) : 0;
-            moveInput.y = moveInput.y != 0 ? Mathf.Sign(moveInput.y) : 0;
+            moveInput.y = moveInput.y != 0 && !forceHorizontalDirection ? Mathf.Sign(moveInput.y) : 0;
 
             return moveInput;
         }
@@ -542,10 +528,7 @@ namespace Player
 
         private void CheckDirectionToFace(bool isMovingRight)
         {
-            if (isMovingRight != IsFacingRight && !isDashing)
-            {
-                Turn();
-            }
+            if (isMovingRight != IsFacingRight && !isDashing) Turn();
         }
 
         private bool CanJump()
@@ -572,9 +555,14 @@ namespace Player
             return canSlide;
         }
 
-        private bool IsNotJumping()
+        private bool IsNotJumpingAnymore()
         {
             return (isWallJumping || isJumping) && rb.velocity.y <= 0 || lastGroundedTime > 0;
+        }
+        
+        private bool IsNotJumping()
+        {
+            return !(isWallJumping || isJumping) && lastGroundedTime > 0;
         }
 
         private bool CanDash()

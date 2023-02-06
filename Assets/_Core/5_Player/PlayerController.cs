@@ -1,11 +1,13 @@
 using System.Collections;
 using _Core._5_Player;
 using Player.ScriptableObjects;
+using _Core._5_Player.ScriptableObjects;
+using DG.Tweening;
 using SOEventSystem.Events;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Player
+namespace _Core._5_Player
 {
     [DefaultExecutionOrder(-100)]
     public class PlayerController : MonoBehaviour
@@ -37,14 +39,16 @@ namespace Player
         private float currentVertical;
 
         #endregion
-    
+
         #region Assist
-    
+
         [Header("Assist")]
         //period when pressing a button when not fulfilling conditions
         //that action will still be performed when conditions fulfilled during time
-        [SerializeField] [Range(0f, 0.5f)] private float inputBufferTime;
-    
+        [SerializeField]
+        [Range(0f, 0.5f)]
+        private float inputBufferTime;
+
         #endregion
 
         private void Awake()
@@ -69,7 +73,7 @@ namespace Player
 
             currentHorizontal = horizontalInput.ReadValue<float>();
             currentVertical = verticalInput.ReadValue<float>();
-        
+
             movementScript.MoveInput = new Vector2(currentHorizontal, currentVertical);
 
             movementScript.noJumpInput = !jumpInput.inProgress;
@@ -133,6 +137,7 @@ namespace Player
             pauseInput = controls.UI.Pause;
             pauseInput.Enable();
             pauseInput.started += ctx => onPauseMenuOpen.Invoke();
+
         }
 
         public void DisableAllControls()
@@ -160,11 +165,10 @@ namespace Player
 
         #region Event Handling
 
-        public IEnumerator ShortControlSuspension()
+        public void ShortControlSuspension(float duration)
         {
             DisableAllControls();
-            yield return new WaitForSecondsRealtime(1);
-            EnableAllControls();
+            DOVirtual.DelayedCall(duration, EnableAllControls);
         }
 
         #endregion

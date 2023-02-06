@@ -209,6 +209,90 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: 32x32 Tileset_0
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 72
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bc1f4a8340070b148bb3ef27295bc2f1
+      internalID: -974374119
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 32x32 Tileset_1
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 72
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: efac32ade9bae9949be83840e7c6f7bb
+      internalID: 1571918291
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 32x32 Tileset_2
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 48
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d5bc9dc2b2ffd741b922e7e35f4a101
+      internalID: -88546311
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 32x32 Tileset_3
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 48
+        width: 24
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 03aaea684631648438c5153eb2914293
+      internalID: -132424080
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -222,14 +306,18 @@ TextureImporter:
     nameFileIdTable:
       temple-tileset_4: -15468671
       temple-tileset_2: 2133474603
+      32x32 Tileset_2: -88546311
       temple-tileset_3: -2067840303
       temple-tileset_0: 1207458328
       temple-tileset_6: 1519303117
+      32x32 Tileset_3: -132424080
       temple-tileset_7: 84281337
       temple-tileset_1: 1132534463
+      32x32 Tileset_1: 1571918291
       temple-tileset_5: -1670058698
       temple-tileset_8: -402974967
       temple-tileset_9: 1740691300
+      32x32 Tileset_0: -974374119
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

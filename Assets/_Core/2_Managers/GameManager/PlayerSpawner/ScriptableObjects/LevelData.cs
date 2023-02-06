@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 
-namespace Spawners.PlayerSpawner.ScriptableObjects
+namespace _Core._2_Managers.GameManager.PlayerSpawner.ScriptableObjects
 {
     [CreateAssetMenu(menuName = "Data/Level Transition/Level Data")]
-    public class LevelData : ScriptableObject {}
+    public class LevelData : ScriptableObject
+    {
+    }
 }
