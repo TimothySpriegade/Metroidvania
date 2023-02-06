@@ -16,37 +16,36 @@ namespace _Core._6_Enemies.GroundEnemy
         [SerializeField] private float jumpForce;
         [SerializeField] private float fallVelocity;
         [SerializeField] private float normalGravity;
-        [SerializeField] private float maxSpeed;
+        
         private float distanceToPlayer;
-
+        public bool isFacingRight { get; private set; }
+        
         #endregion
 
         #region Check vars
 
         [Header("Checks")] 
-        [SerializeField] private bool isWalled;
-        [SerializeField] private bool isGrounded;
-        [SerializeField] private Transform wallCheckCollider;
-        [SerializeField] private Transform groundCheckCollider;
+        private bool isWalled;
+        private bool isGrounded;
+        [SerializeField] private Transform wallCheckPoint;
+        [SerializeField] private Transform groundCheckPoint;
         [SerializeField] private LayerMask wallAndGroundCheckLayer;
+        
         private const float WallCheckRadius = 0.2f;
-
         private const float GroundCheckRadius = 0.2f;
-
-        // TODO value assigned but never used
-        private bool isFacingRight;
-        private GameObject player;
 
         #endregion
 
         #region Component vars
 
-        [Header("Components")] private Rigidbody2D rb;
+        [Header("Components")] 
         [SerializeField] private EnemyData enemyData;
+        private Rigidbody2D rb;
+        private GameObject player;
 
         #endregion
 
-        #region idle vars
+        #region Idle vars
 
         [Header("Idle")] 
         [SerializeField] private Transform[] idlePoints;
@@ -58,14 +57,12 @@ namespace _Core._6_Enemies.GroundEnemy
 
         #region UnityMethods
 
-        // Start is called before the first frame update
         private void Start()
         {
             rb = GetComponent<Rigidbody2D>();
             player = GameObject.FindGameObjectWithTag("Player");
         }
 
-        // Update is called once per frame
         private void Update()
         {
             if (rb.velocity.x != 0)
@@ -73,8 +70,8 @@ namespace _Core._6_Enemies.GroundEnemy
                 CheckDirectionToFace(rb.velocity.x > 0);
             }
 
-            WallCheck();
-            GroundCheck();
+            isWalled = CollisionCheck(wallCheckPoint, WallCheckRadius);
+            isGrounded = CollisionCheck(groundCheckPoint, GroundCheckRadius);
             GetDistToPlayer();
             EnemyAI();
             Jump();
@@ -86,7 +83,7 @@ namespace _Core._6_Enemies.GroundEnemy
 
         private void EnemyAI()
         {
-            if (distanceToPlayer < aggroRange)
+            if (distanceToPlayer <= aggroRange)
             {
                 ChasePlayer();
             }
@@ -98,16 +95,10 @@ namespace _Core._6_Enemies.GroundEnemy
 
         private void ChasePlayer()
         {
-            if (transform.position.x < player.transform.position.x)
-            {
-                rb.AddForce(accelRate * Vector2.right, ForceMode2D.Force);
-                rb.velocity = Vector3.ClampMagnitude(rb.velocity, enemyData.enemySpeed);
-            }
-            else
-            {
-                rb.AddForce(accelRate * Vector2.left, ForceMode2D.Force);
-                rb.velocity = Vector3.ClampMagnitude(rb.velocity, enemyData.enemySpeed);
-            }
+            var direction = transform.position.x < player.transform.position.x ? Vector2.right : Vector2.left;
+
+            rb.AddForce(accelRate * direction, ForceMode2D.Force);
+            rb.velocity = Vector3.ClampMagnitude(rb.velocity, enemyData.enemySpeed);
         }
 
         private void Idle()
@@ -130,21 +121,9 @@ namespace _Core._6_Enemies.GroundEnemy
 
         #region Checks
 
-        private void WallCheck()
+        private bool CollisionCheck(Transform checkPoint, float radius)
         {
-            var colliders =
-                Physics2D.OverlapCircleAll(wallCheckCollider.position, WallCheckRadius, wallAndGroundCheckLayer);
-            if (colliders.Length > 0)
-            {
-                isWalled = true;
-            }
-            else
-            {
-                isWalled = false;
-            }
-
-            // TODO alternative:
-            //isWalled = Physics2D.OverlapCircle(wallCheckCollider.position, WallCheckRadius, wallAndGroundCheckLayer);
+            return Physics2D.OverlapCircle(checkPoint.position, radius, wallAndGroundCheckLayer);
         }
 
         private void GetDistToPlayer()
@@ -163,12 +142,6 @@ namespace _Core._6_Enemies.GroundEnemy
             }
         }
 
-        private void GroundCheck()
-        {
-            isGrounded =
-                Physics2D.OverlapCircle(groundCheckCollider.position, GroundCheckRadius, wallAndGroundCheckLayer);
-        }
-
         #endregion
 
         #region misc
@@ -184,16 +157,15 @@ namespace _Core._6_Enemies.GroundEnemy
 
         private void Jump()
         {
-            if (isWalled)
+            if (isWalled && isGrounded)
             {
-                rb.velocity = Vector2.up * jumpForce;
+                rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             }
 
             if (rb.velocity.y < 0 && !isGrounded)
             {
                 rb.gravityScale = fallVelocity;
             }
-
             else
             {
                 rb.gravityScale = normalGravity;

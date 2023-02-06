@@ -1,3 +1,4 @@
+using _Core._6_Enemies.GroundEnemy;
 using _Core._6_Enemies.ScriptableObjects;
 using UnityEngine;
 
@@ -5,47 +6,37 @@ namespace _Core._6_Enemies
 {
     public class EnemyCombat : MonoBehaviour
     {
-        #region movementvars
+        #region Movement vars
 
         [Header("Movement")]
-        [SerializeField] private float knockbackStrengthX;
-        [SerializeField] private float knockbackStrengthY;
-
-        #endregion
-
-        #region checkvars
-
-        [Header("Checks")] 
-        [SerializeField] private bool isFacingRight;
-        private Rigidbody2D rb;
+        [SerializeField] private Vector2 knockbackStrength;
 
         #endregion
 
         #region components
 
         [Header("Components")] 
+        private Rigidbody2D rb;
+        private GroundEnemyScript enemy; // TODO generalize
         [SerializeField] private EnemyData enemyData;
-        [SerializeField] private Transform enemy;
 
         #endregion
 
-        #region CombatVars
+        #region Combat Vars
 
         private float enemyHealth;
 
         #endregion
 
-        // Start is called before the first frame update
-        private void Start()
+        private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
+            enemy.GetComponent<GroundEnemyScript>();
             enemyHealth = enemyData.enemyMaxHealth;
         }
 
-        // Update is called once per frame
         private void Update()
         {
-            IsFacingRight();
             Death();
         }
 
@@ -57,35 +48,24 @@ namespace _Core._6_Enemies
             }
         }
 
-        public void TakeDamage(float damage)
+        public void OnDamageTaken(float damage)
+        {
+            TakeDamage(damage);
+            TakeKnockback();
+        }
+
+        private void TakeDamage(float damage)
         {
             enemyHealth -= damage;
-            Debug.Log(enemyHealth);
         }
 
-        public void TakeKnockback()
+        private void TakeKnockback()
         {
-            if (!isFacingRight)
-            {
-                rb.velocity = Vector3.zero;
-                rb.AddForce(knockbackStrengthX * 1000 * Vector2.right, ForceMode2D.Force);
-                rb.AddForce(knockbackStrengthY * 1000 * Vector2.up, ForceMode2D.Force);
-
-                Debug.Log("Knockbacked");
-            }
-            else
-            {
-                rb.velocity = Vector3.zero;
-                rb.AddForce(knockbackStrengthX * 1000 * Vector2.left, ForceMode2D.Force);
-                rb.AddForce(knockbackStrengthY * 1000 * Vector2.up, ForceMode2D.Force);
-
-                Debug.Log("Knockbacked");
-            }
-        }
-
-        private void IsFacingRight()
-        {
-            isFacingRight = enemy.localScale.x <= 0;
+            var direction = enemy.isFacingRight ? Vector2.left : Vector2.right;
+            
+            rb.velocity = Vector3.zero;
+            rb.AddForce(knockbackStrength.x * 1000 * direction, ForceMode2D.Force);
+            rb.AddForce(knockbackStrength.y * 1000 * Vector2.up, ForceMode2D.Force);
         }
     }
 }

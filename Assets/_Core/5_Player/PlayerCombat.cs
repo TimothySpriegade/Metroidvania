@@ -1,73 +1,82 @@
 using Player;
 using SOEventSystem.Events;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-
-public class PlayerCombat : MonoBehaviour
+namespace _Core._5_Player
 {
-    #region vars
-
-    #region playercombatvars
-
-    [Header("Combat")]
-    [SerializeField] private Transform attackPoint;
-    [SerializeField] private float attackRange;
-    [SerializeField] private LayerMask enemyLayer;
-    public float LastPressedAttackTime { get; set; }
-
-    #endregion
-
-    #region events
-
-    [Header("Events")]
-    [SerializeField] private FloatEvent onDamageGiven;
-
-    #endregion
-
-    #region components
-    [Header("components")]
-    private PlayerAnimator animator;
-    #endregion
-
-    #endregion
-
-    #region UnityMethods
-
-    private void Start()
+    public class PlayerCombat : MonoBehaviour
     {
-        animator= GetComponent<PlayerAnimator>();
-    }
-    private void Update()
-    {
-        LastPressedAttackTime -= Time.deltaTime;
+        #region vars
+
+        #region playercombatvars
+
+        [Header("Combat")]
+        [SerializeField] private Transform attackPoint;
+        [SerializeField] private float attackRange;
+        [SerializeField] private LayerMask enemyLayer;
+        [SerializeField] private float attackCooldown;
+        [SerializeField] private float playerDamage;
+        public float LastPressedAttackTime { get; set; }
+        private float lastAttackedTime;
+
+        #endregion
+
+        #region events
+
+        [Header("Events")]
+        [SerializeField] private FloatEvent onDamageGiven;
+
+        #endregion
+
+        #region components
         
-        if (LastPressedAttackTime > 0) //TODO Movementbedingungen hinzufügen
+        private PlayerAnimator animator;
+        
+        #endregion
+
+        #endregion
+
+        #region UnityMethods
+
+        private void Awake()
         {
-            Attack();
+            animator = GetComponent<PlayerAnimator>();
         }
-    }
-
-    #endregion
-
-    void Attack()
-    {
-        LastPressedAttackTime = 0;
-        animator.ChangeAnimationState(PlayerAnimatorState.PlayerAttack);
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
-
-        foreach(Collider2D enemy in hitEnemies) 
+        private void Update()
         {
-            onDamageGiven.Invoke(1);
+            LastPressedAttackTime -= Time.deltaTime;
+            lastAttackedTime -= Time.deltaTime;
+        
+            if (LastPressedAttackTime > 0 && CanAttack())
+            {
+                Attack();
+            }
         }
-    }
 
-    private void OnDrawGizmosSelected()
-    {
-        if (attackPoint == null) return;
-        Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+        #endregion
+
+        private bool CanAttack()
+        {
+            return lastAttackedTime <= 0; // TODO add conditions
+        }
+
+        private void Attack()
+        {
+            LastPressedAttackTime = 0;
+            lastAttackedTime = attackCooldown;
+            animator.ChangeAnimationState(PlayerAnimatorState.PlayerAttack);
+            var hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
+
+            foreach(var enemy in hitEnemies) 
+            {
+                onDamageGiven.Invoke(playerDamage);
+            }
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            if (attackPoint == null) return;
+            Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+        }
     }
 }

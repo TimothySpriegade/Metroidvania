@@ -148,7 +148,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1321748379, guid: 74e216763e2731944bd656b8251b82bf, type: 3}
       propertyPath: unityEventResponse.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1321748379, guid: 74e216763e2731944bd656b8251b82bf, type: 3}
+      propertyPath: unityEventResponse.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1321748379, guid: 74e216763e2731944bd656b8251b82bf, type: 3}
       propertyPath: unityEventResponse.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
@@ -163,8 +167,16 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1321748379, guid: 74e216763e2731944bd656b8251b82bf, type: 3}
+      propertyPath: unityEventResponse.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnDamageTaken
+      objectReference: {fileID: 0}
+    - target: {fileID: 1321748379, guid: 74e216763e2731944bd656b8251b82bf, type: 3}
       propertyPath: unityEventResponse.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: TakeKnockback
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1321748379, guid: 74e216763e2731944bd656b8251b82bf, type: 3}
+      propertyPath: unityEventResponse.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: _Core._6_Enemies.EnemyCombat, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 1321748379, guid: 74e216763e2731944bd656b8251b82bf, type: 3}
       propertyPath: unityEventResponse.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName

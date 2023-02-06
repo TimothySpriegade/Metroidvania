@@ -1,5 +1,5 @@
-using System;
 using System.Collections;
+using _Core._5_Player;
 using Player.ScriptableObjects;
 using SOEventSystem.Events;
 using UnityEngine;
@@ -97,7 +97,7 @@ namespace Player
         // private void OnOpenPause(InputAction.CallbackContext context)
         // {
         //     onPauseMenuOpen.Invoke();
-        // }
+        // } //TODO commented?
 
         #endregion
 
@@ -124,7 +124,7 @@ namespace Player
             dashInput.Enable();
             dashInput.started += OnDashInput;
 
-            //Attack Controlls
+            //Attack Controls
             attackInput = controls.Movement.Attack;
             attackInput.Enable();
             attackInput.started += OnAttackInput;
@@ -133,12 +133,7 @@ namespace Player
             pauseInput = controls.UI.Pause;
             pauseInput.Enable();
             pauseInput.started += ctx => onPauseMenuOpen.Invoke();
-
-            
-
         }
-
-       
 
         public void DisableAllControls()
         {
@@ -150,7 +145,8 @@ namespace Player
             dashInput.Disable();
             pauseInput.Disable();
             attackInput.Disable();
-            pauseInput.started -= ctx => onPauseMenuOpen.Invoke();
+            attackInput.started -= OnAttackInput;
+            pauseInput.started -= _ => onPauseMenuOpen.Invoke();
         }
 
         public void UpdateControls()

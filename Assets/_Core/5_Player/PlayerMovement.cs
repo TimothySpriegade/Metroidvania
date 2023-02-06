@@ -81,7 +81,7 @@ namespace Player
         private float controllerInputThreshold;
 
         public float LastPressedDashTime { get; set; }
-        private float lastDashed;
+        private float lastDashedTime;
 
         private Vector2 dashDirection;
 
@@ -174,7 +174,7 @@ namespace Player
             lastLeftWallTouchTime -= Time.deltaTime;
             lastRightWallTouchTime -= Time.deltaTime;
             lastWallJumped -= Time.deltaTime;
-            lastDashed -= Time.deltaTime;
+            lastDashedTime -= Time.deltaTime;
 
             #endregion
 
@@ -522,7 +522,7 @@ namespace Player
             }
 
             //Dash over
-            lastDashed = dashCooldown;
+            lastDashedTime = dashCooldown;
             isDashing = false;
             duringJumpCut = true;
         }
@@ -579,7 +579,7 @@ namespace Player
 
         private bool CanDash()
         {
-            return unlockedDash && !isDashing && lastDashed < 0 && dashRefreshed;
+            return unlockedDash && !isDashing && lastDashedTime <= 0 && dashRefreshed;
         }
 
         private bool CanJumpHang()
