@@ -36,7 +36,7 @@ namespace _Core._5_Player
         private float lastLandedTime;
         private bool duringJumpCut;
         private bool isJumping;
-        
+
         [HideInInspector] public bool noJumpInput;
 
         #region Wall Jump Vars
@@ -71,8 +71,7 @@ namespace _Core._5_Player
 
         #region Dash Vars
 
-        [Header("Dash")] 
-        [SerializeField] private bool forceHorizontalDirection;
+        [Header("Dash")] [SerializeField] private bool forceHorizontalDirection;
         [SerializeField] private float dashForceMultiplier;
         [SerializeField] private float dashLength;
         [SerializeField] private float dashCooldown;
@@ -80,7 +79,8 @@ namespace _Core._5_Player
         [Tooltip("Tiny amount the dash freezes the game to make the Dash feel more impactful")] [SerializeField]
         private float dashSleepTime;
 
-        [Tooltip("Dead zone until the game recognizes your input to dash into that direction (0, 0.3) wont make you dash upwards")]
+        [Tooltip(
+            "Dead zone until the game recognizes your input to dash into that direction (0, 0.3) wont make you dash upwards")]
         [SerializeField]
         private float controllerInputThreshold;
 
@@ -559,7 +559,7 @@ namespace _Core._5_Player
         {
             return (isWallJumping || isJumping) && rb.velocity.y <= 0 || lastGroundedTime > 0;
         }
-        
+
         private bool IsNotJumping()
         {
             return !(isWallJumping || isJumping) && lastGroundedTime > 0;

@@ -1,12 +1,12 @@
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
-namespace _Core._8_Environment.Torch
+namespace _Core._8_Environment.Torches
 {
     public class LightFlicker : MonoBehaviour
     {
-        [SerializeField] private float amount;	//The amount of light flicker
-        [SerializeField] private float speed;		//The speed of the flicker
+        [SerializeField] private float amount; //The amount of light flicker
+        [SerializeField] private float speed; //The speed of the flicker
 
         private Light2D localLight;
         private float intensity;
@@ -22,7 +22,7 @@ namespace _Core._8_Environment.Torch
             offset = Random.Range(0, 10000);
         }
 
-        private void Update ()
+        private void Update()
         {
             //Using perlin noise, determine a random intensity amount
             var noiseAmount = Mathf.PerlinNoise(Time.time * speed + offset, Time.time * speed + offset) * amount;

@@ -1,7 +1,7 @@
 using SOEventSystem.Events;
 using UnityEngine;
 
-namespace _Core._8_Environment
+namespace _Core._8_Environment.Traps
 {
     public class EnvironmentalTrap : MonoBehaviour
     {

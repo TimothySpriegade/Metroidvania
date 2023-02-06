@@ -14,7 +14,7 @@ namespace _Core._5_Player
         [SerializeField] private VoidEvent onPauseMenuOpen;
 
         #endregion
-        
+
         #region Components
 
         [Header("Data")] [SerializeField] private PlayerControlData data;
@@ -134,7 +134,6 @@ namespace _Core._5_Player
             pauseInput = controls.UI.Pause;
             pauseInput.Enable();
             pauseInput.started += ctx => onPauseMenuOpen.Invoke();
-
         }
 
         public void DisableAllControls()
