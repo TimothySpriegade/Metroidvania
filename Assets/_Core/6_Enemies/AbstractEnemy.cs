@@ -1,9 +1,9 @@
-using System;
 using _Core._6_Enemies.ScriptableObjects;
 using UnityEngine;
 
 namespace _Core._6_Enemies
 {
+    [RequireComponent(typeof(Rigidbody2D))]
     public abstract class AbstractEnemy : MonoBehaviour, IEnemy
     {
         #region Variables
@@ -20,16 +20,7 @@ namespace _Core._6_Enemies
 
         private void Awake()
         {
-            try
-            {
-                rb.GetComponent<Rigidbody2D>();
-            }
-            catch (Exception e)
-            {
-                Debug.LogError("All Enemies need to have a Rigidbody2D");
-                throw;
-            }
-            
+            rb.GetComponent<Rigidbody2D>();
             OnStarting();
         }
 
