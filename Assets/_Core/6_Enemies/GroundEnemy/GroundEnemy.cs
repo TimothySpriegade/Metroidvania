@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace _Core._6_Enemies.GroundEnemy
 {
-    public class GroundEnemyScript : AbstractFlippableEnemy
+    public class GroundEnemy : AbstractFlippableEnemy
     {
         #region vars
 
