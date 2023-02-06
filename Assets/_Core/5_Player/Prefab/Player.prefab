@@ -483,6 +483,7 @@ MonoBehaviour:
   maxSpeed: 9.5
   runAcceleration: 9.5
   runDeceleration: 9.5
+  forceHorizontalDirection: 1
   dashForceMultiplier: 2.5
   dashLength: 0.25
   dashCooldown: 0.35
