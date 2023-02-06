@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace _Core._6_Enemies.GroundEnemy
 {
-    public class GroundEnemyScript : MonoBehaviour
+    public class GroundEnemyScript : MonoBehaviour, IEnemy
     {
         #region vars
 
@@ -18,7 +18,7 @@ namespace _Core._6_Enemies.GroundEnemy
         [SerializeField] private float normalGravity;
         
         private float distanceToPlayer;
-        public bool isFacingRight { get; private set; }
+        public bool isFacingRight { get; set; }
         
         #endregion
 
