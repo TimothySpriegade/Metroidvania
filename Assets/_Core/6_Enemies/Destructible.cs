@@ -6,7 +6,7 @@ namespace _Core._6_Enemies
     {
         protected float health;
 
-        private void Death()
+        protected virtual void Death()
         {
             Destroy(transform.parent.gameObject);
         }
