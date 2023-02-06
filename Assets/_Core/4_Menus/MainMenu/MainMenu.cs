@@ -7,10 +7,10 @@ namespace _Core._4_Menus.MainMenu
     {
         [SerializeField] private StringEvent onSceneChange;
 
-        public void PlayGame()
+        public void PlayGame(string levelName)
         {
             //lädt nächste Szene in Scenemanager - änder sich vllt noch wegen save
-            onSceneChange.Invoke("TestLevel07");
+            onSceneChange.Invoke(levelName);
         }
 
         public static void QuitGame()

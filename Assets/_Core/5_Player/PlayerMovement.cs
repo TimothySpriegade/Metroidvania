@@ -32,8 +32,10 @@ namespace _Core._5_Player
 
         public float LastPressedJumpTime { get; set; }
         private float lastGroundedTime;
+        private float lastLandedTime;
         private bool duringJumpCut;
         private bool isJumping;
+        
         [HideInInspector] public bool noJumpInput;
 
         #region Wall Jump Vars
@@ -169,6 +171,7 @@ namespace _Core._5_Player
             #region Timers
 
             lastGroundedTime -= Time.deltaTime;
+            lastLandedTime -= Time.deltaTime;
             LastPressedJumpTime -= Time.deltaTime;
             LastPressedDashTime -= Time.deltaTime;
             lastLeftWallTouchTime -= Time.deltaTime;
@@ -188,6 +191,7 @@ namespace _Core._5_Player
                     //just landed
                     if (lastGroundedTime < -0.1f && !isDashing)
                     {
+                        lastLandedTime = 0.1f;
                         animator.ChangeAnimationState(PlayerAnimatorState.PlayerLand);
                     }
 
@@ -226,7 +230,7 @@ namespace _Core._5_Player
 
             if (!isDashing)
             {
-                if (IsNotJumping()) isJumping = false;
+                if (IsNotJumpingAnymore()) isJumping = false;
 
                 //time after having performed a wall jump surpasses chosen jump time
                 if (lastWallJumped < -wallJumpTime) isWallJumping = false;
@@ -343,13 +347,16 @@ namespace _Core._5_Player
                 }
 
                 //Walking or Idling and not in landing Animation
-                if (IsNotJumping() && Mathf.Abs(rb.velocity.x) > 0.01f)
+                if (IsNotJumping() && lastLandedTime <= 0)
                 {
-                    animator.ChangeAnimationState(PlayerAnimatorState.PlayerWalk);
-                }
-                else if (IsNotJumping() && Mathf.Abs(rb.velocity.x) < 0.01f)
-                {
-                    animator.ChangeAnimationState(PlayerAnimatorState.PlayerIdle);
+                    if (Mathf.Abs(rb.velocity.x) >= 0.01f)
+                    {
+                        animator.ChangeAnimationState(PlayerAnimatorState.PlayerWalk);
+                    }
+                    else if (Mathf.Abs(rb.velocity.x) < 0.01f)
+                    {
+                        animator.ChangeAnimationState(PlayerAnimatorState.PlayerIdle);
+                    }
                 }
             }
 
@@ -558,9 +565,14 @@ namespace _Core._5_Player
             return canSlide;
         }
 
-        private bool IsNotJumping()
+        private bool IsNotJumpingAnymore()
         {
             return (isWallJumping || isJumping) && rb.velocity.y <= 0 || lastGroundedTime > 0;
+        }
+        
+        private bool IsNotJumping()
+        {
+            return !(isWallJumping || isJumping) && lastGroundedTime > 0;
         }
 
         private bool CanDash()
