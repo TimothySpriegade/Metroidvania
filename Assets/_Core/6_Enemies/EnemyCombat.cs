@@ -1,4 +1,3 @@
-using _Core._6_Enemies.GroundEnemy;
 using _Core._6_Enemies.ScriptableObjects;
 using UnityEngine;
 
@@ -17,7 +16,7 @@ namespace _Core._6_Enemies
 
         [Header("Components")] 
         private Rigidbody2D rb;
-        private GroundEnemyScript enemy; // TODO generalize
+        private IEnemy enemy;
         [SerializeField] private EnemyData enemyData;
 
         #endregion
@@ -31,7 +30,7 @@ namespace _Core._6_Enemies
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
-            enemy.GetComponent<GroundEnemyScript>();
+            enemy = (IEnemy)GetComponent(typeof(IEnemy));
             enemyHealth = enemyData.enemyMaxHealth;
         }
 

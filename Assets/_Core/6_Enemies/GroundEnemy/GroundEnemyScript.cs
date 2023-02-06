@@ -16,10 +16,10 @@ namespace _Core._6_Enemies.GroundEnemy
         [SerializeField] private float jumpForce;
         [SerializeField] private float fallVelocity;
         [SerializeField] private float normalGravity;
-        
+
         private float distanceToPlayer;
-        public bool isFacingRight { get; set; }
-        
+        public bool isFacingRight { get; private set; }
+
         #endregion
 
         #region Check vars
@@ -30,7 +30,7 @@ namespace _Core._6_Enemies.GroundEnemy
         [SerializeField] private Transform wallCheckPoint;
         [SerializeField] private Transform groundCheckPoint;
         [SerializeField] private LayerMask wallAndGroundCheckLayer;
-        
+
         private const float WallCheckRadius = 0.2f;
         private const float GroundCheckRadius = 0.2f;
 
@@ -40,6 +40,7 @@ namespace _Core._6_Enemies.GroundEnemy
 
         [Header("Components")] 
         [SerializeField] private EnemyData enemyData;
+
         private Rigidbody2D rb;
         private GameObject player;
 
