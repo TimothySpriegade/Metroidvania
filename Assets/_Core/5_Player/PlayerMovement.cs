@@ -85,7 +85,7 @@ namespace _Core._5_Player
         private float controllerInputThreshold;
 
         public float LastPressedDashTime { get; set; }
-        private float lastDashed;
+        private float lastDashedTime;
 
         private Vector2 dashDirection;
 
@@ -179,7 +179,7 @@ namespace _Core._5_Player
             lastLeftWallTouchTime -= Time.deltaTime;
             lastRightWallTouchTime -= Time.deltaTime;
             lastWallJumped -= Time.deltaTime;
-            lastDashed -= Time.deltaTime;
+            lastDashedTime -= Time.deltaTime;
 
             #endregion
 
@@ -325,7 +325,7 @@ namespace _Core._5_Player
                     SetGravityScale(gravityStrength * fallGravityMultiplier);
                     //caps fall-speed at max fall speed or at sliding speed
                     rb.velocity = isSliding
-                        ? new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -slideSpeed))
+                        ? new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -slideSpeed)) // TODO Mathf.Clamp \o/
                         : new Vector2(rb.velocity.x, Mathf.Max(rb.velocity.y, -maxFallSpeed));
                 }
                 else
@@ -508,7 +508,7 @@ namespace _Core._5_Player
             }
 
             //Dash over
-            lastDashed = dashCooldown;
+            lastDashedTime = dashCooldown;
             isDashing = false;
             duringJumpCut = true;
         }
@@ -567,7 +567,7 @@ namespace _Core._5_Player
 
         private bool CanDash()
         {
-            return unlockedDash && !isDashing && lastDashed < 0 && dashRefreshed;
+            return unlockedDash && !isDashing && lastDashedTime <= 0 && dashRefreshed;
         }
 
         private bool CanJumpHang()

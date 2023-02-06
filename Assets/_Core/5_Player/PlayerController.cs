@@ -19,6 +19,7 @@ namespace _Core._5_Player
 
         [Header("Data")] [SerializeField] private PlayerControlData data;
         private PlayerMovement movementScript;
+        private PlayerCombat combatScript;
 
         #endregion
 
@@ -29,6 +30,7 @@ namespace _Core._5_Player
         private InputAction jumpInput;
         private InputAction dashInput;
         private InputAction pauseInput;
+        private InputAction attackInput;
 
         private float currentHorizontal;
         private float currentVertical;
@@ -49,6 +51,7 @@ namespace _Core._5_Player
         private void Awake()
         {
             movementScript = GetComponent<PlayerMovement>();
+            combatScript = GetComponent<PlayerCombat>();
         }
 
         private void OnEnable()
@@ -87,10 +90,15 @@ namespace _Core._5_Player
             movementScript.LastPressedDashTime = inputBufferTime;
         }
 
+        private void OnAttackInput(InputAction.CallbackContext context)
+        {
+            combatScript.LastPressedAttackTime = inputBufferTime;
+        }
+
         // private void OnOpenPause(InputAction.CallbackContext context)
         // {
         //     onPauseMenuOpen.Invoke();
-        // }
+        // } //TODO commented?
 
         #endregion
 
@@ -117,10 +125,16 @@ namespace _Core._5_Player
             dashInput.Enable();
             dashInput.started += OnDashInput;
 
+            //Attack Controls
+            attackInput = controls.Movement.Attack;
+            attackInput.Enable();
+            attackInput.started += OnAttackInput;
+
             //pause Controls
             pauseInput = controls.UI.Pause;
             pauseInput.Enable();
             pauseInput.started += ctx => onPauseMenuOpen.Invoke();
+
         }
 
         public void DisableAllControls()
@@ -132,7 +146,9 @@ namespace _Core._5_Player
             dashInput.started -= OnDashInput;
             dashInput.Disable();
             pauseInput.Disable();
-            pauseInput.started -= ctx => onPauseMenuOpen.Invoke();
+            attackInput.Disable();
+            attackInput.started -= OnAttackInput;
+            pauseInput.started -= _ => onPauseMenuOpen.Invoke();
         }
 
         public void UpdateControls()
