@@ -15,6 +15,7 @@ namespace _Core._6_Enemies.GroundEnemy
         [SerializeField] private float jumpForce;
         [SerializeField] private float fallVelocity;
         [SerializeField] private float normalGravity;
+        private float moveSpeed;
 
         private float distanceToPlayer;
 
@@ -73,6 +74,8 @@ namespace _Core._6_Enemies.GroundEnemy
                 EnemyAI();
             }
 
+            CapSpeed(moveSpeed, jumpForce);
+            
             rb.gravityScale = IsFalling() ? fallVelocity : normalGravity;
         }
 
@@ -102,7 +105,7 @@ namespace _Core._6_Enemies.GroundEnemy
             var direction = transform.position.x < player.transform.position.x ? Vector2.right : Vector2.left;
 
             rb.AddForce(accelRate * direction, ForceMode2D.Force);
-            CapSpeed(enemyData.chaseSpeed, jumpForce);
+            moveSpeed = enemyData.chaseSpeed;
         }
 
         private void Idle()
@@ -119,7 +122,7 @@ namespace _Core._6_Enemies.GroundEnemy
             var difference = idlePoints[index].position.x - transform.position.x;
             var targetSpeed = Mathf.Sign(difference) * accelRate;
             rb.AddForce(Vector2.right * targetSpeed, ForceMode2D.Force);
-            CapSpeed(enemyData.idleSpeed, jumpForce);
+            moveSpeed = enemyData.idleSpeed;
         }
 
         private void GetDistToPlayer()
@@ -146,6 +149,12 @@ namespace _Core._6_Enemies.GroundEnemy
         }
 
         #endregion
+        
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.DrawWireSphere(wallCheckPoint.position, WallCheckRadius);
+            Gizmos.DrawWireSphere(groundCheckPoint.position, GroundCheckRadius);
+        }
         
     }
 }

@@ -18,9 +18,9 @@ namespace _Core._6_Enemies
 
         #endregion
 
-        private void Awake()
+        private void Start()
         {
-            rb.GetComponent<Rigidbody2D>();
+            rb = GetComponent<Rigidbody2D>();
             OnStarting();
         }
 
