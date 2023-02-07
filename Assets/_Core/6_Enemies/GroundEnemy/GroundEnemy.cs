@@ -71,7 +71,6 @@ namespace _Core._6_Enemies.GroundEnemy
             if (!duringAnimation)
             {
                 EnemyAI();
-                Jump();
             }
 
             rb.gravityScale = IsFalling() ? fallVelocity : normalGravity;
