@@ -1,3 +1,4 @@
+using _Framework;
 using UnityEngine;
 
 namespace _Core._6_Enemies
@@ -8,6 +9,7 @@ namespace _Core._6_Enemies
 
         protected virtual void Death()
         {
+            this.Log("HP was reduced to 0, destroying enemy.");
             Destroy(transform.parent.gameObject);
         }
 

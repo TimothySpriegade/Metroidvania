@@ -10,5 +10,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b9f907fb0f474e4b9bf685d4857215ef, type: 3}
-  m_Name: onBackToMainMenu
+  m_Name: onSceneChange
   m_EditorClassIdentifier: 
