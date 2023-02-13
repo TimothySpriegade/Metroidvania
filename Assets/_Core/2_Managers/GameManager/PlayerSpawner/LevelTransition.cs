@@ -1,5 +1,6 @@
 using _Core._2_Managers.GameManager.PlayerSpawner.ScriptableObjects;
 using _Core._5_Player;
+using _Framework;
 using SOEventSystem.Events;
 using UnityEngine;
 
@@ -21,6 +22,7 @@ namespace _Core._2_Managers.GameManager.PlayerSpawner
             {
                 data.playerWasFacingRight = col.GetComponent<PlayerMovement>().IsFacingRight;
                 onSceneChange.Invoke(nextLevel);
+                this.Log("Destroying Player");
                 Destroy(col.gameObject);
             }
         }

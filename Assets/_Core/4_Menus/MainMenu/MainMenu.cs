@@ -1,4 +1,5 @@
-﻿using SOEventSystem.Events;
+﻿using _Framework;
+using SOEventSystem.Events;
 using UnityEngine;
 
 namespace _Core._4_Menus.MainMenu
@@ -9,13 +10,14 @@ namespace _Core._4_Menus.MainMenu
 
         public void PlayGame(string levelName)
         {
-            //lädt nächste Szene in Scenemanager - änder sich vllt noch wegen save
+            //starting the game by loading scene with the given levelName
+            this.Log("Starting game");
             onSceneChange.Invoke(levelName);
         }
 
-        public static void QuitGame()
+        public void QuitGame()
         {
-            Debug.Log("Quit");
+            this.Log("Quitting game");
             Application.Quit();
         }
     }

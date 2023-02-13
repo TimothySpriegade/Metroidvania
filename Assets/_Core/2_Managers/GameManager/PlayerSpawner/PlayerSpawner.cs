@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using _Core._2_Managers.GameManager.PlayerSpawner.ScriptableObjects;
 using _Core._5_Player;
+using _Framework;
 using UnityEngine;
 
 namespace _Core._2_Managers.GameManager.PlayerSpawner
@@ -35,15 +36,21 @@ namespace _Core._2_Managers.GameManager.PlayerSpawner
             //Search for the child who's FromLevel matches the last Level
             foreach (var child in allChildren.Where(child => child.fromLevel == data.lastLevel))
             {
+                this.Log("Found child passing spawning conditions");
                 return ExtractChildInformation(child);
             }
 
             //Returns first playerSpawn found
-            if (allChildren.Count > 0) return ExtractChildInformation(allChildren.First());
+            if (allChildren.Count > 0)
+            {
+                this.Log("Couldn't find child with spawning condition, using first found spawn");
+                return ExtractChildInformation(allChildren.First());
+            }
 
 
             //Returns the middle if there is no playerSpawn
             direction = TransitionDirection.Down;
+            this.Log("No spawn found. Using middle as spawnpoint");
             return Vector2.zero;
         }
 
@@ -52,12 +59,14 @@ namespace _Core._2_Managers.GameManager.PlayerSpawner
             try
             {
                 var player = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
-
+                this.Log("Spawned Player");
+                
                 if (ShouldTurnPlayer())
                 {
                     TurnPlayer(player);
                 }
 
+                this.Log("Playing EnteringSceneAnimation with direction: " + direction);
                 player.GetComponent<PlayerAnimator>()
                     .EnteringSceneAnimation(direction, data.playerWasFacingRight);
             }
