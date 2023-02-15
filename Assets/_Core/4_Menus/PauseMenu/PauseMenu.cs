@@ -15,18 +15,20 @@ namespace _Core._4_Menus.PauseMenu
 
         #endregion
 
-        public void OpenPauseMenu()
+        public void TogglePauseMenu()
         {
-            this.Log("Opening Pause Menu");
-            Time.timeScale = 0;
-            menu.SetActive(true);
-        }
-
-        public void ContinueGame()
-        {
-            this.Log("Closing Pause Menu");
-            menu.SetActive(false);
-            Time.timeScale = 1f;
+            if (menu.activeSelf)
+            {
+                this.Log("Closing Pause Menu");
+                Time.timeScale = 1f;
+            }
+            else
+            {
+                this.Log("Opening Pause Menu");
+                Time.timeScale = 0;
+            }
+            
+            menu.SetActive(!menu.activeSelf);
         }
 
         public void GoOptionsMenu()
