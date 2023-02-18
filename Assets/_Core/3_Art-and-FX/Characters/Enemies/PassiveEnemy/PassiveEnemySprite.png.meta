@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ae8f628e14cbae744b6c498dfac5056d
+guid: e55bad726da3eb346ae93da2a017f2e7
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -105,265 +105,307 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: GroundEnemyRun_0
-      rect:
-        serializedVersion: 2
-        x: 51
-        y: 27
-        width: 10
-        height: 11
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2cef9931d9a90b9479f65d1e083e1320
-      internalID: 213310876
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GroundEnemyRun_1
-      rect:
-        serializedVersion: 2
-        x: 67
-        y: 27
-        width: 10
-        height: 13
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0ef9b5dd037dac2468333e6317de7216
-      internalID: 539394031
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GroundEnemyRun_2
-      rect:
-        serializedVersion: 2
-        x: 82
-        y: 27
-        width: 12
-        height: 14
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3cc0065aec085bf4f9282b2a49dbb2e5
-      internalID: 824255894
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GroundEnemyRun_3
-      rect:
-        serializedVersion: 2
-        x: 99
-        y: 27
-        width: 10
-        height: 14
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: fc38306774e968f48bdc12595196a045
-      internalID: -2100349111
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GroundEnemyRun_4
-      rect:
-        serializedVersion: 2
-        x: 115
-        y: 27
-        width: 10
-        height: 13
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 22523e30249842241b6fc916ecb2a115
-      internalID: -11617701
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GroundEnemyChase_0
-      rect:
-        serializedVersion: 2
-        x: 51
-        y: 2
-        width: 11
-        height: 21
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 731d5215660537f4188ac6b9d9929eff
-      internalID: -1459326155
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GroundEnemyChase_1
-      rect:
-        serializedVersion: 2
-        x: 67
-        y: 2
-        width: 11
-        height: 21
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 91d12fdd46ad2dd40ab20e15d8a61e15
-      internalID: 1505090468
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GroundEnemyChase_2
-      rect:
-        serializedVersion: 2
-        x: 80
-        y: 2
-        width: 17
-        height: 23
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ec6e4151d5276e644ae80df28f116c54
-      internalID: -190569993
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GroundEnemyChase_3
-      rect:
-        serializedVersion: 2
-        x: 98
-        y: 2
-        width: 13
-        height: 19
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4f84a739c88295e4e94d777eb4fd36a9
-      internalID: 1500758293
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GroundEnemyChase_4
-      rect:
-        serializedVersion: 2
-        x: 114
-        y: 2
-        width: 13
-        height: 16
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3a8f9c8290f2a544da1853a082f0dfbe
-      internalID: 1681295799
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GroundEnemyHurt
-      rect:
-        serializedVersion: 2
-        x: 35
-        y: 27
-        width: 10
-        height: 10
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7b61b00e23b74944b95f777db5382a4e
-      internalID: -120047363
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: GroundEnemyDeath_0
+      name: PassiveEnemySteppedOn_0
       rect:
         serializedVersion: 2
         x: 3
-        y: 27
-        width: 10
-        height: 11
+        y: 3
+        width: 17
+        height: 17
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 61bf142796e7df644b4adf37f3e8b4e2
-      internalID: 1057557132
+      spriteID: 0af45a24244e1bc43a4dd2a7c9c6d213
+      internalID: 1090395289
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GroundEnemyDeath_1
+      name: PassiveEnemySteppedOn_1
       rect:
         serializedVersion: 2
-        x: 20
-        y: 27
-        width: 8
-        height: 11
+        x: 27
+        y: 3
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cfe9d57648fd84942948ca7a35d93db7
+      internalID: -1785196895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PassiveEnemySteppedOn_2
+      rect:
+        serializedVersion: 2
+        x: 51
+        y: 3
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 49b1389bd51c01549a4a6be3de4c05d7
+      internalID: -106417711
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PassiveEnemySprite_0
+      rect:
+        serializedVersion: 2
+        x: 75
+        y: 3
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7aaa59d5fc2028b4cae56d33a5c05380
+      internalID: -206806990
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PassiveEnemySprite_1
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 3
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8a527eaff877a984889cd87493eb28ba
+      internalID: 2079631246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PassiveEnemySprite_2
+      rect:
+        serializedVersion: 2
+        x: 123
+        y: 3
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48b4bc758cc4c864cad09dfb1bd80f1b
+      internalID: 2096121041
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PassiveEnemySprite_3
+      rect:
+        serializedVersion: 2
+        x: 147
+        y: 3
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 71745b4fc124176488997b90e42bbc2b
+      internalID: 287440809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PassiveEnemySprite_4
+      rect:
+        serializedVersion: 2
+        x: 171
+        y: 3
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b24a25c253a20b498acfd817d544e7d
+      internalID: 886039265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PassiveEnemySprite_5
+      rect:
+        serializedVersion: 2
+        x: 195
+        y: 3
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9f80534d0684c5e43b6e5260eb97932e
+      internalID: -2101247308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PassiveEnemySprite_6
+      rect:
+        serializedVersion: 2
+        x: 219
+        y: 3
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 47290ea0b739b0d4ea3dbd4bbcef0925
+      internalID: -1732169902
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PassiveEnemySprite_7
+      rect:
+        serializedVersion: 2
+        x: 243
+        y: 3
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8403a4c4d4b57b14ca8254ada50ccee7
+      internalID: -1817817613
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PassiveEnemySprite_8
+      rect:
+        serializedVersion: 2
+        x: 265
+        y: 3
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e15351ab07203e42ad26a0536ec8b66
+      internalID: -1848198416
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PassiveEnemySprite_9
+      rect:
+        serializedVersion: 2
+        x: 291
+        y: 3
+        width: 17
+        height: 18
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b81c4cc8d79fd3d49b7f780e7e2bd47e
+      internalID: 609853744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PassiveEnemySprite_10
+      rect:
+        serializedVersion: 2
+        x: 315
+        y: 3
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69f64f631e8df4d4186c6a9fcaa232ce
+      internalID: -743611546
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PassiveEnemyDeath_0
+      rect:
+        serializedVersion: 2
+        x: 339
+        y: 3
+        width: 17
+        height: 18
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -371,8 +413,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a198074907c306f4da9117800d2edf4e
-      internalID: 2075220347
+      spriteID: 4bd4b1e3a9b37b64f98af8158c798fe8
+      internalID: 1284478637
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PassiveEnemyDeath_1
+      rect:
+        serializedVersion: 2
+        x: 385
+        y: 3
+        width: 17
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 31d342c5cf201a847b5a011a17ace419
+      internalID: -1101605207
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PassiveEnemyDeath_2
+      rect:
+        serializedVersion: 2
+        x: 361
+        y: 3
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ea5cd4cd0aabee545837efb28de43934
+      internalID: -1847648921
       vertices: []
       indices: 
       edges: []
@@ -388,22 +472,23 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      GroundEnemyRun_4: -11617701
-      GroundEnemySprite_2: 196358640
-      GroundEnemyChase_2: -190569993
-      GroundEnemyIdle: 583048514
-      GroundEnemyRun_2: 824255894
-      GroundEnemyChase_1: 1505090468
-      GroundEnemySprite_1: -947141946
-      GroundEnemyHurt: -120047363
-      GroundEnemyChase_4: 1681295799
-      GroundEnemyRun_1: 539394031
-      GroundEnemyDeath_0: 1057557132
-      GroundEnemyChase_0: -1459326155
-      GroundEnemyChase_3: 1500758293
-      GroundEnemyRun_3: -2100349111
-      GroundEnemyRun_0: 213310876
-      GroundEnemyDeath_1: 2075220347
+      PassiveEnemySprite_6: -1732169902
+      PassiveEnemySteppedOn_0: 1090395289
+      PassiveEnemySprite_5: -2101247308
+      PassiveEnemySprite_8: -1848198416
+      PassiveEnemySprite_2: 2096121041
+      PassiveEnemyDeath_1: -1101605207
+      PassiveEnemySteppedOn_2: -106417711
+      PassiveEnemySprite_7: -1817817613
+      PassiveEnemySteppedOn_1: -1785196895
+      PassiveEnemySprite_1: 2079631246
+      PassiveEnemySprite_4: 886039265
+      PassiveEnemySprite_9: 609853744
+      PassiveEnemyDeath_0: 1284478637
+      PassiveEnemySprite_3: 287440809
+      PassiveEnemyDeath_2: -1847648921
+      PassiveEnemySprite_10: -743611546
+      PassiveEnemySprite_0: -206806990
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
