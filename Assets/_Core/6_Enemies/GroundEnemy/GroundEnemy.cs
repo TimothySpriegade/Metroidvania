@@ -38,6 +38,13 @@ namespace _Core._6_Enemies.GroundEnemy
         #region Component vars
 
         private GameObject player;
+        private Animator animator;
+
+        #endregion
+
+        #region Animation
+
+        private GroundEnemyAnimatorState currentState;
 
         #endregion
 
@@ -56,6 +63,7 @@ namespace _Core._6_Enemies.GroundEnemy
         protected override void OnStarting()
         {
             player = GameObject.FindGameObjectWithTag("Player");
+            animator = GetComponentInChildren<Animator>();
         }
 
         private void Update()
@@ -87,10 +95,12 @@ namespace _Core._6_Enemies.GroundEnemy
         {
             if (distanceToPlayer <= aggroRange)
             {
+                ChangeAnimationState(GroundEnemyAnimatorState.GroundEnemyChase);
                 ChasePlayer();
             }
             else
             {
+                ChangeAnimationState(GroundEnemyAnimatorState.GroundEnemyRun);
                 Idle();
             }
 
@@ -141,6 +151,28 @@ namespace _Core._6_Enemies.GroundEnemy
 
         #endregion
 
+        #region Animation
+
+        private void ChangeAnimationState(GroundEnemyAnimatorState newState)
+        {
+            //Stop if currently played Animation matches attempted animation
+            if (currentState == newState) return;
+
+            //Play animation
+            animator.Play(newState.ToString());
+
+            //replace currentState
+            currentState = newState;
+        }
+
+        public override float DeathAnimation()
+        {
+            ChangeAnimationState(GroundEnemyAnimatorState.GroundEnemyDeath);
+            return animator.GetCurrentAnimatorStateInfo(0).length;
+        }
+
+        #endregion
+        
         #region Checks
 
         private bool IsFalling()
@@ -157,4 +189,11 @@ namespace _Core._6_Enemies.GroundEnemy
         }
         
     }
+}
+
+public enum GroundEnemyAnimatorState
+{
+    GroundEnemyRun,
+    GroundEnemyChase,
+    GroundEnemyDeath,
 }

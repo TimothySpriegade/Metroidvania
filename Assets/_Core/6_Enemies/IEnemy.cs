@@ -4,5 +4,7 @@ namespace _Core._6_Enemies
     {
         bool isFacingRight { get; }
         bool duringAnimation { get; set; }
+
+        float DeathAnimation();
     }
 }

@@ -34,7 +34,12 @@ namespace _Core._6_Enemies
             base.OnDamageTaken(damage);
             TakeKnockback();
         }
-        
+
+        protected override void Death()
+        {
+            DOVirtual.DelayedCall(enemy.DeathAnimation(), base.Death);
+        }
+
         private void TakeKnockback()
         {
             enemy.duringAnimation = true;
@@ -46,5 +51,7 @@ namespace _Core._6_Enemies
 
             DOVirtual.DelayedCall(0.5f, () => enemy.duringAnimation = false);
         }
+        
+        
     }
 }

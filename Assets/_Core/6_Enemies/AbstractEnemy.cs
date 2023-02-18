@@ -70,6 +70,7 @@ namespace _Core._6_Enemies
         }
 
         protected abstract void EnemyAI();
+        public abstract float DeathAnimation();
 
         #endregion
 
