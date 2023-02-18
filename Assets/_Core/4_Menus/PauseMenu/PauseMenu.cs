@@ -1,3 +1,4 @@
+using _Framework;
 using SOEventSystem.Events;
 using UnityEngine;
 
@@ -10,20 +11,24 @@ namespace _Core._4_Menus.PauseMenu
         [SerializeField] private GameObject menu;
         [SerializeField] private GameObject optionsMenu;
         [SerializeField] private GameObject pauseMenu;
-        [SerializeField] private StringEvent onBackToMainMenu;
+        [SerializeField] private StringEvent onSceneChange;
 
         #endregion
 
-        public void OpenPauseMenu()
+        public void TogglePauseMenu()
         {
-            Time.timeScale = 0;
-            menu.SetActive(true);
-        }
-
-        public void ContinueGame()
-        {
-            menu.SetActive(false);
-            Time.timeScale = 1f;
+            if (menu.activeSelf)
+            {
+                this.Log("Closing Pause Menu");
+                Time.timeScale = 1f;
+            }
+            else
+            {
+                this.Log("Opening Pause Menu");
+                Time.timeScale = 0;
+            }
+            
+            menu.SetActive(!menu.activeSelf);
         }
 
         public void GoOptionsMenu()
@@ -34,7 +39,7 @@ namespace _Core._4_Menus.PauseMenu
 
         public void BackToMainMenu()
         {
-            onBackToMainMenu?.Invoke("MainMenu");
+            onSceneChange.Invoke("MainMenu");
         }
     }
 }

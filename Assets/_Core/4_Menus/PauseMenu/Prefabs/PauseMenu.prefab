@@ -226,7 +226,7 @@ MonoBehaviour:
   menu: {fileID: 4304776355564326392}
   optionsMenu: {fileID: 615325756582305277}
   pauseMenu: {fileID: 7565042716380558592}
-  onBackToMainMenu: {fileID: 11400000, guid: d8166a210abfdf441885c415a2fefeb4, type: 2}
+  onSceneChange: {fileID: 11400000, guid: caf704787c85da1498c4d9fbefa18b30, type: 2}
 --- !u!114 &7565042715632679849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4697,8 +4697,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 7565042715632679764}
-        m_TargetAssemblyTypeName: Menus.PauseMenu.PauseMenu, Assembly-CSharp
-        m_MethodName: OpenPauseMenu
+        m_TargetAssemblyTypeName: _Core._4_Menus.PauseMenu.PauseMenu, Assembly-CSharp
+        m_MethodName: TogglePauseMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4831,8 +4831,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 7565042715632679764}
-        m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
-        m_MethodName: ContinueGame
+        m_TargetAssemblyTypeName: _Core._4_Menus.PauseMenu.PauseMenu, Assembly-CSharp
+        m_MethodName: TogglePauseMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

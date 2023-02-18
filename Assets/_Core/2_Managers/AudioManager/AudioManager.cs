@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using _Framework;
+using UnityEngine;
 using UnityEngine.Audio;
 
 namespace _Core._2_Managers.AudioManager
@@ -18,6 +19,7 @@ namespace _Core._2_Managers.AudioManager
                 masterVolume = value;
                 mixer.SetFloat("MasterVolume", value);
                 PlayerPrefs.SetFloat("MasterVolume", value);
+                this.Log("Adjusted master-volume to: " + value);
             }
         }
 
@@ -29,6 +31,7 @@ namespace _Core._2_Managers.AudioManager
                 musicVolume = value;
                 mixer.SetFloat("MusicVolume", value);
                 PlayerPrefs.SetFloat("MusicVolume", value);
+                this.Log("Adjusted music-volume to: " + value);
             }
         }
 
@@ -40,6 +43,7 @@ namespace _Core._2_Managers.AudioManager
                 effectVolume = value;
                 mixer.SetFloat("EffectVolume", value);
                 PlayerPrefs.SetFloat("EffectVolume", value);
+                this.Log("Adjusted effect-volume to: " + value);
             }
         }
 
