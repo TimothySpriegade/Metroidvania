@@ -8,24 +8,26 @@ namespace _Core._6_Characters.NPC
         private CatAnimatorState currentState;
         
         private Animator animator;
-
+        private Rigidbody2D rb;
+        
         private bool isFacingRight;
 
+        [SerializeField] private float animationSpeed;
         [SerializeField] private float moveSpeed;
         [SerializeField] private Transform wallCheckPoint;
         [SerializeField] private Vector2 wallCheckSize;
         [SerializeField] private LayerMask groundLayer;
         private void Start()
         {
+            rb = GetComponent<Rigidbody2D>();
             animator = GetComponentInChildren<Animator>();
-            DOVirtual.DelayedCall(1, RandomAnimation).SetLoops(-1);
+            DOVirtual.DelayedCall(animationSpeed, RandomAnimation).SetLoops(-1);
         }
 
         private void MoveCat()
         {
             float direction;
-            Debug.Log(Physics2D.OverlapBox(wallCheckPoint.position, wallCheckSize, groundLayer));
-            if (Physics2D.OverlapBox(wallCheckPoint.position, wallCheckSize, groundLayer))
+            if (Physics2D.OverlapBox(wallCheckPoint.position, wallCheckSize,0, groundLayer))
             {
                 direction = isFacingRight ? -moveSpeed : moveSpeed;
             }
@@ -35,11 +37,13 @@ namespace _Core._6_Characters.NPC
             }
 
             CheckDirectionToFace(direction > 0);
-            transform.DOMoveX(direction, 1).SetRelative();
+            rb.DOMoveX(direction, animationSpeed)
+                .SetEase(Ease.Linear)
+                .SetRelative();
         }
         private void RandomAnimation()
         {
-            var randomAnimation = Random.value < 0.3f ? CatAnimatorState.CatRun : (CatAnimatorState)Random.Range(0, 5);
+            var randomAnimation = Random.value < 0.4f ? CatAnimatorState.CatRun : (CatAnimatorState)Random.Range(0, 5);
             Debug.Log(randomAnimation);
             ChangeAnimationState(randomAnimation);
         }
