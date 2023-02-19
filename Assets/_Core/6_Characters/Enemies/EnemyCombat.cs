@@ -35,9 +35,9 @@ namespace _Core._6_Characters.Enemies
             TakeKnockback();
         }
 
-        protected override void Death()
+        protected override void Destroy()
         {
-            DOVirtual.DelayedCall(enemy.DeathAnimation(), base.Death);
+            DOVirtual.DelayedCall(enemy.DeathAnimation(), base.Destroy);
         }
 
         private void TakeKnockback()

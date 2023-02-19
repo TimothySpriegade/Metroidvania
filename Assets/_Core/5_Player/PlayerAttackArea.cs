@@ -1,5 +1,5 @@
 using _Core._5_Player.ScriptableObjects;
-using _Core._6_Enemies;
+using _Core._6_Characters.Enemies;
 using UnityEngine;
 
 namespace _Core._5_Player

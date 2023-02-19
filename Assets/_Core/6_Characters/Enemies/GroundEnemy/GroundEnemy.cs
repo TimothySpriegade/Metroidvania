@@ -75,7 +75,6 @@ namespace _Core._6_Characters.Enemies.GroundEnemy
 
             isWalled = CollisionCheck(wallCheckPoint, WallCheckRadius);
             isGrounded = CollisionCheck(groundCheckPoint, GroundCheckRadius);
-            GetDistToPlayer();
 
             if (!duringAnimation)
             {
@@ -93,7 +92,7 @@ namespace _Core._6_Characters.Enemies.GroundEnemy
 
         protected override void EnemyAI()
         {
-            if (distanceToPlayer <= aggroRange)
+            if (GetDistToPlayer() <= aggroRange)
             {
                 ChangeAnimationState(GroundEnemyAnimatorState.GroundEnemyChase);
                 ChasePlayer();
@@ -135,12 +134,14 @@ namespace _Core._6_Characters.Enemies.GroundEnemy
             moveSpeed = enemyData.idleSpeed;
         }
 
-        private void GetDistToPlayer()
+        private float GetDistToPlayer()
         {
             if (!ReferenceEquals(player, null) && !player.IsDestroyed())
             {
-                distanceToPlayer = Vector2.Distance(transform.position, player.transform.position);
+                return Vector2.Distance(transform.position, player.transform.position);
             }
+
+            return aggroRange + 1;
         }
 
         private void Jump()
