@@ -44,7 +44,6 @@ namespace _Core._6_Characters.NPC
         private void RandomAnimation()
         {
             var randomAnimation = Random.value < 0.4f ? CatAnimatorState.CatRun : (CatAnimatorState)Random.Range(0, 5);
-            Debug.Log(randomAnimation);
             ChangeAnimationState(randomAnimation);
         }
         private void ChangeAnimationState(CatAnimatorState newState)
