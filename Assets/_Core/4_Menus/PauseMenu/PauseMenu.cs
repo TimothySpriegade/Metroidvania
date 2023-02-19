@@ -27,7 +27,7 @@ namespace _Core._4_Menus.PauseMenu
                 this.Log("Opening Pause Menu");
                 Time.timeScale = 0;
             }
-            
+
             menu.SetActive(!menu.activeSelf);
         }
 

@@ -22,7 +22,7 @@ namespace _Core._5_Player
         [Header("Components")]
         [SerializeField] private PlayerCombatData data;
         private PlayerAnimator animator;
-        
+
         #endregion
 
         #endregion
@@ -33,6 +33,7 @@ namespace _Core._5_Player
         {
             animator = GetComponent<PlayerAnimator>();
         }
+
         private void Update()
         {
             LastPressedAttackTime -= Time.deltaTime;
