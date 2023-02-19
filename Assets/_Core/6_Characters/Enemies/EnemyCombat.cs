@@ -1,14 +1,14 @@
-using _Core._6_Enemies.ScriptableObjects;
+using _Core._6_Characters.Enemies.ScriptableObjects;
 using DG.Tweening;
 using UnityEngine;
 
-namespace _Core._6_Enemies
+namespace _Core._6_Characters.Enemies
 {
     public class EnemyCombat : Destructible
     {
         #region Movement vars
 
-        [Header("Movement")]
+        [Header("Movement")] 
         [SerializeField] private Vector2 knockbackStrength;
 
         #endregion
@@ -25,7 +25,7 @@ namespace _Core._6_Enemies
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
-            enemy = (IEnemy)GetComponent(typeof(IEnemy));
+            enemy = (IEnemy) GetComponent(typeof(IEnemy));
             health = enemyData.maxHealth;
         }
 
@@ -46,12 +46,10 @@ namespace _Core._6_Enemies
             var direction = enemy.isFacingRight ? Vector2.left : Vector2.right;
 
             rb.velocity = Vector3.zero;
-            rb.AddForce(knockbackStrength.x *  direction, ForceMode2D.Impulse);
+            rb.AddForce(knockbackStrength.x * direction, ForceMode2D.Impulse);
             rb.AddForce(knockbackStrength.y * Vector2.up, ForceMode2D.Impulse);
 
             DOVirtual.DelayedCall(0.5f, () => enemy.duringAnimation = false);
         }
-        
-        
     }
 }

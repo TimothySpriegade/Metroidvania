@@ -1,7 +1,7 @@
-using _Core._6_Enemies.ScriptableObjects;
+using _Core._6_Characters.Enemies.ScriptableObjects;
 using UnityEngine;
 
-namespace _Core._6_Enemies
+namespace _Core._6_Characters.Enemies
 {
     [RequireComponent(typeof(Rigidbody2D))]
     public abstract class AbstractEnemy : MonoBehaviour, IEnemy
@@ -10,7 +10,7 @@ namespace _Core._6_Enemies
 
         public bool isFacingRight { get; private set; }
         public bool duringAnimation { get; set; }
-        
+
         protected Rigidbody2D rb;
 
         [SerializeField] protected EnemyData enemyData;
@@ -73,6 +73,5 @@ namespace _Core._6_Enemies
         public abstract float DeathAnimation();
 
         #endregion
-
     }
 }

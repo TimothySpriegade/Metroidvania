@@ -17,7 +17,8 @@ namespace _Core._5_Player
 
         private void OnTriggerEnter2D(Collider2D col)
         {
-            if (col.gameObject.CompareTag("EnvironmentalTrapCheckpoint") && !col.transform.position.Equals(checkpointPosition))
+            if (col.gameObject.CompareTag("EnvironmentalTrapCheckpoint") &&
+                !col.transform.position.Equals(checkpointPosition))
             {
                 var colliderPosition = col.transform.position;
                 this.Log($"Assigning new checkpoint: {colliderPosition}");

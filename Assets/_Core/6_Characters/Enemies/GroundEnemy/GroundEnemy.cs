@@ -1,7 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-namespace _Core._6_Enemies.GroundEnemy
+namespace _Core._6_Characters.Enemies.GroundEnemy
 {
     public class GroundEnemy : AbstractEnemy
     {
@@ -23,12 +23,12 @@ namespace _Core._6_Enemies.GroundEnemy
 
         #region Check vars
 
-        [Header("Checks")] 
+        [Header("Checks")]
         private bool isWalled;
         private bool isGrounded;
         [SerializeField] private Transform wallCheckPoint;
         [SerializeField] private Transform groundCheckPoint;
-        
+
 
         private const float WallCheckRadius = 0.2f;
         private const float GroundCheckRadius = 0.2f;
@@ -50,7 +50,7 @@ namespace _Core._6_Enemies.GroundEnemy
 
         #region Idle vars
 
-        [Header("Idle")] 
+        [Header("Idle")]
         [SerializeField] private Transform[] idlePoints;
         private int index;
 
@@ -76,14 +76,14 @@ namespace _Core._6_Enemies.GroundEnemy
             isWalled = CollisionCheck(wallCheckPoint, WallCheckRadius);
             isGrounded = CollisionCheck(groundCheckPoint, GroundCheckRadius);
             GetDistToPlayer();
-            
+
             if (!duringAnimation)
             {
                 EnemyAI();
             }
 
             CapSpeed(moveSpeed, jumpForce);
-            
+
             rb.gravityScale = IsFalling() ? fallVelocity : normalGravity;
         }
 
@@ -172,7 +172,7 @@ namespace _Core._6_Enemies.GroundEnemy
         }
 
         #endregion
-        
+
         #region Checks
 
         private bool IsFalling()
@@ -181,19 +181,18 @@ namespace _Core._6_Enemies.GroundEnemy
         }
 
         #endregion
-        
+
         private void OnDrawGizmosSelected()
         {
             Gizmos.DrawWireSphere(wallCheckPoint.position, WallCheckRadius);
             Gizmos.DrawWireSphere(groundCheckPoint.position, GroundCheckRadius);
         }
-        
     }
-}
 
-public enum GroundEnemyAnimatorState
-{
-    GroundEnemyRun,
-    GroundEnemyChase,
-    GroundEnemyDeath,
+    public enum GroundEnemyAnimatorState
+    {
+        GroundEnemyRun,
+        GroundEnemyChase,
+        GroundEnemyDeath
+    }
 }

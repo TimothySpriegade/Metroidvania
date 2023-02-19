@@ -24,7 +24,7 @@ namespace SOEventSystem.Listeners
             if (gameEvent != null) gameEvent.EventListeners -= OnEventInvoked;
         }
 
-        public void OnEventInvoked(T item)
+        private void OnEventInvoked(T item)
         {
             unityEventResponse.Invoke(item);
         }

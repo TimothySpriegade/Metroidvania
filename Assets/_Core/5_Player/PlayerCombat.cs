@@ -9,7 +9,7 @@ namespace _Core._5_Player
 
         #region playercombatvars
 
-        [Header("Combat")]
+        [Header("Combat")] 
         [SerializeField] private Transform attackPoint;
         [SerializeField] private float attackRange;
         [SerializeField] private LayerMask enemyLayer;
@@ -22,15 +22,15 @@ namespace _Core._5_Player
 
         #region events
 
-        [Header("Events")]
+        [Header("Events")] 
         [SerializeField] private FloatEvent onDamageGiven;
 
         #endregion
 
         #region components
-        
+
         private PlayerAnimator animator;
-        
+
         #endregion
 
         #endregion
@@ -41,6 +41,7 @@ namespace _Core._5_Player
         {
             animator = GetComponent<PlayerAnimator>();
         }
+
         private void Update()
         {
             LastPressedAttackTime -= Time.deltaTime;

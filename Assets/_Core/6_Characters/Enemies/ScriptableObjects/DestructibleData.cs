@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace _Core._6_Enemies.ScriptableObjects
+namespace _Core._6_Characters.Enemies.ScriptableObjects
 {
     public abstract class DestructibleData : ScriptableObject
     {

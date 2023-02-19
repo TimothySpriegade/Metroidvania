@@ -6,10 +6,10 @@ namespace _Core._6_Characters.NPC
     public class Cat : MonoBehaviour
     {
         private CatAnimatorState currentState;
-        
+
         private Animator animator;
         private Rigidbody2D rb;
-        
+
         private bool isFacingRight;
 
         [SerializeField] private float animationSpeed;
@@ -17,6 +17,7 @@ namespace _Core._6_Characters.NPC
         [SerializeField] private Transform wallCheckPoint;
         [SerializeField] private Vector2 wallCheckSize;
         [SerializeField] private LayerMask groundLayer;
+
         private void Start()
         {
             rb = GetComponent<Rigidbody2D>();
@@ -27,7 +28,7 @@ namespace _Core._6_Characters.NPC
         private void MoveCat()
         {
             float direction;
-            if (Physics2D.OverlapBox(wallCheckPoint.position, wallCheckSize,0, groundLayer))
+            if (Physics2D.OverlapBox(wallCheckPoint.position, wallCheckSize, 0, groundLayer))
             {
                 direction = isFacingRight ? -moveSpeed : moveSpeed;
             }
@@ -41,11 +42,13 @@ namespace _Core._6_Characters.NPC
                 .SetEase(Ease.Linear)
                 .SetRelative();
         }
+
         private void RandomAnimation()
         {
-            var randomAnimation = Random.value < 0.4f ? CatAnimatorState.CatRun : (CatAnimatorState)Random.Range(0, 5);
+            var randomAnimation = Random.value < 0.4f ? CatAnimatorState.CatRun : (CatAnimatorState) Random.Range(0, 5);
             ChangeAnimationState(randomAnimation);
         }
+
         private void ChangeAnimationState(CatAnimatorState newState)
         {
             //Stop if currently played Animation matches attempted animation
@@ -58,7 +61,7 @@ namespace _Core._6_Characters.NPC
             {
                 MoveCat();
             }
-            
+
             //replace currentState
             currentState = newState;
         }
@@ -72,6 +75,7 @@ namespace _Core._6_Characters.NPC
                 Flip();
             }
         }
+
         private void Flip()
         {
             var scale = transform.localScale;
@@ -82,19 +86,19 @@ namespace _Core._6_Characters.NPC
         }
 
         #endregion
-        
+
         private void OnDrawGizmosSelected()
         {
             Gizmos.DrawWireCube(wallCheckPoint.position, wallCheckSize);
         }
     }
-}
 
-public enum CatAnimatorState
-{
-    CatIdle1,
-    CatIdle2,
-    CatIdle3,
-    CatSleep,
-    CatRun,
+    public enum CatAnimatorState
+    {
+        CatIdle1,
+        CatIdle2,
+        CatIdle3,
+        CatSleep,
+        CatRun
+    }
 }

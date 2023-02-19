@@ -1,7 +1,7 @@
 using _Framework;
 using UnityEngine;
 
-namespace _Core._6_Enemies
+namespace _Core._6_Characters.Enemies
 {
     public abstract class Destructible : MonoBehaviour
     {
@@ -27,7 +27,5 @@ namespace _Core._6_Enemies
         {
             health -= damage;
         }
-
-        
     }
 }

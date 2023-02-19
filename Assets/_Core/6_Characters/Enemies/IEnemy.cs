@@ -1,4 +1,4 @@
-namespace _Core._6_Enemies
+namespace _Core._6_Characters.Enemies
 {
     public interface IEnemy
     {

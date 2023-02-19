@@ -60,7 +60,7 @@ namespace _Core._2_Managers.GameManager.PlayerSpawner
             {
                 var player = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
                 this.Log("Spawned Player");
-                
+
                 if (ShouldTurnPlayer())
                 {
                     TurnPlayer(player);
