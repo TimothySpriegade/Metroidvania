@@ -1,5 +1,5 @@
+using _Core._5_Player.ScriptableObjects;
 using DG.Tweening;
-using SOEventSystem.Events;
 using UnityEngine;
 
 namespace _Core._5_Player
@@ -12,22 +12,15 @@ namespace _Core._5_Player
 
         [Header("Combat")] 
         [SerializeField] private GameObject attackArea;
-        [SerializeField] private float attackCooldown;
-        [SerializeField] private float playerDamage;
         public float LastPressedAttackTime { get; set; }
         private float lastAttackedTime;
 
         #endregion
 
-        #region events
-
-        [Header("Events")]
-        [SerializeField] private FloatEvent onDamageGiven;
-
-        #endregion
-
         #region components
         
+        [Header("Components")]
+        [SerializeField] private PlayerCombatData data;
         private PlayerAnimator animator;
         
         #endregion

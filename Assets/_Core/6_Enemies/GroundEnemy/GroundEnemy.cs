@@ -24,12 +24,12 @@ namespace _Core._6_Enemies.GroundEnemy
         #region Check vars
 
         [Header("Checks")] 
-        private bool isWalled;
-        private bool isGrounded;
         [SerializeField] private Transform wallCheckPoint;
         [SerializeField] private Transform groundCheckPoint;
         
-
+        private bool isWalled;
+        private bool isGrounded;
+        
         private const float WallCheckRadius = 0.2f;
         private const float GroundCheckRadius = 0.2f;
 

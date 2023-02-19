@@ -57,6 +57,7 @@ namespace _Core._5_Player
 
             //Play animation
             animator.Play(newState.ToString());
+            animator.Update(Time.smoothDeltaTime);
 
             switch (newState)
             {

@@ -1,19 +1,22 @@
+using _Core._5_Player.ScriptableObjects;
+using _Core._6_Enemies;
 using UnityEngine;
 
 namespace _Core._5_Player
 {
     public class PlayerAttackArea : MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start()
-        {
+        [SerializeField] private PlayerCombatData data;
         
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
+        private const string Destructible = "Destructible";
         
+        private void OnTriggerEnter2D(Collider2D col)
+        {
+            if (col.gameObject.CompareTag(Destructible))
+            {
+                var destructible = (Destructible)col.gameObject.GetComponent(typeof(Destructible));
+                destructible.OnDamageTaken(data.damage);
+            }
         }
     }
 }

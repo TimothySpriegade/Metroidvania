@@ -7,9 +7,9 @@ namespace _Core._6_Enemies
     {
         protected float health;
 
-        protected virtual void Death()
+        protected virtual void Destroy()
         {
-            this.Log("HP was reduced to 0, destroying enemy.");
+            this.Log("HP was reduced to 0, destroying destructible.");
             Destroy(transform.parent.gameObject);
         }
 
@@ -19,7 +19,7 @@ namespace _Core._6_Enemies
 
             if (health <= 0)
             {
-                Death();
+                Destroy();
             }
         }
 
