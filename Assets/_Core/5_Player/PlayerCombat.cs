@@ -1,3 +1,4 @@
+using DG.Tweening;
 using SOEventSystem.Events;
 using UnityEngine;
 
@@ -7,12 +8,10 @@ namespace _Core._5_Player
     {
         #region vars
 
-        #region playercombatvars
+        #region PlayerCombat Vars
 
-        [Header("Combat")]
-        [SerializeField] private Transform attackPoint;
-        [SerializeField] private float attackRange;
-        [SerializeField] private LayerMask enemyLayer;
+        [Header("Combat")] 
+        [SerializeField] private GameObject attackArea;
         [SerializeField] private float attackCooldown;
         [SerializeField] private float playerDamage;
         public float LastPressedAttackTime { get; set; }
@@ -61,21 +60,18 @@ namespace _Core._5_Player
 
         private void Attack()
         {
+            // Preparation
             LastPressedAttackTime = 0;
-            lastAttackedTime = attackCooldown;
-            animator.ChangeAnimationState(PlayerAnimatorState.PlayerAttack);
-            var hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
+            
+            // Animation
+            var attackLength = animator.AttackAnimation();
+            
+            // Activating attack hitbox
+            attackArea.SetActive(true);
+            lastAttackedTime = attackLength;
 
-            foreach(var enemy in hitEnemies) 
-            {
-                onDamageGiven.Invoke(playerDamage);
-            }
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-            if (attackPoint == null) return;
-            Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+            // Deactivating attack hitbox
+            DOVirtual.DelayedCall(attackLength, () => attackArea.SetActive(false));
         }
     }
 }
