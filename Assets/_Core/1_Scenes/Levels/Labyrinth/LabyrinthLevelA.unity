@@ -50349,6 +50349,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2125240342842014006, guid: c277de2edb9448647900ae5ec2756032, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2125240342842014006, guid: c277de2edb9448647900ae5ec2756032, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2125240342842014007, guid: c277de2edb9448647900ae5ec2756032, type: 3}
       propertyPath: field of view
       value: 71.89531
@@ -50875,6 +50883,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1982865571}
     m_Modifications:
+    - target: {fileID: 6951648964692986197, guid: 77872237b43c5fb4abafeb9b745f3108, type: 3}
+      propertyPath: direction
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6951648964692986197, guid: 77872237b43c5fb4abafeb9b745f3108, type: 3}
       propertyPath: fromLevel
       value: 
