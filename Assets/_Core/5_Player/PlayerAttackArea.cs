@@ -14,8 +14,9 @@ namespace _Core._5_Player
         {
             if (col.gameObject.CompareTag(Destructible))
             {
-                var destructible = (Destructible)col.gameObject.GetComponent(typeof(Destructible));
-                destructible.OnDamageTaken(data.damage);
+                var destructible = col.GetComponent<Destructible>();
+
+                destructible?.OnDamageTaken(data.damage);
             }
         }
     }

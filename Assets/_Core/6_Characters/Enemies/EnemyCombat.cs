@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace _Core._6_Characters.Enemies
 {
+    [RequireComponent(typeof(IEnemy))]
     public class EnemyCombat : Destructible
     {
         #region Movement vars
@@ -25,7 +26,7 @@ namespace _Core._6_Characters.Enemies
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
-            enemy = (IEnemy) GetComponent(typeof(IEnemy));
+            enemy = GetComponent<IEnemy>();
             health = enemyData.maxHealth;
         }
 
