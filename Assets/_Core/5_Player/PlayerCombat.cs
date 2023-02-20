@@ -1,4 +1,4 @@
-using SOEventSystem.Events;
+using DG.Tweening;
 using UnityEngine;
 
 namespace _Core._5_Player
@@ -7,28 +7,19 @@ namespace _Core._5_Player
     {
         #region vars
 
-        #region playercombatvars
+        #region PlayerCombat Vars
 
         [Header("Combat")] 
-        [SerializeField] private Transform attackPoint;
-        [SerializeField] private float attackRange;
-        [SerializeField] private LayerMask enemyLayer;
-        [SerializeField] private float attackCooldown;
-        [SerializeField] private float playerDamage;
+        [SerializeField] private GameObject attackArea;
         public float LastPressedAttackTime { get; set; }
         private float lastAttackedTime;
 
         #endregion
 
-        #region events
-
-        [Header("Events")] 
-        [SerializeField] private FloatEvent onDamageGiven;
-
-        #endregion
-
         #region components
-
+        
+        [Header("Components")]
+        [SerializeField] private PlayerCombatData data;
         private PlayerAnimator animator;
 
         #endregion
@@ -62,21 +53,18 @@ namespace _Core._5_Player
 
         private void Attack()
         {
+            // Preparation
             LastPressedAttackTime = 0;
-            lastAttackedTime = attackCooldown;
-            animator.ChangeAnimationState(PlayerAnimatorState.PlayerAttack);
-            var hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayer);
+            
+            // Animation
+            var attackLength = animator.AttackAnimation();
+            
+            // Activating attack hitbox
+            attackArea.SetActive(true);
+            lastAttackedTime = attackLength;
 
-            foreach(var enemy in hitEnemies) 
-            {
-                onDamageGiven.Invoke(playerDamage);
-            }
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-            if (attackPoint == null) return;
-            Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+            // Deactivating attack hitbox
+            DOVirtual.DelayedCall(attackLength, () => attackArea.SetActive(false));
         }
     }
 }
