@@ -17,8 +17,6 @@ namespace _Core._6_Characters.Enemies.GroundEnemy
         [SerializeField] private float normalGravity;
         private float moveSpeed;
 
-        private float distanceToPlayer;
-
         #endregion
 
         #region Check vars
