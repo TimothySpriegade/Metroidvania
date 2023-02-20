@@ -56,6 +56,7 @@ namespace _Core._5_Player
 
             //Play animation
             animator.Play(newState.ToString());
+            animator.Update(Time.smoothDeltaTime);
 
             switch (newState)
             {
@@ -98,8 +99,7 @@ namespace _Core._5_Player
             spriteRenderer.transform.rotation = Quaternion.Euler(0, 0, degrees);
 
             //Playing Animation
-            animator.Play(PlayerAnimatorState.PlayerDash.ToString());
-            currentState = PlayerAnimatorState.PlayerDash;
+            ChangeAnimationState(PlayerAnimatorState.PlayerDash);
 
             //Keeping Rotation for Dash length
             while (Time.time - startTime < length + 0.1f) yield return null;
@@ -107,6 +107,12 @@ namespace _Core._5_Player
             spriteRenderer.transform.rotation = Quaternion.Euler(0, 0, 0);
         }
 
+        public float AttackAnimation()
+        {
+            ChangeAnimationState(PlayerAnimatorState.PlayerAttack);
+            return animator.GetCurrentAnimatorStateInfo(0).length;
+        }
+        
         #endregion
 
 

@@ -1,5 +1,5 @@
-using System.Collections;
 using _Framework;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -19,15 +19,9 @@ namespace _Core._2_Managers.ProjectSceneManager.LoadingScreen
         public void LoadNextLevel(string scene)
         {
             this.Log($"Loading scene {scene}");
-            StartCoroutine(LoadLevel(scene));
-        }
-
-        private IEnumerator LoadLevel(string scene)
-        {
             loadingAnimator.SetTrigger(OnSceneChange);
-            yield return new WaitForSeconds(loadingAnimator.GetCurrentAnimatorStateInfo(0).length);
-
-            SceneManager.LoadScene(scene);
+            DOVirtual.DelayedCall(loadingAnimator.GetCurrentAnimatorStateInfo(0).length,
+                () => SceneManager.LoadScene(scene));
         }
     }
 }
