@@ -42,14 +42,14 @@ GameObject:
   m_Component:
   - component: {fileID: 2106749655}
   - component: {fileID: 8440904681260636633}
-  - component: {fileID: 6097333296331709697}
+  - component: {fileID: 6467711980289988747}
   m_Layer: 0
   m_Name: AttackArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2106749655
 Transform:
   m_ObjectHideFlags: 0
@@ -93,7 +93,7 @@ PolygonCollider2D:
     - - {x: -1, y: 0.8}
       - {x: -1, y: -0.8}
       - {x: 0.15, y: 0}
---- !u!114 &6097333296331709697
+--- !u!114 &6467711980289988747
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -506,6 +506,7 @@ GameObject:
   - component: {fileID: 7841012844093342424}
   - component: {fileID: 2736858780216504120}
   - component: {fileID: 1451295692}
+  - component: {fileID: 2964498079585584122}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -592,6 +593,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d2e36cde99c83a439ad0335f506f2f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unlockedData: {fileID: 11400000, guid: 5359b63dd18d1e94c9836b876648d765, type: 2}
   jumpHeight: 6
   timeUntilJumpApex: 0.5
   jumpHangThreshold: 2
@@ -674,8 +676,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackArea: {fileID: 2106749654}
-  attackCooldown: 1
   data: {fileID: 11400000, guid: e5b9033aeb9e472449e99a172c84c7d2, type: 2}
+--- !u!114 &2964498079585584122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7294756103342903525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 248bc93f35ab459b8c23a10f628780d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  data: {fileID: 11400000, guid: 5359b63dd18d1e94c9836b876648d765, type: 2}
 --- !u!1 &7294756103462626268
 GameObject:
   m_ObjectHideFlags: 0

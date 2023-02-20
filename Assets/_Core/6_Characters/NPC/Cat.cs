@@ -17,12 +17,13 @@ namespace _Core._6_Characters.NPC
         [SerializeField] private Transform wallCheckPoint;
         [SerializeField] private Vector2 wallCheckSize;
         [SerializeField] private LayerMask groundLayer;
+        private Tween loopTween;
 
         private void Start()
         {
             rb = GetComponent<Rigidbody2D>();
             animator = GetComponentInChildren<Animator>();
-            DOVirtual.DelayedCall(animationSpeed, RandomAnimation).SetLoops(-1);
+            loopTween = DOVirtual.DelayedCall(animationSpeed, RandomAnimation).SetLoops(-1);
         }
 
         private void MoveCat()
@@ -64,6 +65,11 @@ namespace _Core._6_Characters.NPC
 
             //replace currentState
             currentState = newState;
+        }
+
+        private void OnDisable()
+        {
+            loopTween.Kill();
         }
 
         #region Flip

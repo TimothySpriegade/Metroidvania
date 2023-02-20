@@ -1,3 +1,4 @@
+using _Core._5_Player.ScriptableObjects;
 using DG.Tweening;
 using UnityEngine;
 
