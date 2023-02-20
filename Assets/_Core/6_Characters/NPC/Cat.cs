@@ -17,7 +17,6 @@ namespace _Core._6_Characters.NPC
         [SerializeField] private Transform wallCheckPoint;
         [SerializeField] private Vector2 wallCheckSize;
         [SerializeField] private LayerMask groundLayer;
-
         private void Start()
         {
             rb = GetComponent<Rigidbody2D>();

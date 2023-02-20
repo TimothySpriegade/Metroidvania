@@ -95,11 +95,6 @@ namespace _Core._5_Player
             combatScript.LastPressedAttackTime = inputBufferTime;
         }
 
-        // private void OnOpenPause(InputAction.CallbackContext context)
-        // {
-        //     onPauseMenuOpen.Invoke();
-        // } //TODO commented?
-
         #endregion
 
         #region Updating Controls

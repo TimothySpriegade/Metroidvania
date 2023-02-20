@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace _Core._5_Player
 {
-    //Doing animations and animated methods (I.e. cutscenes etc.)
     public class PlayerAnimator : MonoBehaviour
     {
         #region Components

@@ -1,4 +1,5 @@
 using System.Collections;
+using _Core._5_Player.ScriptableObjects;
 using DG.Tweening;
 using UnityEngine;
 
@@ -14,6 +15,8 @@ namespace _Core._5_Player
 
         #region Components
 
+        [Header("Components")] [SerializeField]
+        private PlayerUnlockableData unlockedData;
         private Rigidbody2D rb;
         private PlayerAnimator animator;
 
@@ -92,7 +95,6 @@ namespace _Core._5_Player
         private bool dashRefreshed;
         private bool isDashAttacking;
         private bool isDashing;
-        private static bool unlockedDash;
 
         #endregion
 
@@ -156,8 +158,6 @@ namespace _Core._5_Player
             var localScale = transform.localScale;
             groundCheckSize *= localScale;
             wallCheckSize *= localScale;
-
-            unlockedDash = true; // TODO remove when Dash unlock system is implemented
         }
 
         private void Start()
@@ -567,7 +567,7 @@ namespace _Core._5_Player
 
         private bool CanDash()
         {
-            return unlockedDash && !isDashing && lastDashedTime <= 0 && dashRefreshed;
+            return unlockedData.unlockedDash && !isDashing && lastDashedTime <= 0 && dashRefreshed;
         }
 
         private bool CanJumpHang()
