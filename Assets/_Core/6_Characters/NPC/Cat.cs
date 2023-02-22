@@ -57,6 +57,7 @@ namespace _Core._6_Characters.NPC
 
             //Play animation
             animator.Play(newState.ToString());
+            animator.Update(Time.smoothDeltaTime);
 
             if (newState == CatAnimatorState.CatRun)
             {
