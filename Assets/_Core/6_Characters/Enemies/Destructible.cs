@@ -1,4 +1,5 @@
 using System.Collections;
+using _Core._6_Characters.Enemies.ScriptableObjects;
 using _Framework;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ namespace _Core._6_Characters.Enemies
     {
         [Header("Destructible")]
         [SerializeField] private GameObject destructibleParent;
+        [SerializeField] protected DestructibleData data;
 
         private bool Invincible { get; set; }
         protected float health;
@@ -16,6 +18,7 @@ namespace _Core._6_Characters.Enemies
         {
             base.Awake();
             destructibleParent ??= transform.gameObject;
+            health = data.maxHealth;
         }
 
         protected virtual void Destroy()

@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 1260303116}
   m_Layer: 0
   m_Name: GroundEnemy
-  m_TagString: Destructible
+  m_TagString: Hittable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -157,7 +157,7 @@ MonoBehaviour:
   spriteParent: {fileID: 0}
   hitMaterial: {fileID: 2100000, guid: 40a4aed08f3268945a552e9b218fc431, type: 2}
   destructibleParent: {fileID: 5557741930351372052}
-  enemyData: {fileID: 11400000, guid: 953c4e1b2f145bc468a441b0b763ad5d, type: 2}
+  data: {fileID: 11400000, guid: 953c4e1b2f145bc468a441b0b763ad5d, type: 2}
 --- !u!1 &3551867281140130956
 GameObject:
   m_ObjectHideFlags: 0

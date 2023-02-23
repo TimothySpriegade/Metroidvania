@@ -12,7 +12,7 @@ namespace _Core._6_Characters.Enemies
         [Header("Components")] 
         private Rigidbody2D rb;
         private IEnemy enemy;
-        [SerializeField] private EnemyData enemyData;
+        private EnemyData enemyData;
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace _Core._6_Characters.Enemies
             base.Awake();
             rb = GetComponent<Rigidbody2D>();
             enemy = GetComponent<IEnemy>();
-            health = enemyData.maxHealth;
+            enemyData = (EnemyData) data;
         }
 
         public override void OnAttackHit(float damage)

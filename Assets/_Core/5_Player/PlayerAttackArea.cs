@@ -15,7 +15,7 @@ namespace _Core._5_Player
             if (col.gameObject.CompareTag(Hittable))
             {
                 var hittable = col.GetComponent<Hittable>();
-
+                
                 hittable?.OnAttackHit(data.damage);
             }
         }
