@@ -7,7 +7,7 @@ TagManager:
   - LevelBorder
   - EnvironmentalTrapCheckpoint
   - AllowWallJump
-  - Destructible
+  - Hittable
   layers:
   - Default
   - TransparentFX

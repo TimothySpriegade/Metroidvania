@@ -7,13 +7,6 @@ namespace _Core._6_Characters.Enemies
     [RequireComponent(typeof(IEnemy))]
     public class EnemyCombat : Destructible
     {
-        #region Movement vars
-
-        [Header("Movement")] 
-        [SerializeField] private Vector2 knockbackStrength;
-
-        #endregion
-
         #region components
 
         [Header("Components")] 
@@ -23,16 +16,17 @@ namespace _Core._6_Characters.Enemies
 
         #endregion
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             rb = GetComponent<Rigidbody2D>();
             enemy = GetComponent<IEnemy>();
             health = enemyData.maxHealth;
         }
 
-        public override void OnDamageTaken(float damage)
+        public override void OnAttackHit(float damage)
         {
-            base.OnDamageTaken(damage);
+            base.OnAttackHit(damage);
             TakeKnockback();
         }
 
@@ -44,11 +38,11 @@ namespace _Core._6_Characters.Enemies
         private void TakeKnockback()
         {
             enemy.duringAnimation = true;
-            var direction = enemy.isFacingRight ? Vector2.left : Vector2.right;
-
-            rb.velocity = Vector3.zero;
-            rb.AddForce(knockbackStrength.x * direction, ForceMode2D.Impulse);
-            rb.AddForce(knockbackStrength.y * Vector2.up, ForceMode2D.Impulse);
+            var direction = enemy.isFacingRight ? -1 : 1;
+            var force = new Vector2(enemyData.knockback.x * direction, enemyData.knockback.y);
+            
+            rb.velocity = Vector2.zero;
+            rb.AddForce(force, ForceMode2D.Impulse);
 
             DOVirtual.DelayedCall(0.5f, () => enemy.duringAnimation = false);
         }

@@ -153,7 +153,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0af644476c6f7b94881930424f1e49b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knockbackStrength: {x: 15, y: 13}
+  disableHitEffect: 0
+  spriteParent: {fileID: 0}
+  hitMaterial: {fileID: 2100000, guid: 40a4aed08f3268945a552e9b218fc431, type: 2}
+  destructibleParent: {fileID: 5557741930351372052}
   enemyData: {fileID: 11400000, guid: 953c4e1b2f145bc468a441b0b763ad5d, type: 2}
 --- !u!1 &3551867281140130956
 GameObject:
@@ -430,7 +433,7 @@ GameObject:
   - component: {fileID: 8736434882026065578}
   m_Layer: 0
   m_Name: GroundEnemy
-  m_TagString: Untagged
+  m_TagString: Hittable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -58,8 +58,9 @@ namespace _Core._6_Characters.Enemies.GroundEnemy
 
         #region UnityMethods
 
-        protected override void OnStarting()
+        protected override void Start()
         {
+            base.Start();
             player = GameObject.FindGameObjectWithTag("Player");
             animator = GetComponentInChildren<Animator>();
         }
