@@ -8,6 +8,8 @@ using UnityEngine;
 namespace _Core._6_Characters.Enemies.AerialEnemy {
     public class AerialEnemy : AbstractEnemy
     {
+        //TODO: find combat issue (no knockback or destroy), fix backtracking
+
         #region vars
 
         #region Movement Vars
@@ -95,7 +97,6 @@ namespace _Core._6_Characters.Enemies.AerialEnemy {
 
         private void Idle()
         {
-            //TODO add Y movement aswell
             if (Mathf.Abs(transform.position.y - idlePoints[index].position.y) < 0.02f)
             {
                 index++;
@@ -106,11 +107,13 @@ namespace _Core._6_Characters.Enemies.AerialEnemy {
             }
 
             var differencex = idlePoints[index].position.x - transform.position.x;
-            var targetSpeedx = Mathf.Sign(differencex) * accelRate;
             var differencey = idlePoints[index].position.y - transform.position.y;
+            var targetSpeedx = Mathf.Sign(differencex) * accelRate;
             var targetSpeedy = Mathf.Sign(differencey) * accelRate;
+
             rb.AddForce(Vector2.right * targetSpeedx, ForceMode2D.Force);
             rb.AddForce(Vector2.up * targetSpeedy, ForceMode2D.Force);
+
             moveSpeed = enemyData.idleSpeed;
         }
 
