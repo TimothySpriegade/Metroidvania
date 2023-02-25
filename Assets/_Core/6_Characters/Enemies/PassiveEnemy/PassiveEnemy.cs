@@ -106,10 +106,9 @@ namespace _Core._6_Characters.Enemies.PassiveEnemy
         }
 
     }
-    public enum GroundEnemyAnimatorState
+    public enum PassiveEnemyAnimatorState
     {
-        GroundEnemyRun,
-        GroundEnemyChase,
-        GroundEnemyDeath
+        PassiveEnemyRun,
+        PassiveEnemyDeath
     }
 }
