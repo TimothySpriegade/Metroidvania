@@ -106,6 +106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: e5b9033aeb9e472449e99a172c84c7d2, type: 2}
+  cameraShake: {fileID: 11400000, guid: 8c68f639e8c91e8499a3f8ee28dd742b, type: 2}
 --- !u!1 &2379606515120804236
 GameObject:
   m_ObjectHideFlags: 0
