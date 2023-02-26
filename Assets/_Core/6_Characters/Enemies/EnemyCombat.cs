@@ -7,32 +7,26 @@ namespace _Core._6_Characters.Enemies
     [RequireComponent(typeof(IEnemy))]
     public class EnemyCombat : Destructible
     {
-        #region Movement vars
-
-        [Header("Movement")] 
-        [SerializeField] private Vector2 knockbackStrength;
-
-        #endregion
-
         #region components
 
         [Header("Components")] 
         private Rigidbody2D rb;
         private IEnemy enemy;
-        public EnemyData enemyData; //TODO EnemyData architecture
+        private EnemyData enemyData; //TODO EnemyData architecture
 
         #endregion
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             rb = GetComponent<Rigidbody2D>();
             enemy = GetComponent<IEnemy>();
-            health = enemyData.maxHealth;
+            enemyData = (EnemyData) data;
         }
 
-        public override void OnDamageTaken(int damage)
+        public override void OnAttackHit(int damage)
         {
-            base.OnDamageTaken(damage);
+            base.OnAttackHit(damage);
             TakeKnockback();
         }
 
@@ -44,11 +38,11 @@ namespace _Core._6_Characters.Enemies
         private void TakeKnockback()
         {
             enemy.duringAnimation = true;
-            var direction = enemy.isFacingRight ? Vector2.left : Vector2.right;
-
-            rb.velocity = Vector3.zero;
-            rb.AddForce(knockbackStrength.x * direction, ForceMode2D.Impulse);
-            rb.AddForce(knockbackStrength.y * Vector2.up, ForceMode2D.Impulse);
+            var direction = enemy.isFacingRight ? -1 : 1;
+            var force = new Vector2(enemyData.knockback.x * direction, enemyData.knockback.y);
+            
+            rb.velocity = Vector2.zero;
+            rb.AddForce(force, ForceMode2D.Impulse);
 
             DOVirtual.DelayedCall(0.5f, () => enemy.duringAnimation = false);
         }

@@ -18,14 +18,9 @@ namespace _Core._6_Characters.Enemies
 
         #endregion
 
-        private void Start()
+        protected virtual void Start()
         {
             rb = GetComponent<Rigidbody2D>();
-            OnStarting();
-        }
-
-        protected virtual void OnStarting()
-        {
         }
 
         #region Flip Logic

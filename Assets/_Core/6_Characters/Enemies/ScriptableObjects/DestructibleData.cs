@@ -2,7 +2,8 @@ using UnityEngine;
 
 namespace _Core._6_Characters.Enemies.ScriptableObjects
 {
-    public abstract class DestructibleData : ScriptableObject
+    [CreateAssetMenu(menuName = "Data/Enemy/DestructibleData")]
+    public class DestructibleData : ScriptableObject
     {
         public int maxHealth;
     }

@@ -9,12 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a4c0528d7cf9c84b9bd36d575e5b343, type: 3}
-  m_Name: GroundEnemyData
+  m_Script: {fileID: 11500000, guid: bc43420916e05494f8e4a18d271b5743, type: 3}
+  m_Name: BossData
   m_EditorClassIdentifier: 
-  maxHealth: 3
-  chaseSpeed: 7
-  idleSpeed: 3
-  maxFallSpeed: 16
-  damage: 1
-  knockback: {x: 15, y: 13}
+  maxHealth: 10
