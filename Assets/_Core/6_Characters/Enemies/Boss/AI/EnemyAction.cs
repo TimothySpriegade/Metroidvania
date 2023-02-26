@@ -8,6 +8,7 @@ namespace _Core._6_Characters.Enemies.Boss.AI
         protected Rigidbody2D rb;
         protected Animator animator;
         protected Destructible destructible;
+        // TODO add playerUtils
 
         public override void OnAwake()
         {
