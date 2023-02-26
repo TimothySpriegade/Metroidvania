@@ -44,7 +44,7 @@ namespace _Core._6_Characters.Enemies
 
             // Starting Iframes
             Invincible = true;
-            StartCoroutine(ResetInvincibleFrames(0.15f));
+            StartCoroutine(ResetInvincibleFrames(0.5f));
         }
 
         private IEnumerator ResetInvincibleFrames(float duration)

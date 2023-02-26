@@ -1,31 +1,34 @@
 using _Core._5_Player.ScriptableObjects;
+using _Core._6_Characters.Enemies;
+using _Framework;
+using _Framework.SOEventSystem.Events;
 using DG.Tweening;
 using UnityEngine;
 
 namespace _Core._5_Player
 {
-    public class PlayerCombat : MonoBehaviour
+    public class PlayerCombat : Destructible
     {
         #region vars
 
         #region PlayerCombat Vars
 
+        [SerializeField] private bool debugMode;
+        
         [Header("Combat")] 
         [SerializeField] private GameObject attackArea;
         [SerializeField] private Vector2 knockbackStrength;
         public float LastPressedAttackTime { get; set; }
         private float lastAttackedTime;
-        private float invincibilityTime;
 
         #endregion
 
         #region components
-        
         [Header("Components")]
-        [SerializeField] private PlayerCombatData data;
-        [SerializeField] private IntEvent playerTookDamageEvent;
-        
+        [SerializeField] private VoidEvent playerTookDamageEvent;
+
         private PlayerAnimator animator;
+        private PlayerCombatData playerData;
         private PlayerMovement movement;
         private Rigidbody2D rb;
 
@@ -35,16 +38,21 @@ namespace _Core._5_Player
 
         #region UnityMethods
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             animator = GetComponent<PlayerAnimator>();
             movement = GetComponent<PlayerMovement>();
             rb = GetComponent<Rigidbody2D>();
+            playerData = (PlayerCombatData) data;
+
+            if (debugMode) playerData.currentHealth = playerData.maxHealth;
+            
+            health = playerData.currentHealth;
         }
 
         private void Update()
         {
-            invincibilityTime -= Time.deltaTime;
             LastPressedAttackTime -= Time.deltaTime;
             lastAttackedTime -= Time.deltaTime;
             
@@ -76,28 +84,34 @@ namespace _Core._5_Player
             // Deactivating attack hitbox
             DOVirtual.DelayedCall(attackLength, () => attackArea.SetActive(false));
         }
-        
-        
-        private void TakeDamage(int amount)
+
+        public override void OnAttackHit(int damage)
         {
-            data.currentHealth -= amount;
+            // damage handling
             TakeKnockback();
             
-            /* if (currentHealth <= 0)
-            {
-                GameObject.Destroy(gameObject);
-            } */
+            // reduce hp
+            base.OnAttackHit(damage);
 
-            playerTookDamageEvent.Invoke();
+            if (playerData.currentHealth != health)
+            {
+                this.Log("in if " + health);
+                playerData.currentHealth = health;
+                
+                // invoke event
+                playerTookDamageEvent.Invoke();
+            }
         }
+        
         private void TakeKnockback()
         {
             movement.IgnoreRun = true;
+            var direction = movement.IsFacingRight ? -1 : 1;
+            var force = new Vector2(knockbackStrength.x * direction, knockbackStrength.y);
+            
+            rb.velocity = Vector2.zero;
+            rb.AddForce(force, ForceMode2D.Impulse);
 
-            var direction = movement.IsFacingRight ? Vector2.left : Vector2.right;
-            rb.velocity = Vector3.zero;
-            rb.AddForce(knockbackStrength.x * direction, ForceMode2D.Impulse);
-            rb.AddForce(knockbackStrength.y * Vector2.up, ForceMode2D.Impulse);
             DOVirtual.DelayedCall(0.5f, () => movement.IgnoreRun = false);
         }
     }
