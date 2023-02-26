@@ -8,13 +8,14 @@ namespace _Core._6_Characters.Enemies.Boss.AI
         protected Rigidbody2D rb;
         protected Animator animator;
         protected Destructible destructible;
-        // TODO add playerUtils
+        protected GameObject player;
 
         public override void OnAwake()
         {
             rb = GetComponent<Rigidbody2D>();
             destructible = GetComponent<Destructible>();
             animator = gameObject.GetComponentInChildren<Animator>();
+            player = GameObject.FindGameObjectWithTag("Player");
         }
     }
 }

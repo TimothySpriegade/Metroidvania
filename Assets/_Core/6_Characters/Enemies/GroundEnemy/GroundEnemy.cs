@@ -1,4 +1,4 @@
-using Unity.VisualScripting;
+using _Core._10_Utils;
 using UnityEngine;
 
 namespace _Core._6_Characters.Enemies.GroundEnemy
@@ -91,7 +91,7 @@ namespace _Core._6_Characters.Enemies.GroundEnemy
 
         protected override void EnemyAI()
         {
-            if (GetDistToPlayer() <= aggroRange)
+            if (TargetUtils.GetDistToTarget(transform.position, player) <= aggroRange)
             {
                 ChangeAnimationState(GroundEnemyAnimatorState.GroundEnemyChase);
                 ChasePlayer();
@@ -110,7 +110,7 @@ namespace _Core._6_Characters.Enemies.GroundEnemy
 
         private void ChasePlayer()
         {
-            var direction = transform.position.x < player.transform.position.x ? Vector2.right : Vector2.left;
+            var direction = TargetUtils.TargetIsToRight(transform.position, player) ? Vector2.right : Vector2.left;
 
             rb.AddForce(accelRate * direction, ForceMode2D.Force);
             moveSpeed = enemyData.chaseSpeed;
@@ -133,15 +133,7 @@ namespace _Core._6_Characters.Enemies.GroundEnemy
             moveSpeed = enemyData.idleSpeed;
         }
 
-        private float GetDistToPlayer()
-        {
-            if (!ReferenceEquals(player, null) && !player.IsDestroyed())
-            {
-                return Vector2.Distance(transform.position, player.transform.position);
-            }
-
-            return aggroRange + 1;
-        }
+        
 
         private void Jump()
         {
