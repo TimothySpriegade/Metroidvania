@@ -37,6 +37,7 @@ public class PlayerCombatHandler : MonoBehaviour
     [SerializeField] private PlayerCombatData playerData;
     private EnemyData enemyData;
     private PlayerMovement player;
+    private bool isFacingRight;
     #endregion
 
     #region Components
@@ -60,6 +61,7 @@ public class PlayerCombatHandler : MonoBehaviour
         lastHitTime -= Time.deltaTime;
         invisTime -= Time.deltaTime;
         HealthSpriteUpdater();
+        isFacingRight = player.IsFacingRight;
     }
     #endregion
 
@@ -103,12 +105,17 @@ public class PlayerCombatHandler : MonoBehaviour
     {
         currentHealth -= amount;
         TakeKnockBack();
+     /* if (currentHealth <= 0)
+         {
+             GameObject.Destroy(gameObject);
+         } */
     }
 
     public void TakeKnockBack()
     {
-        var direction = player.IsFacingRight ? Vector2.left : Vector2.right;
-     
+        var direction = isFacingRight ? Vector2.left : Vector2.right;
+        Debug.Log(direction);
+        Debug.Log(knockbackStrength.x * direction);
         rb.velocity = Vector3.zero;
         rb.AddForce(knockbackStrength.x * direction, ForceMode2D.Impulse);
         rb.AddForce(knockbackStrength.y * Vector2.up, ForceMode2D.Impulse);
