@@ -33,8 +33,6 @@ namespace _Core._6_Characters.Enemies.PassiveEnemy
 
         [SerializeField] private Transform groundCheckPoint;
 
-        private bool isGrounded;
-
         private const float GroundCheckRadius = 0.2f;
 
         #endregion
@@ -52,7 +50,6 @@ namespace _Core._6_Characters.Enemies.PassiveEnemy
                 CheckDirectionToFace(rb.velocity.x > 0);
             }
 
-            isGrounded = CollisionCheck(groundCheckPoint, GroundCheckRadius);
 
             if (!duringAnimation)
             {
@@ -89,17 +86,10 @@ namespace _Core._6_Characters.Enemies.PassiveEnemy
         #region Animation
         public override float DeathAnimation()
         {
-            throw new System.NotImplementedException();
+            return 0;
         }
         #endregion
 
-        #region Checks
-        private bool IsFalling()
-        {
-            return rb.velocity.y < 0 && !isGrounded;
-        }
-
-        #endregion
         private void OnDrawGizmosSelected()
         {
             Gizmos.DrawWireSphere(groundCheckPoint.position, GroundCheckRadius);

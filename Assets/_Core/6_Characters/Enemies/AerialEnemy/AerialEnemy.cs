@@ -8,8 +8,6 @@ using UnityEngine;
 namespace _Core._6_Characters.Enemies.AerialEnemy {
     public class AerialEnemy : AbstractEnemy
     {
-        //TODO: find combat issue (no knockback or destroy), fix backtracking
-
         #region vars
 
         #region Movement Vars
@@ -129,14 +127,10 @@ namespace _Core._6_Characters.Enemies.AerialEnemy {
 
         #endregion
 
-        #region Checks
-
-        #endregion
-
         #region Animation
         public override float DeathAnimation()
         {
-            throw new System.NotImplementedException();
+            return 0;
         }
 
         #endregion
