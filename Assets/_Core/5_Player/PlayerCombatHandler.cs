@@ -8,6 +8,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using _Core._5_Player;
 using System.Net.Security;
+using _Core._6_Characters.Enemies;
+using DG.Tweening;
 
 public class PlayerCombatHandler : MonoBehaviour
 {
@@ -17,8 +19,7 @@ public class PlayerCombatHandler : MonoBehaviour
     [Header("Damage Handeling")]
     [SerializeField] private PlayerCombat playerCombatScript;
     [SerializeField] private Vector2 knockbackStrength;
-    private float lastHitTime;
-    private float invisTime;
+    private float invinceTime;
 
     #endregion
 
@@ -28,16 +29,12 @@ public class PlayerCombatHandler : MonoBehaviour
     [SerializeField] private Sprite fullHearts;
     [SerializeField] private Sprite emptyHearts;
 
-    private int currentHealth;
-    private int numbOfHeartContainers;
     #endregion
 
     #region Data
     [Header("Data")]
     [SerializeField] private PlayerCombatData playerData;
-    private EnemyData enemyData;
     private PlayerMovement player;
-    private bool isFacingRight;
     #endregion
 
     #region Components
@@ -51,59 +48,55 @@ public class PlayerCombatHandler : MonoBehaviour
     {
         player = GetComponent<PlayerMovement>();
         rb = GetComponent<Rigidbody2D>();
-        currentHealth = (int)playerData.maxHealth;
-        numbOfHeartContainers = (int)playerData.maxHealth;
+
         HealthSpriteFinder();
     }
 
     public void Update()
     {
-        lastHitTime -= Time.deltaTime;
-        invisTime -= Time.deltaTime;
+        invinceTime -= Time.deltaTime;
         HealthSpriteUpdater();
-        isFacingRight = player.IsFacingRight;
     }
     #endregion
 
     #region healthMethods
-    public void HealthSpriteUpdater()
+    private void HealthSpriteUpdater()
     {
         for (int i = 0; i < hearts.Length; i++)
         {
-            currentHealth = currentHealth > numbOfHeartContainers ? numbOfHeartContainers : currentHealth;
+            playerData.currentHealth = playerData.currentHealth > playerData.maxHealth ? playerData.maxHealth : playerData.currentHealth;
 
-            hearts[i].sprite = i < currentHealth ? fullHearts : emptyHearts;
+            hearts[i].sprite = i < playerData.currentHealth ? fullHearts : emptyHearts;
 
-            hearts[i].enabled = i < numbOfHeartContainers;
+            hearts[i].enabled = i < playerData.maxHealth;
         }
     }
 
-    public void HealthSpriteFinder()
+    private void HealthSpriteFinder()
     {
         for (int i = 0; i < hearts.Length; i++)
         {
-            hearts[i] = GameObject.Find("Heart " + "(" + i + ")").GetComponent<Image>();
+            hearts[i] = GameObject.Find($"Heart ({i})").GetComponent<Image>();
         }
-        Debug.Log("Health loaded");
     }
     #endregion
 
     private void OnTriggerEnter2D(Collider2D collision) 
     {
-        if (collision.gameObject.CompareTag("Enemy") && playerCombatScript.LastPressedAttackTime <= -0.4f)
+        if (collision.gameObject.CompareTag("Enemy"))
         {
-            lastHitTime = 0;
-            if (invisTime <= -0.5f)
+            if (invinceTime <= 0)
             {
-                invisTime = 0;
-                TakeDamage(1);
+                invinceTime = 0.5f;
+                var enemyDamage = collision.gameObject.GetComponentInParent<EnemyCombat>().enemyData.damage;
+                TakeDamage(enemyDamage);
             }
         }
     }
 
-    public void TakeDamage(int amount)
+    private void TakeDamage(int amount)
     {
-        currentHealth -= amount;
+        playerData.currentHealth -= amount;
         TakeKnockBack();
      /* if (currentHealth <= 0)
          {
@@ -113,12 +106,15 @@ public class PlayerCombatHandler : MonoBehaviour
 
     public void TakeKnockBack()
     {
-        var direction = isFacingRight ? Vector2.left : Vector2.right;
-        Debug.Log(direction);
-        Debug.Log(knockbackStrength.x * direction);
+        player.IgnoreRun = true;
+
+        var direction = player.IsFacingRight ? Vector2.left : Vector2.right;
         rb.velocity = Vector3.zero;
         rb.AddForce(knockbackStrength.x * direction, ForceMode2D.Impulse);
         rb.AddForce(knockbackStrength.y * Vector2.up, ForceMode2D.Impulse);
+        DOVirtual.DelayedCall(0.5f, () => {
+            player.IgnoreRun = false;
+        });
         
     }
 }

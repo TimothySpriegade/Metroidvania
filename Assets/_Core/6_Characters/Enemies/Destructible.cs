@@ -5,7 +5,7 @@ namespace _Core._6_Characters.Enemies
 {
     public abstract class Destructible : MonoBehaviour
     {
-        protected float health;
+        protected int health;
 
         protected virtual void Destroy()
         {
@@ -13,7 +13,7 @@ namespace _Core._6_Characters.Enemies
             Destroy(transform.parent.gameObject);
         }
 
-        public virtual void OnDamageTaken(float damage)
+        public virtual void OnDamageTaken(int damage)
         {
             TakeDamage(damage);
 
@@ -23,7 +23,7 @@ namespace _Core._6_Characters.Enemies
             }
         }
 
-        private void TakeDamage(float damage)
+        private void TakeDamage(int damage)
         {
             health -= damage;
         }

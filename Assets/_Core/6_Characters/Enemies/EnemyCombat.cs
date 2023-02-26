@@ -19,7 +19,7 @@ namespace _Core._6_Characters.Enemies
         [Header("Components")] 
         private Rigidbody2D rb;
         private IEnemy enemy;
-        [SerializeField] private EnemyData enemyData;
+        public EnemyData enemyData; //TODO EnemyData architecture
 
         #endregion
 
@@ -30,7 +30,7 @@ namespace _Core._6_Characters.Enemies
             health = enemyData.maxHealth;
         }
 
-        public override void OnDamageTaken(float damage)
+        public override void OnDamageTaken(int damage)
         {
             base.OnDamageTaken(damage);
             TakeKnockback();
