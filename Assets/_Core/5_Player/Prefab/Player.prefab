@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 6467711980289988747}
   m_Layer: 0
   m_Name: AttackArea
-  m_TagString: Untagged
+  m_TagString: AttackArea
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -703,6 +703,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f96c82f2e5adc94884c9befca95bd1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCombatScript: {fileID: 1451295692}
+  knockbackStrength: {x: 15, y: 13}
   hearts:
   - {fileID: 0}
   - {fileID: 0}

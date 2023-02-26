@@ -38,7 +38,7 @@ namespace _Core._5_Player
         {
             LastPressedAttackTime -= Time.deltaTime;
             lastAttackedTime -= Time.deltaTime;
-        
+            
             if (LastPressedAttackTime > 0 && CanAttack())
             {
                 Attack();
