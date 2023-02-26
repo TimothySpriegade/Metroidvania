@@ -8,6 +8,8 @@ TagManager:
   - EnvironmentalTrapCheckpoint
   - AllowWallJump
   - Destructible
+  - Enemy
+  - AttackArea
   layers:
   - Default
   - TransparentFX
