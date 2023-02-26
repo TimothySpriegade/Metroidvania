@@ -112,7 +112,7 @@ namespace _Core._6_Characters.Enemies.GroundEnemy
             var direction = transform.position.x < player.transform.position.x ? Vector2.right : Vector2.left;
 
             rb.AddForce(accelRate * direction, ForceMode2D.Force);
-            moveSpeed = enemyData.chaseSpeed;
+            moveSpeed = combat.enemyData.chaseSpeed;
         }
 
         private void Idle()
@@ -129,7 +129,7 @@ namespace _Core._6_Characters.Enemies.GroundEnemy
             var difference = idlePoints[index].position.x - transform.position.x;
             var targetSpeed = Mathf.Sign(difference) * accelRate;
             rb.AddForce(Vector2.right * targetSpeed, ForceMode2D.Force);
-            moveSpeed = enemyData.idleSpeed;
+            moveSpeed = combat.enemyData.idleSpeed;
         }
 
         private float GetDistToPlayer()

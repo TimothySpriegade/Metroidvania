@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace _Core._6_Characters.Enemies
 {
-    [RequireComponent(typeof(IEnemy))]
     public class EnemyCombat : Destructible
     {
         #region Movement vars
@@ -19,7 +18,7 @@ namespace _Core._6_Characters.Enemies
         [Header("Components")] 
         private Rigidbody2D rb;
         private IEnemy enemy;
-        [SerializeField] private EnemyData enemyData;
+        public EnemyData enemyData { get; private set; }
 
         #endregion
 
