@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 161904317503910421}
   m_Layer: 0
   m_Name: PassiveEnemy
-  m_TagString: Untagged
+  m_TagString: Hittable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -90,7 +90,7 @@ Transform:
   m_GameObject: {fileID: 7234994194345449142}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7234994195892063833}
@@ -137,8 +137,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Sprite: {fileID: -206806990, guid: e55bad726da3eb346ae93da2a017f2e7, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -290,7 +290,7 @@ GameObject:
   - component: {fileID: 7234994195892063837}
   m_Layer: 0
   m_Name: PassiveEnemy
-  m_TagString: Destructible
+  m_TagString: Hittable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -392,5 +392,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0af644476c6f7b94881930424f1e49b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knockbackStrength: {x: 15, y: 13}
-  enemyData: {fileID: 11400000, guid: 6c8b087d59e4f83498255d9ff55692dd, type: 2}
+  disableHitEffect: 0
+  spriteParent: {fileID: 0}
+  hitMaterial: {fileID: 2100000, guid: 40a4aed08f3268945a552e9b218fc431, type: 2}
+  destructibleParent: {fileID: 5659356003476430517}
+  data: {fileID: 11400000, guid: 6c8b087d59e4f83498255d9ff55692dd, type: 2}

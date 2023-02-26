@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 2254311697393631049}
   - component: {fileID: 2254311697393631054}
   - component: {fileID: 2254311697393631048}
+  - component: {fileID: 5441885987577773847}
   m_Layer: 0
   m_Name: AerialEnemy
-  m_TagString: Untagged
+  m_TagString: Hittable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -107,6 +108,23 @@ MonoBehaviour:
   - {fileID: 2254311698074969454}
   collidingPoint: {fileID: 2254311698725862046}
   collidingRadius: 0.65
+--- !u!114 &5441885987577773847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2254311697393631050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0af644476c6f7b94881930424f1e49b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  disableHitEffect: 0
+  spriteParent: {fileID: 0}
+  hitMaterial: {fileID: 2100000, guid: 40a4aed08f3268945a552e9b218fc431, type: 2}
+  destructibleParent: {fileID: 3808278318383960733}
+  data: {fileID: 11400000, guid: 69dab2896d260674e94c763a01b7d559, type: 2}
 --- !u!1 &2254311697520685115
 GameObject:
   m_ObjectHideFlags: 0
@@ -392,7 +410,7 @@ GameObject:
   - component: {fileID: 2188448705963645155}
   m_Layer: 0
   m_Name: AerialEnemy
-  m_TagString: Untagged
+  m_TagString: Hittable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

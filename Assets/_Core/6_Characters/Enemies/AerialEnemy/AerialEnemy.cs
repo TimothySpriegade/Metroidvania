@@ -1,7 +1,3 @@
-using _Framework;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -47,11 +43,10 @@ namespace _Core._6_Characters.Enemies.AerialEnemy {
 
         #region UnityMethods
 
-        protected override void OnStarting()
+        protected override void Start()
         {
-
+            base.Start();
             player = GameObject.FindGameObjectWithTag("Player");
-
         }
         private void Update()
         {
