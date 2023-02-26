@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace SOEventSystem.Tester
+namespace _Framework.SOEventSystem.Tester
 {
     [CustomEditor(typeof(EventTester))]
     public class EventTestingInspector : Editor

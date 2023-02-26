@@ -105,7 +105,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Health_0
+      name: Health_Full
       rect:
         serializedVersion: 2
         x: 0
@@ -126,7 +126,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Health_1
+      name: Health_Half
       rect:
         serializedVersion: 2
         x: 16
@@ -147,7 +147,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Health_2
+      name: Health_Empty
       rect:
         serializedVersion: 2
         x: 32
@@ -178,9 +178,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Health_1: -755926199
-      Health_2: 1196419612
-      Health_0: -93986139
+      Health_Full: -93986139
+      Health_Empty: 1196419612
+      Health_Half: -755926199
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

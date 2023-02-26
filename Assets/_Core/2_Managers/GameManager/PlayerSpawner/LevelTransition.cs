@@ -1,7 +1,7 @@
 using _Core._2_Managers.GameManager.PlayerSpawner.ScriptableObjects;
 using _Core._5_Player;
 using _Framework;
-using SOEventSystem.Events;
+using _Framework.SOEventSystem.Events;
 using UnityEngine;
 
 namespace _Core._2_Managers.GameManager.PlayerSpawner
