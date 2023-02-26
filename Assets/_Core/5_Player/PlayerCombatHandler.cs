@@ -10,21 +10,23 @@ public class PlayerCombatHandler : MonoBehaviour
 {
     #region vars
 
-    #region health
-    [Header("health")]
+    #region DamageHandeling Vars
+
+    #endregion
+
+    #region Health Vars
+    [Header("Health")]
     [SerializeField] private Image[] hearts;
     [SerializeField] private Sprite fullHearts;
     [SerializeField] private Sprite emptyHearts;
 
     private int currentHealth;
     private int numbOfHeartContainers;
-
     #endregion
 
-    #region data
-
+    #region Data
+    [Header("Data")]
     [SerializeField] private PlayerCombatData playerData;
-
     #endregion
 
     #endregion
@@ -34,45 +36,35 @@ public class PlayerCombatHandler : MonoBehaviour
     {
         currentHealth = (int)playerData.maxHealth;
         numbOfHeartContainers = (int)playerData.maxHealth;
-        for(int i = 0; i < hearts.Length; i++) {
-            //hearts[i] = GameObject.Find("Heart" + "(" + i + ")");
-            hearts[i] = GameObject.Find("Heart " + "(" + i + ")").GetComponent<Image>();
-        }
+        HealthSpriteFinder();
     }
 
     public void Update()
     {
-        HealthHandler();
+        HealthUpdater();
     }
     #endregion
 
-    public void HealthHandler()
+    #region healthMethods
+    public void HealthUpdater()
     {
         for (int i = 0; i < hearts.Length; i++)
         {
 
-            if (currentHealth > numbOfHeartContainers)
-            {
-                currentHealth = numbOfHeartContainers;
-            }
+            currentHealth = currentHealth > numbOfHeartContainers ? numbOfHeartContainers : currentHealth;
 
-            if (i < currentHealth)
-            {
-                hearts[i].sprite = fullHearts;
-            }
-            else
-            {
-                hearts[i].sprite = emptyHearts;
-            }
+            hearts[i].sprite = i < currentHealth ? fullHearts : emptyHearts;
 
-            if (i < numbOfHeartContainers)
-            {
-                hearts[i].enabled = true;
-            }
-            else
-            {
-                hearts[i].enabled = false;
-            }
+            hearts[i].enabled = i < numbOfHeartContainers;
         }
     }
+
+    public void HealthSpriteFinder()
+    {
+        for (int i = 0; i < hearts.Length; i++)
+        {
+            hearts[i] = GameObject.Find("Heart " + "(" + i + ")").GetComponent<Image>();
+        }
+    }
+    #endregion
 }
