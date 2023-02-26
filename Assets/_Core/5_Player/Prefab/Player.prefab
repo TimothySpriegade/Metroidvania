@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 6467711980289988747}
   m_Layer: 0
   m_Name: AttackArea
-  m_TagString: Untagged
+  m_TagString: AttackArea
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -675,8 +675,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d38393916664cd84aa5bd0df73657665, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackArea: {fileID: 2106749654}
+  disableHitEffect: 0
+  spriteParent: {fileID: 0}
+  hitMaterial: {fileID: 2100000, guid: 40a4aed08f3268945a552e9b218fc431, type: 2}
+  destructibleParent: {fileID: 7294756103342903525}
   data: {fileID: 11400000, guid: e5b9033aeb9e472449e99a172c84c7d2, type: 2}
+  debugMode: 1
+  attackArea: {fileID: 2106749654}
+  knockbackStrength: {x: 15, y: 13}
+  playerTookDamageEvent: {fileID: 11400000, guid: 340abc7380ef04a49ac5b86b869ec4f5, type: 2}
 --- !u!114 &2964498079585584122
 MonoBehaviour:
   m_ObjectHideFlags: 0

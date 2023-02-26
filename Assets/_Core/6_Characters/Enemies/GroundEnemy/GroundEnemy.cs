@@ -1,3 +1,4 @@
+using _Core._5_Player;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -58,8 +59,9 @@ namespace _Core._6_Characters.Enemies.GroundEnemy
 
         #region UnityMethods
 
-        protected override void OnStarting()
+        protected override void Start()
         {
+            base.Start();
             player = GameObject.FindGameObjectWithTag("Player");
             animator = GetComponentInChildren<Animator>();
         }
@@ -180,6 +182,14 @@ namespace _Core._6_Characters.Enemies.GroundEnemy
         }
 
         #endregion
+
+        private void OnCollisionEnter2D(Collision2D col)
+        {
+            if (col.gameObject.CompareTag("Player"))
+            {
+                col.gameObject.GetComponent<PlayerCombat>().OnAttackHit(enemyData.damage);
+            }
+        }
 
         private void OnDrawGizmosSelected()
         {

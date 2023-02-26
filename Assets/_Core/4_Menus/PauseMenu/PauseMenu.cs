@@ -1,5 +1,5 @@
 using _Framework;
-using SOEventSystem.Events;
+using _Framework.SOEventSystem.Events;
 using UnityEngine;
 
 namespace _Core._4_Menus.PauseMenu

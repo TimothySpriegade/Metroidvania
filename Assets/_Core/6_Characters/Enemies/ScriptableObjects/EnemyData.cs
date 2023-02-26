@@ -8,6 +8,7 @@ namespace _Core._6_Characters.Enemies.ScriptableObjects
         public float chaseSpeed;
         public float idleSpeed;
         public float maxFallSpeed;
-        public float damage;
+        public int damage;
+        public Vector2 knockback;
     }
 }

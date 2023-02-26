@@ -1,6 +1,6 @@
 using _Core._5_Player.ScriptableObjects;
+using _Framework.SOEventSystem.Events;
 using DG.Tweening;
-using SOEventSystem.Events;
 using UnityEngine;
 using UnityEngine.InputSystem;
 

@@ -1,4 +1,4 @@
-using SOEventSystem.Events;
+using _Framework.SOEventSystem.Events;
 using UnityEngine;
 
 namespace _Core._8_Environment.Traps

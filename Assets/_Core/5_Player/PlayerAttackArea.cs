@@ -7,16 +7,16 @@ namespace _Core._5_Player
     public class PlayerAttackArea : MonoBehaviour
     {
         [SerializeField] private PlayerCombatData data;
-        
-        private const string Destructible = "Destructible";
-        
+
+        private const string Hittable = "Hittable";
+
         private void OnTriggerEnter2D(Collider2D col)
         {
-            if (col.gameObject.CompareTag(Destructible))
+            if (col.gameObject.CompareTag(Hittable))
             {
-                var destructible = col.GetComponent<Destructible>();
-
-                destructible?.OnDamageTaken(data.damage);
+                var hittable = col.GetComponent<Hittable>();
+                
+                hittable?.OnAttackHit(data.damage);
             }
         }
     }
