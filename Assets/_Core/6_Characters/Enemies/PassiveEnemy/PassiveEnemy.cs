@@ -1,7 +1,3 @@
-using _Core._6_Characters.Enemies.ScriptableObjects;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace _Core._6_Characters.Enemies.PassiveEnemy
@@ -49,8 +45,11 @@ namespace _Core._6_Characters.Enemies.PassiveEnemy
             {
                 CheckDirectionToFace(rb.velocity.x > 0);
             }
-
-
+            
+            // col.GetContact(0).normal.y > 0.5f; 
+            // ^ Gibt true zurück, wenn der Kontaktpunk von oben kommt
+            // Kann dir gerne aufzeichnen wie der normal vector funktioniert
+            
             if (!duringAnimation)
             {
                 EnemyAI();

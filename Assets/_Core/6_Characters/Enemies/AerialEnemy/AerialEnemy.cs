@@ -80,17 +80,16 @@ namespace _Core._6_Characters.Enemies.AerialEnemy {
 
         private void ChasePlayer()
         {
-            var directionx = transform.position.x < player.transform.position.x ? Vector2.right : Vector2.left;
-            var directiony = transform.position.y < player.transform.position.y ? Vector2.up : Vector2.down;
-
-            rb.AddForce(accelRate * directionx, ForceMode2D.Force);
-            rb.AddForce(accelRate * directiony, ForceMode2D.Force);
+            var difference = player.transform.position - transform.position;
+            var targetSpeed = difference.normalized * accelRate;
+            rb.AddForce(targetSpeed, ForceMode2D.Force);
+            
             moveSpeed = enemyData.chaseSpeed;
         }
 
         private void Idle()
         {
-            if (Mathf.Abs(transform.position.y - idlePoints[index].position.y) < 0.02f)
+            if (Vector2.Distance(transform.position, idlePoints[index].position) < 0.02f)
             {
                 index++;
                 if (index == idlePoints.Length)
@@ -99,14 +98,9 @@ namespace _Core._6_Characters.Enemies.AerialEnemy {
                 }
             }
 
-            var differencex = idlePoints[index].position.x - transform.position.x;
-            var differencey = idlePoints[index].position.y - transform.position.y;
-            var targetSpeedx = Mathf.Sign(differencex) * accelRate;
-            var targetSpeedy = Mathf.Sign(differencey) * accelRate;
-
-            rb.AddForce(Vector2.right * targetSpeedx, ForceMode2D.Force);
-            rb.AddForce(Vector2.up * targetSpeedy, ForceMode2D.Force);
-
+            var difference = idlePoints[index].position - transform.position;
+            var targetSpeed = difference.normalized * accelRate;
+            rb.AddForce(targetSpeed, ForceMode2D.Force);
             moveSpeed = enemyData.idleSpeed;
         }
 
@@ -138,7 +132,8 @@ namespace _Core._6_Characters.Enemies.AerialEnemy {
     }
     public enum AerialEnemyAnimatorState
     {
-        AerialEnemyFly,
+        AerialEnemyIdle,
+        AerialEnemyChase,
         AerialEnemyDeath
     }
 }
