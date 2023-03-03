@@ -12,6 +12,7 @@ namespace _Core._5_Player
         private SpriteRenderer spriteRenderer;
         private PlayerMovement movement;
         private PlayerController controller;
+        private PlayerCombat combat;
         private Rigidbody2D rb;
 
         #endregion
@@ -20,13 +21,12 @@ namespace _Core._5_Player
 
         [SerializeField] private Vector2 upAnimationForce;
         private bool collisionDetected;
-        private bool disabledAnimation;
-        private float animationBlock;
-
         private PlayerAnimatorState currentState;
 
         #endregion
 
+
+        #region Unity Methods
 
         private void Awake()
         {
@@ -34,25 +34,22 @@ namespace _Core._5_Player
             animator = spriteRenderer.GetComponent<Animator>();
             rb = GetComponent<Rigidbody2D>();
             movement = GetComponent<PlayerMovement>();
+            combat = GetComponent<PlayerCombat>();
             controller = GetComponent<PlayerController>();
         }
-
-        private void Update()
-        {
-            animationBlock -= Time.deltaTime;
-        }
-
         private void OnCollisionEnter2D(Collision2D col)
         {
             collisionDetected = true;
         }
+        
+        #endregion
 
         #region Animation Handling
 
-        public void ChangeAnimationState(PlayerAnimatorState newState)
+        public float ChangeAnimationState(PlayerAnimatorState newState)
         {
             //Stop if currently played Animation matches attempted animation
-            if (currentState == newState || animationBlock >= 0 || disabledAnimation) return;
+            if (currentState == newState || AnimationBlocked(newState)) return 0;
 
             //Play animation
             animator.Play(newState.ToString());
@@ -65,19 +62,18 @@ namespace _Core._5_Player
                     break;
                 case PlayerAnimatorState.PlayerAttack:
                     //Attack FX
-                    animationBlock = animator.GetCurrentAnimatorStateInfo(0).length;
                     break;
                 case PlayerAnimatorState.PlayerJump:
                     //Jump FX
                     break;
                 case PlayerAnimatorState.PlayerDeath:
                     //DeathFX
-                    disabledAnimation = true;
                     break;
             }
 
             //replace currentState
             currentState = newState;
+            return animator.GetCurrentAnimatorStateInfo(0).length;
         }
 
         public IEnumerator DashAnimation(Vector2 direction, float length, bool isFacingRight)
@@ -105,22 +101,6 @@ namespace _Core._5_Player
             while (Time.time - startTime < length + 0.1f) yield return null;
 
             spriteRenderer.transform.rotation = Quaternion.Euler(0, 0, 0);
-        }
-
-        public float AttackAnimation()
-        {
-            ChangeAnimationState(PlayerAnimatorState.PlayerAttack);
-            return animator.GetCurrentAnimatorStateInfo(0).length;
-        }
-        
-        #endregion
-
-
-        #region Event Handling
-
-        public void OnDeath()
-        {
-            ChangeAnimationState(PlayerAnimatorState.PlayerDeath);
         }
 
         #endregion
@@ -202,6 +182,19 @@ namespace _Core._5_Player
 
             //Activates Controls
             controller.EnableAllControls();
+        }
+
+        #endregion
+
+        #region Check Methods
+
+        private bool AnimationBlocked(PlayerAnimatorState newState)
+        {
+            var playerIsDead = currentState.Equals(PlayerAnimatorState.PlayerDeath);
+            var playerIsAlreadyDashing = movement.isDashing && !newState.Equals(PlayerAnimatorState.PlayerDash);
+            var playerIsAlreadyAttacking = combat.isAttacking && !newState.Equals(PlayerAnimatorState.PlayerAttack);
+            
+            return playerIsDead || playerIsAlreadyDashing || playerIsAlreadyAttacking;
         }
 
         #endregion

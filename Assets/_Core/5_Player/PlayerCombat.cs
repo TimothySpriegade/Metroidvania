@@ -14,7 +14,8 @@ namespace _Core._5_Player
         [SerializeField] private GameObject attackArea;
         public float LastPressedAttackTime { get; set; }
         private float lastAttackedTime;
-
+        public bool isAttacking { get; private set; }
+        
         #endregion
 
         #region components
@@ -22,6 +23,7 @@ namespace _Core._5_Player
         [Header("Components")]
         [SerializeField] private PlayerCombatData data;
         private PlayerAnimator animator;
+        private PlayerMovement movement;
 
         #endregion
 
@@ -32,6 +34,7 @@ namespace _Core._5_Player
         private void Awake()
         {
             animator = GetComponent<PlayerAnimator>();
+            movement = GetComponent<PlayerMovement>();
         }
 
         private void Update()
@@ -49,7 +52,7 @@ namespace _Core._5_Player
 
         private bool CanAttack()
         {
-            return lastAttackedTime <= 0; // TODO add conditions
+            return lastAttackedTime <= 0 && !movement.isDashing;
         }
 
         private void Attack()
@@ -58,14 +61,19 @@ namespace _Core._5_Player
             LastPressedAttackTime = 0;
             
             // Animation
-            var attackLength = animator.AttackAnimation();
+            var attackLength = animator.ChangeAnimationState(PlayerAnimatorState.PlayerAttack);
             
             // Activating attack hitbox
             attackArea.SetActive(true);
+            isAttacking = true;
             lastAttackedTime = attackLength;
 
             // Deactivating attack hitbox
-            DOVirtual.DelayedCall(attackLength, () => attackArea.SetActive(false));
+            DOVirtual.DelayedCall(attackLength, () =>
+            {
+                attackArea.SetActive(false);
+                isAttacking = false;
+            });
         }
     }
 }

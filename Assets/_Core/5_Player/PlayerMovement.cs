@@ -19,6 +19,7 @@ namespace _Core._5_Player
         private PlayerUnlockableData unlockedData;
         private Rigidbody2D rb;
         private PlayerAnimator animator;
+        private PlayerCombat combat;
 
         #endregion
 
@@ -94,7 +95,7 @@ namespace _Core._5_Player
 
         private bool dashRefreshed;
         private bool isDashAttacking;
-        private bool isDashing;
+        public bool isDashing { get; private set; }
 
         #endregion
 
@@ -153,6 +154,7 @@ namespace _Core._5_Player
             //Getting Components
             rb = GetComponent<Rigidbody2D>();
             animator = GetComponent<PlayerAnimator>();
+            combat = GetComponent<PlayerCombat>();
 
             //Scaling check sizes with player scaling
             var localScale = transform.localScale;
@@ -567,7 +569,7 @@ namespace _Core._5_Player
 
         private bool CanDash()
         {
-            return unlockedData.unlockedDash && !isDashing && lastDashedTime <= 0 && dashRefreshed;
+            return unlockedData.unlockedDash && !isDashing && lastDashedTime <= 0 && dashRefreshed && !combat.isAttacking;
         }
 
         private bool CanJumpHang()
