@@ -10,8 +10,6 @@ namespace _Core._5_Player
 
         #region PlayerCombat Vars
 
-        [Header("Combat")] 
-        [SerializeField] private GameObject attackArea;
         public float LastPressedAttackTime { get; set; }
         private float lastAttackedTime;
         public bool isAttacking { get; private set; }
@@ -64,16 +62,11 @@ namespace _Core._5_Player
             var attackLength = animator.ChangeAnimationState(PlayerAnimatorState.PlayerAttack);
             
             // Activating attack hitbox
-            attackArea.SetActive(true);
             isAttacking = true;
             lastAttackedTime = attackLength;
 
             // Deactivating attack hitbox
-            DOVirtual.DelayedCall(attackLength, () =>
-            {
-                attackArea.SetActive(false);
-                isAttacking = false;
-            });
+            DOVirtual.DelayedCall(attackLength, () => isAttacking = false );
         }
     }
 }
