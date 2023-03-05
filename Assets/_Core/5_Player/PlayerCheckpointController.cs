@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace _Core._5_Player
 {
-    public class CheckpointController : MonoBehaviour
+    public class PlayerCheckpointController : MonoBehaviour
     {
         private Vector2 checkpointPosition;
         private Rigidbody2D rb;
