@@ -27,7 +27,7 @@ namespace _Core._6_Characters.Enemies.Boss.Tasks
 
         private void StartJump()
         {
-            var direction = TargetUtils.TargetIsToRight(transform.position, player) ? 1 : -1;
+            var direction = TargetUtils.TargetIsToRight(transform.position, boss.player) ? 1 : -1;
             var force = new Vector2(jumpForce.x * direction, jumpForce.y);
             rb.AddForce(force, ForceMode2D.Impulse);
 
