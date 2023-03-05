@@ -127,6 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11f3d48a06136094baf0166832c2f39f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerData: {fileID: 11400000, guid: d6905fab4fc9ea147bb55d72b572031a, type: 2}
   enemyData: {fileID: 11400000, guid: 953c4e1b2f145bc468a441b0b763ad5d, type: 2}
   collisionCheckLayer:
     serializedVersion: 2
@@ -158,6 +159,7 @@ MonoBehaviour:
   hitMaterial: {fileID: 2100000, guid: 40a4aed08f3268945a552e9b218fc431, type: 2}
   destructibleParent: {fileID: 5557741930351372052}
   data: {fileID: 11400000, guid: 953c4e1b2f145bc468a441b0b763ad5d, type: 2}
+  playerData: {fileID: 0}
 --- !u!1 &3551867281140130956
 GameObject:
   m_ObjectHideFlags: 0

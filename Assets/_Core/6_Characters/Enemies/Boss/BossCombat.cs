@@ -1,15 +1,15 @@
-﻿using UnityEngine;
+﻿using _Core._5_Player.ScriptableObjects;
+using UnityEngine;
 
 namespace _Core._6_Characters.Enemies.Boss
 {
     public class BossCombat : Destructible
     {
-        public GameObject player { get; private set; }
+        [SerializeField] private PlayerReferenceData playerData;
 
-        protected override void Awake()
+        public GameObject GetPlayer()
         {
-            base.Awake();
-            player = GameObject.FindGameObjectWithTag("Player");
+            return playerData.player;
         }
     }
 }

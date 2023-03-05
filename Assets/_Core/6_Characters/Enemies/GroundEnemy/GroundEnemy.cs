@@ -35,7 +35,6 @@ namespace _Core._6_Characters.Enemies.GroundEnemy
 
         #region Component vars
 
-        private GameObject player;
         private Animator animator;
 
         #endregion
@@ -61,7 +60,6 @@ namespace _Core._6_Characters.Enemies.GroundEnemy
         protected override void Start()
         {
             base.Start();
-            player = GameObject.FindGameObjectWithTag("Player");
             animator = GetComponentInChildren<Animator>();
         }
 
@@ -91,7 +89,7 @@ namespace _Core._6_Characters.Enemies.GroundEnemy
 
         protected override void EnemyAI()
         {
-            if (TargetUtils.GetDistToTarget(transform.position, player) <= aggroRange)
+            if (TargetUtils.GetDistToTarget(transform.position, playerData.player) <= aggroRange)
             {
                 ChangeAnimationState(GroundEnemyAnimatorState.GroundEnemyChase);
                 ChasePlayer();
@@ -110,7 +108,7 @@ namespace _Core._6_Characters.Enemies.GroundEnemy
 
         private void ChasePlayer()
         {
-            var direction = TargetUtils.TargetIsToRight(transform.position, player) ? Vector2.right : Vector2.left;
+            var direction = TargetUtils.TargetIsToRight(transform.position, playerData.player) ? Vector2.right : Vector2.left;
 
             rb.AddForce(accelRate * direction, ForceMode2D.Force);
             moveSpeed = enemyData.chaseSpeed;

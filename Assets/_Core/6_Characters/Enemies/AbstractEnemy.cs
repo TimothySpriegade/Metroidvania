@@ -1,3 +1,4 @@
+using _Core._5_Player.ScriptableObjects;
 using _Core._6_Characters.Enemies.ScriptableObjects;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ namespace _Core._6_Characters.Enemies
 
         protected Rigidbody2D rb;
 
+        [SerializeField] protected PlayerReferenceData playerData;
         [SerializeField] protected EnemyData enemyData;
         [SerializeField] protected LayerMask collisionCheckLayer;
 
