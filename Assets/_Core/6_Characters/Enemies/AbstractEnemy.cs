@@ -1,9 +1,8 @@
-using _Core._6_Characters.Enemies.ScriptableObjects;
 using UnityEngine;
 
 namespace _Core._6_Characters.Enemies
 {
-    [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(Rigidbody2D), typeof(EnemyCombat))]
     public abstract class AbstractEnemy : MonoBehaviour, IEnemy
     {
         #region Variables
@@ -12,8 +11,7 @@ namespace _Core._6_Characters.Enemies
         public bool duringAnimation { get; set; }
 
         protected Rigidbody2D rb;
-
-        [SerializeField] protected EnemyData enemyData;
+        protected EnemyCombat combat;
         [SerializeField] protected LayerMask collisionCheckLayer;
 
         #endregion
@@ -21,6 +19,7 @@ namespace _Core._6_Characters.Enemies
         private void Start()
         {
             rb = GetComponent<Rigidbody2D>();
+            combat = GetComponent<EnemyCombat>();
             OnStarting();
         }
 
@@ -59,7 +58,7 @@ namespace _Core._6_Characters.Enemies
         protected void CapSpeed(float maxSpeed, float maxJump)
         {
             var newHorizontalVelocity = Mathf.Clamp(rb.velocity.x, -maxSpeed, maxSpeed);
-            var newVerticalVelocity = Mathf.Clamp(rb.velocity.y, -enemyData.maxFallSpeed, maxJump);
+            var newVerticalVelocity = Mathf.Clamp(rb.velocity.y, -combat.enemyData.maxFallSpeed, maxJump);
             rb.velocity = new Vector2(newHorizontalVelocity, newVerticalVelocity);
         }
 
