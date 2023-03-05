@@ -19,7 +19,7 @@ namespace _Core._10_Utils
             return position.x < target.transform.position.x;
         }
 
-        private static bool TargetExists(Object target)
+        public static bool TargetExists(Object target)
         {
             return !ReferenceEquals(target, null) && !target.IsDestroyed();
         }

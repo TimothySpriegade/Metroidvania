@@ -1,6 +1,6 @@
+using _Core._10_Utils;
 using _Core._5_Player.ScriptableObjects;
 using Cinemachine;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace _Core._5_Player.PlayerCamera
@@ -27,7 +27,7 @@ namespace _Core._5_Player.PlayerCamera
 
         private void LateUpdate()
         {
-            if (!ReferenceEquals(playerData.player, null) && !playerData.player.IsDestroyed())
+            if (TargetUtils.TargetExists(playerData.player))
             {
                 playerCamera.Follow = playerData.player.transform;
             }
