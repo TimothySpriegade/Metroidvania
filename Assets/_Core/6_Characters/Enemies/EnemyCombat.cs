@@ -18,7 +18,7 @@ namespace _Core._6_Characters.Enemies
         [Header("Components")] 
         private Rigidbody2D rb;
         private IEnemy enemy;
-        public EnemyData enemyData { get; private set; }
+        public EnemyData enemyData;
 
         #endregion
 
