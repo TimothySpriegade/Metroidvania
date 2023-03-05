@@ -1,4 +1,4 @@
-using Unity.VisualScripting;
+using _Core._10_Utils;
 using UnityEngine;
 
 namespace _Core._6_Characters.Enemies.GroundEnemy
@@ -35,7 +35,6 @@ namespace _Core._6_Characters.Enemies.GroundEnemy
 
         #region Component vars
 
-        private GameObject player;
         private Animator animator;
 
         #endregion
@@ -58,9 +57,9 @@ namespace _Core._6_Characters.Enemies.GroundEnemy
 
         #region UnityMethods
 
-        protected override void OnStarting()
+        protected override void Start()
         {
-            player = GameObject.FindGameObjectWithTag("Player");
+            base.Start();
             animator = GetComponentInChildren<Animator>();
         }
 
@@ -90,7 +89,7 @@ namespace _Core._6_Characters.Enemies.GroundEnemy
 
         protected override void EnemyAI()
         {
-            if (GetDistToPlayer() <= aggroRange)
+            if (TargetUtils.GetDistToTarget(transform.position, playerData.player) <= aggroRange)
             {
                 ChangeAnimationState(GroundEnemyAnimatorState.GroundEnemyChase);
                 ChasePlayer();
@@ -109,7 +108,7 @@ namespace _Core._6_Characters.Enemies.GroundEnemy
 
         private void ChasePlayer()
         {
-            var direction = transform.position.x < player.transform.position.x ? Vector2.right : Vector2.left;
+            var direction = TargetUtils.TargetIsToRight(transform.position, playerData.player) ? Vector2.right : Vector2.left;
 
             rb.AddForce(accelRate * direction, ForceMode2D.Force);
             moveSpeed = combat.enemyData.chaseSpeed;
@@ -132,15 +131,7 @@ namespace _Core._6_Characters.Enemies.GroundEnemy
             moveSpeed = combat.enemyData.idleSpeed;
         }
 
-        private float GetDistToPlayer()
-        {
-            if (!ReferenceEquals(player, null) && !player.IsDestroyed())
-            {
-                return Vector2.Distance(transform.position, player.transform.position);
-            }
-
-            return aggroRange + 1;
-        }
+        
 
         private void Jump()
         {

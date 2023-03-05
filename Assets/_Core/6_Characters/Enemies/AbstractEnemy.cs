@@ -1,3 +1,5 @@
+using _Core._5_Player.ScriptableObjects;
+using _Core._6_Characters.Enemies.ScriptableObjects;
 using UnityEngine;
 
 namespace _Core._6_Characters.Enemies
@@ -11,20 +13,17 @@ namespace _Core._6_Characters.Enemies
         public bool duringAnimation { get; set; }
 
         protected Rigidbody2D rb;
+
+        [SerializeField] protected PlayerReferenceData playerData;
         protected EnemyCombat combat;
         [SerializeField] protected LayerMask collisionCheckLayer;
 
         #endregion
 
-        private void Start()
+        protected virtual void Start()
         {
             rb = GetComponent<Rigidbody2D>();
             combat = GetComponent<EnemyCombat>();
-            OnStarting();
-        }
-
-        protected virtual void OnStarting()
-        {
         }
 
         #region Flip Logic

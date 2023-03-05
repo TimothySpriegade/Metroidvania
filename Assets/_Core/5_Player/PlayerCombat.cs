@@ -1,4 +1,3 @@
-using _Core._5_Player.ScriptableObjects;
 using DG.Tweening;
 using UnityEngine;
 
@@ -19,7 +18,6 @@ namespace _Core._5_Player
         #region components
         
         [Header("Components")]
-        [SerializeField] private PlayerCombatData data;
         private PlayerAnimator animator;
         private PlayerMovement movement;
 
