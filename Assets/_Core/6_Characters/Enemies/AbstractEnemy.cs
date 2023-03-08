@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace _Core._6_Characters.Enemies
 {
-    [RequireComponent(typeof(Rigidbody2D), typeof(EnemyCombat))]
+    [RequireComponent(typeof(Rigidbody2D), typeof(Destructible))]
     public abstract class AbstractEnemy : MonoBehaviour, IEnemy
     {
         #region Variables
@@ -29,7 +29,7 @@ namespace _Core._6_Characters.Enemies
 
         #region Flip Logic
 
-        protected void CheckDirectionToFace(bool isMovingRight)
+        public void CheckDirectionToFace(bool isMovingRight)
         {
             if (isMovingRight != isFacingRight)
             {

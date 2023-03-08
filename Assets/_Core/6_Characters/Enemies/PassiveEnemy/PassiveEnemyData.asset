@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4c0528d7cf9c84b9bd36d575e5b343, type: 3}
   m_Name: PassiveEnemyData
   m_EditorClassIdentifier: 
-  maxHealth: 3
+  maxHealth: 20
   chaseSpeed: 7
   idleSpeed: 1
   maxFallSpeed: 16
   damage: 1
+  knockback: {x: 0, y: 0}
