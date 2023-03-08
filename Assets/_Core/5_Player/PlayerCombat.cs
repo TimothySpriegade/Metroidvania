@@ -1,4 +1,5 @@
 using _Core._10_Utils;
+using _Core._5_Player.ScriptableObjects;
 using _Core._6_Characters.Enemies;
 using _Framework.SOEventSystem.Events;
 using DG.Tweening;
@@ -40,6 +41,11 @@ namespace _Core._5_Player
 
         protected override void Awake()
         {
+#if UNITY_EDITOR
+            var playerData = (PlayerCombatData) data;
+            playerData.currentHealth = playerData.maxHealth;
+#endif
+            
             base.Awake();
             animator = GetComponent<PlayerAnimator>();
             movement = GetComponent<PlayerMovement>();
@@ -115,6 +121,11 @@ namespace _Core._5_Player
                 Heal(1);
                 attackCount = 0;
             }
+        }
+
+        public void OnEnvironmentalTrapHitCallback(int damage)
+        {
+            base.OnAttackHit(damage, gameObject);
         }
     }
 }

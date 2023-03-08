@@ -28,7 +28,7 @@ namespace _Core._9_UI
 
         #region healthMethods
 
-        private void Awake()
+        private void Start()
         {
             HealthSpriteUpdater();
         }

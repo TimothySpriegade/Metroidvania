@@ -5,7 +5,7 @@ namespace _Core._8_Environment.Traps
 {
     public class EnvironmentalTrap : MonoBehaviour
     {
-        [SerializeField] private FloatEvent onEnvironmentalTrapHit;
+        [SerializeField] private IntEvent onEnvironmentalTrapHit;
         [SerializeField] private EnvironmentalTrapData data;
 
 
