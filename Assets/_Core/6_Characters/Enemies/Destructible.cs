@@ -12,7 +12,7 @@ namespace _Core._6_Characters.Enemies
         [SerializeField] protected DestructibleData data;
 
         private bool Invincible { get; set; }
-        private float health;
+        private int health;
         
         protected override void Awake()
         {
@@ -24,10 +24,10 @@ namespace _Core._6_Characters.Enemies
         protected virtual void Destroy()
         {
             this.Log("HP was reduced to 0, destroying destructible.");
-            Destroy(transform.gameObject);
+            Destroy(destructibleParent);
         }
 
-        public override void OnAttackHit(float damage)
+        public override void OnAttackHit(int damage)
         {
             // Taking damage
             if (!Invincible) 
@@ -44,7 +44,7 @@ namespace _Core._6_Characters.Enemies
 
             // Starting Iframes
             Invincible = true;
-            StartCoroutine(ResetInvincibleFrames(0.15f));
+            StartCoroutine(ResetInvincibleFrames(0.5f));
         }
 
         private IEnumerator ResetInvincibleFrames(float duration)
@@ -53,7 +53,7 @@ namespace _Core._6_Characters.Enemies
             Invincible = false;
         }
 
-        private void TakeDamage(float damage)
+        private void TakeDamage(int damage)
         {
             health -= damage;
         }

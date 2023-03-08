@@ -9,8 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9b61f1dd87c1ab408b5786060792df9, type: 3}
-  m_Name: PlayerCombatData
+  m_Script: {fileID: 11500000, guid: c68d76cfd67749947b77ec80d12e70fb, type: 3}
+  m_Name: playerTookDamage
   m_EditorClassIdentifier: 
-  maxHealth: 5
-  damage: 1

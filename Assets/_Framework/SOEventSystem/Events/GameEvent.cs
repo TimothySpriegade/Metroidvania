@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace SOEventSystem.Events
+namespace _Framework.SOEventSystem.Events
 {
     public abstract class GameEvent<T> : ScriptableObject
     {

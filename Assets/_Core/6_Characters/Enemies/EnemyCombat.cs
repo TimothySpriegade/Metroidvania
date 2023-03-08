@@ -23,7 +23,7 @@ namespace _Core._6_Characters.Enemies
             enemyData = (EnemyData) data;
         }
 
-        public override void OnAttackHit(float damage)
+        public override void OnAttackHit(int damage)
         {
             base.OnAttackHit(damage);
             TakeKnockback();
