@@ -1,5 +1,5 @@
+using _Core._10_Utils;
 using _Core._5_Player;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace _Core._6_Characters.Enemies.AerialEnemy {
@@ -21,34 +21,14 @@ namespace _Core._6_Characters.Enemies.AerialEnemy {
 
         [SerializeField] private Transform[] idlePoints;
         private int index;
-
-        #endregion
-
-        #region Check Vars
-
-        [Header("Checks")]
-        [SerializeField] private Transform collidingPoint;
-        [SerializeField] private float collidingRadius = 5;
-
-        private bool isColliding;
-
-        #endregion
-
-        #region Component Vars
-
-        private GameObject player;
+        private FlyingEnemyAnimatorState currentState;
 
         #endregion
 
         #endregion
 
         #region UnityMethods
-
-        protected override void Start()
-        {
-            base.Start();
-            player = GameObject.FindGameObjectWithTag("Player");
-        }
+        
         private void Update()
         {
             if (rb.velocity.x != 0)
@@ -56,36 +36,37 @@ namespace _Core._6_Characters.Enemies.AerialEnemy {
                 CheckDirectionToFace(rb.velocity.x > 0);
             }
 
-            isColliding = CollisionCheck(collidingPoint, collidingRadius);
-
             if (!duringAnimation)
             {
                 EnemyAI();
+                CapSpeed(moveSpeed);
             }
-            CapSpeed(moveSpeed);
+            
         }
         #endregion
 
         #region EnemyAI
         protected override void EnemyAI()
         {
-            if (GetDistToPlayer() <= aggroRange)
+            if (TargetUtils.GetDistToTarget(gameObject, playerData.player) <= aggroRange)
             {
+                ChangeAnimationState(FlyingEnemyAnimatorState.FlyingEnemyChase);
                 ChasePlayer();
             }
             else
             {
+                ChangeAnimationState(FlyingEnemyAnimatorState.FlyingEnemyIdle);
                 Idle();
             }
         }
 
         private void ChasePlayer()
         {
-            var difference = player.transform.position - transform.position;
+            var difference = playerData.player.transform.position - transform.position;
             var targetSpeed = difference.normalized * accelRate;
             rb.AddForce(targetSpeed, ForceMode2D.Force);
             
-            moveSpeed = enemyData.chaseSpeed;
+            moveSpeed = combat.enemyData.chaseSpeed;
         }
 
         private void Idle()
@@ -102,47 +83,49 @@ namespace _Core._6_Characters.Enemies.AerialEnemy {
             var difference = idlePoints[index].position - transform.position;
             var targetSpeed = difference.normalized * accelRate;
             rb.AddForce(targetSpeed, ForceMode2D.Force);
-            moveSpeed = enemyData.idleSpeed;
+            moveSpeed = combat.enemyData.idleSpeed;
         }
-
-        private float GetDistToPlayer()
-        {
-            if (!ReferenceEquals(player, null) && !player.IsDestroyed())
-            {
-                return Vector2.Distance(transform.position, player.transform.position);
-            }
-
-            return aggroRange + 1;
-        }
-      
 
         #endregion
 
         #region Animation
+        
+        private float ChangeAnimationState(FlyingEnemyAnimatorState newState)
+        {
+            //Stop if currently played Animation matches attempted animation
+            if (currentState == newState) return 0;
+
+            //Play animation
+            animator.Play(newState.ToString());
+            animator.Update(Time.smoothDeltaTime);
+        
+            //replace currentState
+            currentState = newState;
+            return animator.GetCurrentAnimatorStateInfo(0).length;
+        }
+        
         public override float DeathAnimation()
         {
-            return 0;
+            duringAnimation = true;
+            combat.Invincible = true;
+            rb.drag = 5;
+            return ChangeAnimationState(FlyingEnemyAnimatorState.FlyingEnemyDeath);
         }
-
+        
         #endregion
-
-        private void OnDrawGizmosSelected()
-        {
-            Gizmos.DrawWireSphere(collidingPoint.position, collidingRadius);
-        }
 
         private void OnCollisionEnter2D(Collision2D col)
         {
             if (col.gameObject.CompareTag("Player"))
             {
-                col.gameObject.GetComponent<PlayerCombat>().OnAttackHit(enemyData.damage);
+                col.gameObject.GetComponent<PlayerCombat>().OnAttackHit(combat.enemyData.damage, gameObject);
             }
         }
     }
-    public enum AerialEnemyAnimatorState
+    public enum FlyingEnemyAnimatorState
     {
-        AerialEnemyIdle,
-        AerialEnemyChase,
-        AerialEnemyDeath
+        FlyingEnemyIdle,
+        FlyingEnemyChase,
+        FlyingEnemyDeath
     }
 }

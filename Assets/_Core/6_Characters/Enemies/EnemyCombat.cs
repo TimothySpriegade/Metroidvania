@@ -11,7 +11,8 @@ namespace _Core._6_Characters.Enemies
         [Header("Components")] 
         private Rigidbody2D rb;
         private IEnemy enemy;
-        public EnemyData enemyData;
+        public EnemyData enemyData { get; private set; }
+        private Tween knockbackTween;
 
         #endregion
 
@@ -23,14 +24,15 @@ namespace _Core._6_Characters.Enemies
             enemyData = (EnemyData) data;
         }
 
-        public override void OnAttackHit(int damage)
+        public override void OnAttackHit(int damage, GameObject attacker)
         {
-            base.OnAttackHit(damage);
             TakeKnockback();
+            base.OnAttackHit(damage, attacker);
         }
 
         protected override void Destroy()
         {
+            knockbackTween.Kill();
             DOVirtual.DelayedCall(enemy.DeathAnimation(), base.Destroy);
         }
 
@@ -43,7 +45,7 @@ namespace _Core._6_Characters.Enemies
             rb.velocity = Vector2.zero;
             rb.AddForce(force, ForceMode2D.Impulse);
 
-            DOVirtual.DelayedCall(0.5f, () => enemy.duringAnimation = false);
+            knockbackTween = DOVirtual.DelayedCall(0.25f, () => enemy.duringAnimation = false );
         }
     }
 }

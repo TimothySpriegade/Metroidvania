@@ -1,7 +1,6 @@
-using _Framework.SOEventSystem;
 using UnityEngine;
 
-namespace SOEventSystem.Events
+namespace _Framework.SOEventSystem.Events
 {
     [CreateAssetMenu(menuName = "GameEvents/Game Event <CameraShakeConfiguration>")]
     public class CameraShakeEvent : GameEvent<CameraShakeConfiguration>

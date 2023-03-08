@@ -17,3 +17,4 @@ MonoBehaviour:
   idleSpeed: 1
   maxFallSpeed: 0
   damage: 1
+  knockback: {x: 200, y: 5}

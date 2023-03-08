@@ -23,7 +23,7 @@ namespace _Core._6_Characters.Enemies
             defaultMaterial = sprite.material;
         }
 
-        public virtual void OnAttackHit(int damage)
+        public virtual void OnAttackHit(int damage, GameObject attacker)
         {
             if (disableHitEffect) return;
 

@@ -28,9 +28,11 @@ namespace _Core._6_Characters.Enemies.PassiveEnemy
         #endregion
 
         #region Check Vars
-        [Header("Cheks")]
+        [Header("Checks")]
 
         [SerializeField] private Transform groundCheckPoint;
+
+        private PassiveEnemyAnimatorState currentState;
 
         private const float GroundCheckRadius = 0.2f;
 
@@ -44,18 +46,22 @@ namespace _Core._6_Characters.Enemies.PassiveEnemy
 
         private void Update()
         {
-            if (rb.velocity.x != 0 && !isOnTopOfEnemy)
+            if (rb.velocity.x != 0 && !duringAnimation && !isOnTopOfEnemy)
             {
                 CheckDirectionToFace(rb.velocity.x > 0);
             }
 
 
-            if (!duringAnimation && !isOnTopOfEnemy)
+            if (duringAnimation) return;
+            
+            if (!isOnTopOfEnemy)
             {
+                ChangeAnimationState(PassiveEnemyAnimatorState.PassiveEnemyRun);
                 EnemyAI();
             }
             else
             {
+                ChangeAnimationState(PassiveEnemyAnimatorState.PassiveEnemySteppedOn);
                 rb.velocity = Vector2.zero;
             }
 
@@ -77,22 +83,36 @@ namespace _Core._6_Characters.Enemies.PassiveEnemy
                     index = 0;
                 }
             }
-
-           
-
+            
             var difference = idlePoints[index].position.x - transform.position.x;
             var targetSpeed = Mathf.Sign(difference) * accelRate;
             rb.AddForce(Vector2.right * targetSpeed, ForceMode2D.Force);
-            moveSpeed = enemyData.idleSpeed;
+            moveSpeed = combat.enemyData.idleSpeed;
         }
 
   
         #endregion
 
         #region Animation
+        private float ChangeAnimationState(PassiveEnemyAnimatorState newState)
+        {
+            //Stop if currently played Animation matches attempted animation
+            if (currentState == newState) return 0;
+
+            //Play animation
+            animator.Play(newState.ToString());
+            animator.Update(Time.smoothDeltaTime);
+        
+            //replace currentState
+            currentState = newState;
+            return animator.GetCurrentAnimatorStateInfo(0).length;
+        }
+        
         public override float DeathAnimation()
         {
-            return 0;
+            duringAnimation = true;
+            combat.Invincible = true;
+            return ChangeAnimationState(PassiveEnemyAnimatorState.PassiveEnemyDeath);
         }
         #endregion
 
@@ -111,7 +131,7 @@ namespace _Core._6_Characters.Enemies.PassiveEnemy
             
             if (!isOnTopOfEnemy && col.gameObject.CompareTag("Player"))
             {
-                col.gameObject.GetComponent<PlayerCombat>().OnAttackHit(enemyData.damage);
+                col.gameObject.GetComponent<PlayerCombat>().OnAttackHit(combat.enemyData.damage, gameObject);
             }
         }
         private void OnCollisionExit2D(Collision2D col)
@@ -124,6 +144,7 @@ namespace _Core._6_Characters.Enemies.PassiveEnemy
     public enum PassiveEnemyAnimatorState
     {
         PassiveEnemyRun,
-        PassiveEnemyDeath
+        PassiveEnemyDeath,
+        PassiveEnemySteppedOn
     }
 }

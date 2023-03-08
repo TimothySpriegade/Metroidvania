@@ -11,23 +11,25 @@ namespace _Core._6_Characters.Enemies
         [SerializeField] private GameObject destructibleParent;
         [SerializeField] protected DestructibleData data;
 
-        private bool Invincible { get; set; }
+        public bool Invincible { get; set; }
         private int health;
         
         protected override void Awake()
         {
             base.Awake();
-            destructibleParent ??= transform.gameObject;
+            this.Log(destructibleParent);
+            destructibleParent = destructibleParent ??= transform.gameObject;
+            this.Log(destructibleParent);
             health = data.maxHealth;
         }
 
         protected virtual void Destroy()
         {
-            this.Log("HP was reduced to 0, destroying destructible.");
+            this.Log($"HP was reduced to 0, destroying {name}.");
             Destroy(destructibleParent);
         }
 
-        public override void OnAttackHit(int damage)
+        public override void OnAttackHit(int damage, GameObject attacker)
         {
             // Taking damage
             if (!Invincible) 
@@ -40,7 +42,7 @@ namespace _Core._6_Characters.Enemies
             }
             
             // Hit effect
-            base.OnAttackHit(damage);
+            base.OnAttackHit(damage, attacker);
 
             // Starting Iframes
             Invincible = true;
