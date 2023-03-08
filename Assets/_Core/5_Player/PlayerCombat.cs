@@ -1,6 +1,5 @@
 using _Core._5_Player.ScriptableObjects;
 using _Core._6_Characters.Enemies;
-using _Framework;
 using _Framework.SOEventSystem.Events;
 using DG.Tweening;
 using UnityEngine;
@@ -96,7 +95,6 @@ namespace _Core._5_Player
 
             if (playerData.currentHealth != health)
             {
-                this.Log("in if " + health);
                 playerData.currentHealth = health;
                 
                 // invoke event
