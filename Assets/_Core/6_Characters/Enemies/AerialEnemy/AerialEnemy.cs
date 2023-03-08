@@ -1,7 +1,6 @@
-using _Framework;
+using _Core._5_Player;
 using Unity.VisualScripting;
 using UnityEngine;
-using _Core._5_Player;
 
 namespace _Core._6_Characters.Enemies.AerialEnemy {
     public class AerialEnemy : AbstractEnemy
@@ -136,7 +135,6 @@ namespace _Core._6_Characters.Enemies.AerialEnemy {
         {
             if (col.gameObject.CompareTag("Player"))
             {
-                this.Log(!(col.GetContact(0).normal.y > 0.5f));
                 col.gameObject.GetComponent<PlayerCombat>().OnAttackHit(enemyData.damage);
             }
         }

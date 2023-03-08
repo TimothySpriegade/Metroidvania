@@ -1,7 +1,5 @@
-using UnityEngine;
 using _Core._5_Player;
-using _Framework;
-using UnityEngine.SocialPlatforms;
+using UnityEngine;
 
 namespace _Core._6_Characters.Enemies.PassiveEnemy
 {
@@ -50,14 +48,15 @@ namespace _Core._6_Characters.Enemies.PassiveEnemy
             {
                 CheckDirectionToFace(rb.velocity.x > 0);
             }
-            //col.GetContact(0).normal.y > 0.5f; 
-            // ^ Gibt true zurück, wenn der Kontaktpunk von oben kommt
-            // Kann dir gerne aufzeichnen wie der normal vector funktioniert
 
 
-            if (!duringAnimation)
+            if (!duringAnimation && !isOnTopOfEnemy)
             {
                 EnemyAI();
+            }
+            else
+            {
+                rb.velocity = Vector2.zero;
             }
 
             CapSpeed(moveSpeed);
@@ -108,13 +107,14 @@ namespace _Core._6_Characters.Enemies.PassiveEnemy
 
         private void OnCollisionEnter2D(Collision2D col)
         {
-            isOnTopOfEnemy = col.GetContact(0).normal.y < -0.5f && col.gameObject.CompareTag("Player") ? true : false;
-            if (col.gameObject.CompareTag("Player") && !(col.GetContact(0).normal.y < -0.5f))
+            isOnTopOfEnemy = col.GetContact(0).normal.y < -0.5f;
+            
+            if (!isOnTopOfEnemy && col.gameObject.CompareTag("Player"))
             {
                 col.gameObject.GetComponent<PlayerCombat>().OnAttackHit(enemyData.damage);
             }
         }
-        private void OnCollisionExit2D(Collision2D collision)
+        private void OnCollisionExit2D(Collision2D col)
         {
             isOnTopOfEnemy = false;
         }
