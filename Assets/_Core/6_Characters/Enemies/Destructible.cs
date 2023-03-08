@@ -59,6 +59,13 @@ namespace _Core._6_Characters.Enemies
         {
             health -= damage;
         }
+
+        protected void Heal(int heal)
+        {
+            if (health >= data.maxHealth) return;
+            
+            health += heal;
+        }
         
         
     }

@@ -10,6 +10,7 @@ namespace _Core._5_Player
     {
         [SerializeField] private PlayerCombatData data;
         [SerializeField] private CameraShakeEvent cameraShake;
+        [SerializeField] private VoidEvent onPlayerAttacked;
 
         private const string Hittable = "Hittable";
 
@@ -21,6 +22,7 @@ namespace _Core._5_Player
                 
                 hittable?.OnAttackHit(data.damage, gameObject);
                 cameraShake.Invoke(new CameraShakeConfiguration(1, 0.5f, 0.3f));
+                onPlayerAttacked.Invoke();
             }
         }
     }

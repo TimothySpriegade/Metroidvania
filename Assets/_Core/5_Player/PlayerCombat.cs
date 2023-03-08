@@ -15,9 +15,12 @@ namespace _Core._5_Player
 
         [Header("Combat")]
         [SerializeField] private Vector2 knockbackStrength;
+
+        [SerializeField] private int attackAmountUntilHeal;
         public float LastPressedAttackTime { get; set; }
         public bool isAttacking { get; private set; }
         private float lastAttackedTime;
+        private int attackCount;
 
         #endregion
 
@@ -101,6 +104,17 @@ namespace _Core._5_Player
             rb.AddForce(force, ForceMode2D.Impulse);
 
             DOVirtual.DelayedCall(0.5f, () => movement.IgnoreRun = false);
+        }
+
+        public void OnAttackHitEventCallback()
+        {
+            attackCount++;
+
+            if (attackCount >= attackAmountUntilHeal)
+            {
+                Heal(1);
+                attackCount = 0;
+            }
         }
     }
 }

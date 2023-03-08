@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: e5b9033aeb9e472449e99a172c84c7d2, type: 2}
   cameraShake: {fileID: 11400000, guid: 8c68f639e8c91e8499a3f8ee28dd742b, type: 2}
+  onPlayerAttacked: {fileID: 11400000, guid: 5dd444146bf395b498e0528c12480b07, type: 2}
 --- !u!61 &2599209091332393425
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -145,6 +146,66 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &2983759665709841587
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8940270280503147459}
+  - component: {fileID: 1232590597169797763}
+  m_Layer: 0
+  m_Name: OnAttackHitListener
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8940270280503147459
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2983759665709841587}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8878889290584725350}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1232590597169797763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2983759665709841587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa3a6e3a729c5c849995fbb0193b7d93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: 5dd444146bf395b498e0528c12480b07, type: 2}
+  unityEventResponse:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1451295692}
+        m_TargetAssemblyTypeName: _Core._5_Player.PlayerCombat, Assembly-CSharp
+        m_MethodName: OnAttackHitEventCallback
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3678926359378047387
 GameObject:
   m_ObjectHideFlags: 0
@@ -174,6 +235,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5405975074724953459}
+  - {fileID: 8940270280503147459}
   m_Father: {fileID: 7294756103342903550}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -647,9 +709,8 @@ MonoBehaviour:
   hitMaterial: {fileID: 2100000, guid: 40a4aed08f3268945a552e9b218fc431, type: 2}
   destructibleParent: {fileID: 0}
   data: {fileID: 11400000, guid: e5b9033aeb9e472449e99a172c84c7d2, type: 2}
-  debugMode: 0
-  attackArea: {fileID: 2106749654}
   knockbackStrength: {x: 20, y: 12}
+  attackAmountUntilHeal: 5
   playerTookDamageEvent: {fileID: 11400000, guid: 340abc7380ef04a49ac5b86b869ec4f5, type: 2}
 --- !u!114 &2964498079585584122
 MonoBehaviour:
