@@ -1,4 +1,5 @@
 using UnityEngine;
+using _Core._5_Player;
 
 namespace _Core._6_Characters.Enemies.PassiveEnemy
 {
@@ -78,6 +79,14 @@ namespace _Core._6_Characters.Enemies.PassiveEnemy
             var targetSpeed = Mathf.Sign(difference) * accelRate;
             rb.AddForce(Vector2.right * targetSpeed, ForceMode2D.Force);
             moveSpeed = enemyData.idleSpeed;
+        }
+
+        private void OnCollisionEnter2D(Collision2D col)
+        {
+            if (col.gameObject.CompareTag("Player"))
+            {
+                col.gameObject.GetComponent<PlayerCombat>().OnAttackHit(enemyData.damage);
+            }
         }
 
         #endregion
