@@ -1,5 +1,6 @@
 using UnityEngine;
 using _Core._5_Player;
+using _Framework;
 
 namespace _Core._6_Characters.Enemies.PassiveEnemy
 {
@@ -13,6 +14,8 @@ namespace _Core._6_Characters.Enemies.PassiveEnemy
         [SerializeField] private float accelRate;
 
         private float moveSpeed;
+
+        private bool collisionFromTop;
 
         #endregion
 
@@ -47,7 +50,7 @@ namespace _Core._6_Characters.Enemies.PassiveEnemy
                 CheckDirectionToFace(rb.velocity.x > 0);
             }
             
-            // col.GetContact(0).normal.y > 0.5f; 
+            //col.GetContact(0).normal.y > 0.5f; 
             // ^ Gibt true zurück, wenn der Kontaktpunk von oben kommt
             // Kann dir gerne aufzeichnen wie der normal vector funktioniert
             
@@ -83,8 +86,9 @@ namespace _Core._6_Characters.Enemies.PassiveEnemy
 
         private void OnCollisionEnter2D(Collision2D col)
         {
-            if (col.gameObject.CompareTag("Player"))
+           if (col.gameObject.CompareTag("Player") && !(col.GetContact(0).normal.y > 0.5f))
             {
+                this.Log(!(col.GetContact(0).normal.y > 0.5f));
                 col.gameObject.GetComponent<PlayerCombat>().OnAttackHit(enemyData.damage);
             }
         }
@@ -96,6 +100,10 @@ namespace _Core._6_Characters.Enemies.PassiveEnemy
         {
             return 0;
         }
+        #endregion
+
+        #region checks
+
         #endregion
 
         private void OnDrawGizmosSelected()
