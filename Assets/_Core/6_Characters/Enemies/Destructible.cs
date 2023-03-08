@@ -17,9 +17,14 @@ namespace _Core._6_Characters.Enemies
         protected override void Awake()
         {
             base.Awake();
+
+            if (destructibleParent == null)
+            {
+                destructibleParent = transform.gameObject;
+            }
+            
             this.Log(destructibleParent);
-            destructibleParent = destructibleParent ??= transform.gameObject;
-            this.Log(destructibleParent);
+            
             health = data.maxHealth;
         }
 

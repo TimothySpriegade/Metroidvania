@@ -9,6 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50f098621dea4d3791b3190a86bd5301, type: 3}
-  m_Name: OnEnvironemtalTrapHit
+  m_Script: {fileID: 11500000, guid: c68d76cfd67749947b77ec80d12e70fb, type: 3}
+  m_Name: OnEnvironmentalTrapHit
   m_EditorClassIdentifier: 

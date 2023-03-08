@@ -1,5 +1,5 @@
 using _Framework.SOEventSystem.Events;
-using SOEventSystem.UnityEvents;
+using _Framework.SOEventSystem.UnityEvents;
 
 namespace _Framework.SOEventSystem.Listeners
 {

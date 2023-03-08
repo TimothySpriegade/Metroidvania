@@ -1,6 +1,7 @@
 using _Core._10_Utils;
 using _Core._5_Player.ScriptableObjects;
 using _Core._6_Characters.Enemies;
+using _Framework;
 using _Framework.SOEventSystem.Events;
 using DG.Tweening;
 using UnityEngine;
@@ -112,6 +113,13 @@ namespace _Core._5_Player
             DOVirtual.DelayedCall(0.5f, () => movement.IgnoreRun = false);
         }
 
+        protected override void Destroy()
+        {
+            var x = animator.ChangeAnimationState(PlayerAnimatorState.PlayerDeath);
+            this.Log(x);
+            DOVirtual.DelayedCall(x, () => base.Destroy());
+        }
+
         public void OnAttackHitEventCallback()
         {
             attackCount++;
@@ -126,6 +134,9 @@ namespace _Core._5_Player
         public void OnEnvironmentalTrapHitCallback(int damage)
         {
             base.OnAttackHit(damage, gameObject);
+            
+            // invoke event
+            playerTookDamageEvent.Invoke();
         }
     }
 }

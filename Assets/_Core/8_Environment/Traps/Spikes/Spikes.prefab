@@ -124,5 +124,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6fc60cbf0b839a4c8ee1cd6ee01a963, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onEnvironmentalTrapHit: {fileID: 11400000, guid: 04f8bfb2c7dd7094ea063ab91a1a5093, type: 2}
+  onEnvironmentalTrapHit: {fileID: 11400000, guid: 1e78115efd7f4f348a2841aec30d0bb0, type: 2}
   data: {fileID: 11400000, guid: 9922b7d41e915b142960398ecbacb90a, type: 2}
