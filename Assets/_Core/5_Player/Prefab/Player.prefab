@@ -711,6 +711,7 @@ MonoBehaviour:
   data: {fileID: 11400000, guid: e5b9033aeb9e472449e99a172c84c7d2, type: 2}
   knockbackStrength: {x: 20, y: 12}
   attackAmountUntilHeal: 5
+  onSceneChange: {fileID: 11400000, guid: caf704787c85da1498c4d9fbefa18b30, type: 2}
   playerTookDamageEvent: {fileID: 11400000, guid: 340abc7380ef04a49ac5b86b869ec4f5, type: 2}
 --- !u!114 &2964498079585584122
 MonoBehaviour:

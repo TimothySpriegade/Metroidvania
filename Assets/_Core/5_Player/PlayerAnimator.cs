@@ -57,7 +57,7 @@ namespace _Core._5_Player
             animator.Play(newState.ToString());
             animator.Update(Time.smoothDeltaTime);
 
-            if (newState == PlayerAnimatorState.PlayerAttack)
+            if (newState == PlayerAnimatorState.PlayerDeath)
             {
                 animationBlock = true;
                 movement.IgnoreRun = true;

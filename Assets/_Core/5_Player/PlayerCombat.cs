@@ -1,7 +1,6 @@
 using _Core._10_Utils;
 using _Core._5_Player.ScriptableObjects;
 using _Core._6_Characters.Enemies;
-using _Framework;
 using _Framework.SOEventSystem.Events;
 using DG.Tweening;
 using UnityEngine;
@@ -29,10 +28,13 @@ namespace _Core._5_Player
         #region components
 
         [Header("Components")] [SerializeField]
+        private StringEvent onSceneChange;
+        [SerializeField]
         private VoidEvent playerTookDamageEvent;
         private PlayerAnimator animator;
         private PlayerMovement movement;
         private Rigidbody2D rb;
+        private Tween deathTween;
 
         #endregion
 
@@ -115,9 +117,12 @@ namespace _Core._5_Player
 
         protected override void Destroy()
         {
-            var x = animator.ChangeAnimationState(PlayerAnimatorState.PlayerDeath);
-            this.Log(x);
-            DOVirtual.DelayedCall(x, () => base.Destroy());
+            if (deathTween is {active: true}) return;
+            
+            deathTween = DOVirtual.DelayedCall(animator.ChangeAnimationState(PlayerAnimatorState.PlayerDeath), () =>
+            {
+                onSceneChange.Invoke("MainMenu");
+            });
         }
 
         public void OnAttackHitEventCallback()

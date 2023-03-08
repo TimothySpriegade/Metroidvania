@@ -14,6 +14,7 @@ namespace _Core._8_Environment.Traps
         {
             if (col.gameObject.CompareTag("Player"))
             {
+                onEnvironmentalTrapHit.Invoke();
                 col.gameObject.GetComponent<PlayerCombat>().OnEnvironmentalTrapHitCallback(data.damage);
             }
         }
