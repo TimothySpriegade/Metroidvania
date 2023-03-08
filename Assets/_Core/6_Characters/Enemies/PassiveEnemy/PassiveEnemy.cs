@@ -1,6 +1,7 @@
 using UnityEngine;
 using _Core._5_Player;
 using _Framework;
+using UnityEngine.SocialPlatforms;
 
 namespace _Core._6_Characters.Enemies.PassiveEnemy
 {
@@ -105,11 +106,13 @@ namespace _Core._6_Characters.Enemies.PassiveEnemy
 
         private void OnCollisionEnter2D(Collision2D col)
         {
-            if (col.gameObject.CompareTag("Player") && !(col.GetContact(0).normal.y > 0.5f))
+            collisionFromTop = col.GetContact(0).normal.y > 0.5f;
+            this.Log(collisionFromTop);
+            if (col.gameObject.CompareTag("Player") && !collisionFromTop)
             {
-                this.Log(!(col.GetContact(0).normal.y > 0.5f));
                 col.gameObject.GetComponent<PlayerCombat>().OnAttackHit(enemyData.damage);
             }
+          
         }
 
     }
