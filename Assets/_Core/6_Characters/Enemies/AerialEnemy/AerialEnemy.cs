@@ -1,5 +1,7 @@
+using _Framework;
 using Unity.VisualScripting;
 using UnityEngine;
+using _Core._5_Player;
 
 namespace _Core._6_Characters.Enemies.AerialEnemy {
     public class AerialEnemy : AbstractEnemy
@@ -113,6 +115,7 @@ namespace _Core._6_Characters.Enemies.AerialEnemy {
 
             return aggroRange + 1;
         }
+      
 
         #endregion
 
@@ -129,6 +132,14 @@ namespace _Core._6_Characters.Enemies.AerialEnemy {
             Gizmos.DrawWireSphere(collidingPoint.position, collidingRadius);
         }
 
+        private void OnCollisionEnter2D(Collision2D col)
+        {
+            if (col.gameObject.CompareTag("Player"))
+            {
+                this.Log(!(col.GetContact(0).normal.y > 0.5f));
+                col.gameObject.GetComponent<PlayerCombat>().OnAttackHit(enemyData.damage);
+            }
+        }
     }
     public enum AerialEnemyAnimatorState
     {

@@ -84,15 +84,7 @@ namespace _Core._6_Characters.Enemies.PassiveEnemy
             moveSpeed = enemyData.idleSpeed;
         }
 
-        private void OnCollisionEnter2D(Collision2D col)
-        {
-           if (col.gameObject.CompareTag("Player") && !(col.GetContact(0).normal.y > 0.5f))
-            {
-                this.Log(!(col.GetContact(0).normal.y > 0.5f));
-                col.gameObject.GetComponent<PlayerCombat>().OnAttackHit(enemyData.damage);
-            }
-        }
-
+  
         #endregion
 
         #region Animation
@@ -109,6 +101,15 @@ namespace _Core._6_Characters.Enemies.PassiveEnemy
         private void OnDrawGizmosSelected()
         {
             Gizmos.DrawWireSphere(groundCheckPoint.position, GroundCheckRadius);
+        }
+
+        private void OnCollisionEnter2D(Collision2D col)
+        {
+            if (col.gameObject.CompareTag("Player") && !(col.GetContact(0).normal.y > 0.5f))
+            {
+                this.Log(!(col.GetContact(0).normal.y > 0.5f));
+                col.gameObject.GetComponent<PlayerCombat>().OnAttackHit(enemyData.damage);
+            }
         }
 
     }
