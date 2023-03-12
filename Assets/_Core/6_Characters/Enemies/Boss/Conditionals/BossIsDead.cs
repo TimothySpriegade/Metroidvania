@@ -7,7 +7,7 @@ namespace _Core._6_Characters.Enemies.Boss.Conditionals
     {
         public override TaskStatus OnUpdate()
         {
-            return boss.health <= 0 ? TaskStatus.Running : TaskStatus.Failure;
+            return boss.health <= 0 ? TaskStatus.Success : TaskStatus.Failure;
         }
     }
 }
