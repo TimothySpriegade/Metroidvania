@@ -1,8 +1,7 @@
-using _Framework.SOEventSystem;
-using SOEventSystem.Events;
-using SOEventSystem.UnityEvents;
+using _Framework.SOEventSystem.Events;
+using _Framework.SOEventSystem.UnityEvents;
 
-namespace SOEventSystem.Listeners
+namespace _Framework.SOEventSystem.Listeners
 {
     public class CameraShakeEventListener : GameEventListener<CameraShakeConfiguration, CameraShakeEvent, UnityCameraShakeEvent>
     {

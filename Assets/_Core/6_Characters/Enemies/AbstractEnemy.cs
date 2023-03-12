@@ -1,10 +1,9 @@
 using _Core._5_Player.ScriptableObjects;
-using _Core._6_Characters.Enemies.ScriptableObjects;
 using UnityEngine;
 
 namespace _Core._6_Characters.Enemies
 {
-    [RequireComponent(typeof(Rigidbody2D), typeof(EnemyCombat))]
+    [RequireComponent(typeof(Rigidbody2D), typeof(Destructible))]
     public abstract class AbstractEnemy : MonoBehaviour, IEnemy
     {
         #region Variables
@@ -12,11 +11,12 @@ namespace _Core._6_Characters.Enemies
         public bool isFacingRight { get; private set; }
         public bool duringAnimation { get; set; }
 
-        protected Rigidbody2D rb;
 
         [SerializeField] protected PlayerReferenceData playerData;
-        protected EnemyCombat combat;
         [SerializeField] protected LayerMask collisionCheckLayer;
+        protected Rigidbody2D rb;
+        protected EnemyCombat combat;
+        protected Animator animator;
 
         #endregion
 
@@ -24,11 +24,12 @@ namespace _Core._6_Characters.Enemies
         {
             rb = GetComponent<Rigidbody2D>();
             combat = GetComponent<EnemyCombat>();
+            animator = GetComponentInChildren<Animator>();
         }
 
         #region Flip Logic
 
-        protected void CheckDirectionToFace(bool isMovingRight)
+        public void CheckDirectionToFace(bool isMovingRight)
         {
             if (isMovingRight != isFacingRight)
             {

@@ -1,4 +1,5 @@
 using _Core._10_Utils;
+using _Core._5_Player;
 using UnityEngine;
 
 namespace _Core._6_Characters.Enemies.GroundEnemy
@@ -32,12 +33,7 @@ namespace _Core._6_Characters.Enemies.GroundEnemy
         private const float GroundCheckRadius = 0.2f;
 
         #endregion
-
-        #region Component vars
-
-        private Animator animator;
-
-        #endregion
+        
 
         #region Animation
 
@@ -57,12 +53,6 @@ namespace _Core._6_Characters.Enemies.GroundEnemy
 
         #region UnityMethods
 
-        protected override void Start()
-        {
-            base.Start();
-            animator = GetComponentInChildren<Animator>();
-        }
-
         private void Update()
         {
             if (rb.velocity.x != 0)
@@ -76,9 +66,8 @@ namespace _Core._6_Characters.Enemies.GroundEnemy
             if (!duringAnimation)
             {
                 EnemyAI();
+                CapSpeed(moveSpeed, jumpForce);
             }
-
-            CapSpeed(moveSpeed, jumpForce);
 
             rb.gravityScale = IsFalling() ? fallVelocity : normalGravity;
         }
@@ -89,7 +78,7 @@ namespace _Core._6_Characters.Enemies.GroundEnemy
 
         protected override void EnemyAI()
         {
-            if (TargetUtils.GetDistToTarget(transform.position, playerData.player) <= aggroRange)
+            if (TargetUtils.GetDistToTarget(gameObject, playerData.player) <= aggroRange)
             {
                 ChangeAnimationState(GroundEnemyAnimatorState.GroundEnemyChase);
                 ChasePlayer();
@@ -108,7 +97,7 @@ namespace _Core._6_Characters.Enemies.GroundEnemy
 
         private void ChasePlayer()
         {
-            var direction = TargetUtils.TargetIsToRight(transform.position, playerData.player) ? Vector2.right : Vector2.left;
+            var direction = TargetUtils.TargetIsToRight(gameObject, playerData.player) ? Vector2.right : Vector2.left;
 
             rb.AddForce(accelRate * direction, ForceMode2D.Force);
             moveSpeed = combat.enemyData.chaseSpeed;
@@ -143,22 +132,24 @@ namespace _Core._6_Characters.Enemies.GroundEnemy
 
         #region Animation
 
-        private void ChangeAnimationState(GroundEnemyAnimatorState newState)
+        private float ChangeAnimationState(GroundEnemyAnimatorState newState)
         {
             //Stop if currently played Animation matches attempted animation
-            if (currentState == newState) return;
+            if (currentState == newState) return 0;
 
             //Play animation
             animator.Play(newState.ToString());
 
             //replace currentState
             currentState = newState;
+            return animator.GetCurrentAnimatorStateInfo(0).length;
         }
 
         public override float DeathAnimation()
-        {
-            ChangeAnimationState(GroundEnemyAnimatorState.GroundEnemyDeath);
-            return animator.GetCurrentAnimatorStateInfo(0).length;
+        {   
+            duringAnimation = true;
+            combat.Invincible = true;
+            return ChangeAnimationState(GroundEnemyAnimatorState.GroundEnemyDeath);
         }
 
         #endregion
@@ -171,6 +162,14 @@ namespace _Core._6_Characters.Enemies.GroundEnemy
         }
 
         #endregion
+
+        private void OnCollisionEnter2D(Collision2D col)
+        {
+            if (col.gameObject.CompareTag("Player"))
+            {
+                col.gameObject.GetComponent<PlayerCombat>().OnAttackHit(combat.enemyData.damage, gameObject);
+            }
+        }
 
         private void OnDrawGizmosSelected()
         {

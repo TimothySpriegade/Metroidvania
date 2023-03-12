@@ -22,6 +22,7 @@ namespace _Core._5_Player
         [SerializeField] private Vector2 upAnimationForce;
         private bool collisionDetected;
         private PlayerAnimatorState currentState;
+        private bool animationBlock;
 
         #endregion
 
@@ -51,29 +52,27 @@ namespace _Core._5_Player
             //Stop if currently played Animation matches attempted animation
             if (currentState == newState || AnimationBlocked(newState)) return 0;
 
+            
             //Play animation
             animator.Play(newState.ToString());
             animator.Update(Time.smoothDeltaTime);
 
-            switch (newState)
+            if (newState == PlayerAnimatorState.PlayerDeath)
             {
-                case PlayerAnimatorState.PlayerLand:
-                    //Land FX
-                    break;
-                case PlayerAnimatorState.PlayerAttack:
-                    //Attack FX
-                    break;
-                case PlayerAnimatorState.PlayerJump:
-                    //Jump FX
-                    break;
-                case PlayerAnimatorState.PlayerDeath:
-                    //DeathFX
-                    break;
+                animationBlock = true;
+                movement.IgnoreRun = true;
+                controller.DisableAllControls();
             }
-
+            
             //replace currentState
             currentState = newState;
             return animator.GetCurrentAnimatorStateInfo(0).length;
+        }
+
+        private bool PlayerIsDying(PlayerAnimatorState newState)
+        {
+            return !currentState.Equals(PlayerAnimatorState.PlayerDeath) &&
+                   newState.Equals(PlayerAnimatorState.PlayerDeath);
         }
 
         public IEnumerator DashAnimation(Vector2 direction, float length, bool isFacingRight)
@@ -190,11 +189,10 @@ namespace _Core._5_Player
 
         private bool AnimationBlocked(PlayerAnimatorState newState)
         {
-            var playerIsDead = currentState.Equals(PlayerAnimatorState.PlayerDeath);
             var playerIsAlreadyDashing = movement.isDashing && !newState.Equals(PlayerAnimatorState.PlayerDash);
             var playerIsAlreadyAttacking = combat.isAttacking && !newState.Equals(PlayerAnimatorState.PlayerAttack);
             
-            return playerIsDead || playerIsAlreadyDashing || playerIsAlreadyAttacking;
+            return animationBlock || playerIsAlreadyDashing || playerIsAlreadyAttacking;
         }
 
         #endregion

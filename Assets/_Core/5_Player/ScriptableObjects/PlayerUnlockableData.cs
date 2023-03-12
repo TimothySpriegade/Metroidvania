@@ -6,5 +6,10 @@ namespace _Core._5_Player.ScriptableObjects
     public class PlayerUnlockableData : ScriptableObject
     {
         public bool unlockedDash;
+
+        private void OnEnable()
+        {
+            unlockedDash = false;
+        }
     }
 }

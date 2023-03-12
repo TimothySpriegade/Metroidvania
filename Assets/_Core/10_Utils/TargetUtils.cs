@@ -5,21 +5,21 @@ namespace _Core._10_Utils
 {
     public static class TargetUtils
     {
-        public static float GetDistToTarget(Vector2 position, GameObject target)
+        public static float GetDistToTarget(GameObject source, GameObject target)
         {
             if (!TargetExists(target)) return 0;
             
-            return Vector2.Distance(position, target.transform.position);
+            return Vector2.Distance(source.transform.position, target.transform.position);
         }
 
-        public static bool TargetIsToRight(Vector2 position, GameObject target)
+        public static bool TargetIsToRight(GameObject source, GameObject target)
         {
             if (!TargetExists(target)) return false;
                 
-            return position.x < target.transform.position.x;
+            return source.transform.position.x < target.transform.position.x;
         }
 
-        public static bool TargetExists(Object target)
+        public static bool TargetExists(GameObject target)
         {
             return !ReferenceEquals(target, null) && !target.IsDestroyed();
         }

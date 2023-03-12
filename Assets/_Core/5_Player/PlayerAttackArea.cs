@@ -1,7 +1,7 @@
 using _Core._5_Player.ScriptableObjects;
 using _Core._6_Characters.Enemies;
 using _Framework.SOEventSystem;
-using SOEventSystem.Events;
+using _Framework.SOEventSystem.Events;
 using UnityEngine;
 
 namespace _Core._5_Player
@@ -10,6 +10,7 @@ namespace _Core._5_Player
     {
         [SerializeField] private PlayerCombatData data;
         [SerializeField] private CameraShakeEvent cameraShake;
+        [SerializeField] private VoidEvent onPlayerAttacked;
 
         private const string Hittable = "Hittable";
 
@@ -19,8 +20,9 @@ namespace _Core._5_Player
             {
                 var hittable = col.GetComponent<Hittable>();
                 
-                hittable?.OnAttackHit(data.damage);
+                hittable?.OnAttackHit(data.damage, gameObject);
                 cameraShake.Invoke(new CameraShakeConfiguration(1, 0.5f, 0.3f));
+                onPlayerAttacked.Invoke();
             }
         }
     }

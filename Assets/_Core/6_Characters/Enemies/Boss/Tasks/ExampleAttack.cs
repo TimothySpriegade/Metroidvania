@@ -1,9 +1,9 @@
 ﻿using _Core._10_Utils;
 using _Core._6_Characters.Enemies.Boss.AI;
 using _Framework.SOEventSystem;
+using _Framework.SOEventSystem.Events;
 using BehaviorDesigner.Runtime.Tasks;
 using DG.Tweening;
-using SOEventSystem.Events;
 using UnityEngine;
 
 namespace _Core._6_Characters.Enemies.Boss.Tasks
@@ -27,7 +27,7 @@ namespace _Core._6_Characters.Enemies.Boss.Tasks
 
         private void StartJump()
         {
-            var direction = TargetUtils.TargetIsToRight(transform.position, boss.GetPlayer()) ? 1 : -1;
+            var direction = TargetUtils.TargetIsToRight(gameObject, boss.GetPlayer()) ? 1 : -1;
             var force = new Vector2(jumpForce.x * direction, jumpForce.y);
             rb.AddForce(force, ForceMode2D.Impulse);
 
