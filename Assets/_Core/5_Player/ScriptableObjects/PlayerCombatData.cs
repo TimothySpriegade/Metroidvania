@@ -8,5 +8,10 @@ namespace _Core._5_Player.ScriptableObjects
     {
         public int currentHealth;
         public int damage;
+
+        private void OnEnable()
+        {
+            currentHealth = maxHealth;
+        }
     }
 }
