@@ -12,7 +12,7 @@ namespace _Core._6_Characters.Enemies
         [SerializeField] protected DestructibleData data;
 
         public bool Invincible { get; set; }
-        private int health;
+        public int health { get; private set; }
         
         protected override void Awake()
         {

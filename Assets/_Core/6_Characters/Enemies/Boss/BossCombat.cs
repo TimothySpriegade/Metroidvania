@@ -19,5 +19,10 @@ namespace _Core._6_Characters.Enemies.Boss
         {
             return playerData.player;
         }
+
+        protected override void Destroy()
+        {
+            // ignore
+        }
     }
 }
