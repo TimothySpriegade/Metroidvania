@@ -61,6 +61,7 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
             hasLanded = false;
             jumpTween?.Kill();
             landingTween?.Kill();
+            landingLagTween?.Kill();
         }
     }
 }
