@@ -15,8 +15,10 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
 
         public override void OnStart()
         {
+            GetComponent<Collider2D>().enabled = false;
+            rb.gravityScale = 0;
             var duration = bossEnemy.ChangeAnimationState(BossAnimatorState.BossDeath);
-            var cameraShakeConfiguration = new CameraShakeConfiguration(0.5f, 0.5f, duration);
+            var cameraShakeConfiguration = new CameraShakeConfiguration(2f, 2f, duration + 1);
             
             cameraShake.Invoke(cameraShakeConfiguration);
             DOVirtual.DelayedCall(duration, () =>
