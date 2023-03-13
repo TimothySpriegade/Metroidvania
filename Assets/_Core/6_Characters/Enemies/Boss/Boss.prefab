@@ -158,7 +158,7 @@ MonoBehaviour:
         Player Close","Instant":true,"SinglemaxDistance":10},{"Type":"BehaviorDesigner.Runtime.Tasks.Log","NodeData":{"Offset":"(42.71397,128.820084)"},"ID":15,"Name":"Log","Instant":true,"SharedStringtext":{"Type":"BehaviorDesigner.Runtime.SharedString","Name":null,"StringmValue":"Player
         is close"},"SharedBoollogError":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false},"SharedBoollogTime":{"Type":"BehaviorDesigner.Runtime.SharedBool","Name":null,"BooleanmValue":false}}]},{"Type":"BehaviorDesigner.Runtime.Tasks.RandomSelector","NodeData":{"Offset":"(84.4616241,134.461182)","Comment":"Tree
         when\nplayer is far"},"ID":16,"Name":"Random Selector","Instant":true,"Int32seed":0,"BooleanuseSeed":false,"AbortTypeabortType":"None","Children":[{"Type":"_Core._6_Characters.Enemies.Boss.Actions.JumpAttack","NodeData":{"Offset":"(-3.163086,129.97142)"},"ID":17,"Name":"Jump
-        Attack","Instant":true,"Vector2jumpForce":"(60,150)","CameraShakeEventcameraShake":2,"SinglebuildupTime":0.5,"SinglejumpTime":1}]}]}]}]}]}}'
+        Attack","Instant":true,"Vector2jumpForce":"(60,150)","CameraShakeEventcameraShake":2,"SinglebuildupTimeMin":0.5,"SinglebuildupTimeMax":2,"SinglejumpTime":1,"SingleendTime":0.2}]}]}]}]}]}}'
       fieldSerializationData:
         typeName: []
         fieldNameHash: 
@@ -244,7 +244,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1066635147
+  m_SortingLayerID: -1450131761
   m_SortingLayer: -3
   m_SortingOrder: 0
   m_Sprite: {fileID: -201188162, guid: a08ef71c1c2a330488364e93eb88a386, type: 3}

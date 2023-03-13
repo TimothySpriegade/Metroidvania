@@ -39,6 +39,8 @@ namespace _Core._6_Characters.Enemies.Boss
         BossSmallAttack,
         BossLargeAttack,
         BossSwingAttack,
+        BossSwingAttackEnd,
+        BossJumpAttack,
         BossWarning,
         BossDashBuildup
     }

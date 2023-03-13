@@ -11,7 +11,9 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
     {
         [SerializeField] private VoidEvent onBossDeath;
         [SerializeField] private CameraShakeEvent cameraShake;
+        
         private bool finishedDying;
+        private Tween dyingTween;
 
         public override void OnStart()
         {
@@ -21,7 +23,7 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
             var cameraShakeConfiguration = new CameraShakeConfiguration(2f, 2f, duration + 1);
             
             cameraShake.Invoke(cameraShakeConfiguration);
-            DOVirtual.DelayedCall(duration, () =>
+            dyingTween = DOVirtual.DelayedCall(duration, () =>
             {
                 onBossDeath.Invoke();
                 finishedDying = true;
@@ -31,6 +33,11 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
         public override TaskStatus OnUpdate()
         {
             return finishedDying ? TaskStatus.Success : TaskStatus.Running;
+        }
+
+        public override void OnEnd()
+        {
+            dyingTween?.Kill();
         }
     }
 }
