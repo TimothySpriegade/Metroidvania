@@ -379,7 +379,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 5504247509297350830}
         m_TargetAssemblyTypeName: _Core._8_Environment.EventDoor.EventDoor, Assembly-CSharp
-        m_MethodName: OpenEventDoor
+        m_MethodName: MoveEventDoor
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

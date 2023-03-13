@@ -5,9 +5,11 @@ namespace _Core._8_Environment.EventDoor
 {
     public class EventDoor : MonoBehaviour
     {
-        public void OpenEventDoor()
+        [SerializeField] private float amount;
+        [SerializeField] private float duration;
+        public void MoveEventDoor()
         {
-            transform.DOMoveY(-4, 3).SetRelative();
+            transform.DOMoveY(amount, duration).SetRelative();
         }
     }
 }

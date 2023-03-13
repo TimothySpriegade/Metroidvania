@@ -16,7 +16,7 @@ namespace _Core._2_Managers.GameManager.PlayerSpawner
         [SerializeField] private StringEvent onSceneChange;
         [SerializeField] private string nextLevel;
 
-        private void OnTriggerEnter2D(Collider2D col)
+        protected virtual void OnTriggerEnter2D(Collider2D col)
         {
             if (col.gameObject.CompareTag("Player"))
             {
