@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace _Core._6_Characters.Enemies.Boss.Actions
 {
-    public class ExampleAttack : EnemyAction
+    public class JumpAttack : EnemyAction
     {
         [SerializeField] private Vector2 jumpForce;
         [SerializeField] private CameraShakeEvent cameraShake;
