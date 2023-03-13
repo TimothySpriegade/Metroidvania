@@ -2,7 +2,7 @@
 using _Core._6_Characters.Enemies.Boss.AI;
 using BehaviorDesigner.Runtime.Tasks;
 
-namespace _Core._6_Characters.Enemies.Boss.Tasks
+namespace _Core._6_Characters.Enemies.Boss.Actions
 {
     public class LookAtPlayer : EnemyAction
     {
@@ -10,9 +10,9 @@ namespace _Core._6_Characters.Enemies.Boss.Tasks
 
         public override void OnStart()
         {
-            var targetIsToRight = TargetUtils.TargetIsToRight(gameObject, boss.GetPlayer());
+            var targetIsToRight = TargetUtils.TargetIsToRight(gameObject, bossCombat.GetPlayer());
             
-            boss.BossDto.CheckDirectionToFace(targetIsToRight);
+            bossEnemy.CheckDirectionToFace(targetIsToRight);
 
             hasTurned = true;
         }

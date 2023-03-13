@@ -11,7 +11,7 @@ namespace _Core._6_Characters.Enemies.Boss.Conditionals
 
         public override TaskStatus OnUpdate()
         {
-            var distanceToPlayer = TargetUtils.GetDistToTarget(gameObject, boss.GetPlayer());
+            var distanceToPlayer = TargetUtils.GetDistToTarget(gameObject, bossCombat.GetPlayer());
 
             return distanceToPlayer < maxDistance ? TaskStatus.Success : TaskStatus.Failure;
         }

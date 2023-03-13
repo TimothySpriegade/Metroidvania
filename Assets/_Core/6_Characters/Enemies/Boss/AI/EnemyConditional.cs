@@ -6,15 +6,14 @@ namespace _Core._6_Characters.Enemies.Boss.AI
     public class EnemyConditional : Conditional
     {
         protected Rigidbody2D rb;
-        protected Animator animator;
-        protected BossCombat boss;
-
+        protected BossCombat bossCombat;
+        protected BossEnemy bossEnemy;
 
         public override void OnAwake()
         {
             rb = GetComponent<Rigidbody2D>();
-            boss = GetComponent<BossCombat>();
-            animator = gameObject.GetComponentInChildren<Animator>();
+            bossCombat = GetComponent<BossCombat>();
+            bossEnemy = GetComponent<BossEnemy>();
         }
     }
 }

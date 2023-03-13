@@ -6,7 +6,7 @@ using BehaviorDesigner.Runtime.Tasks;
 using DG.Tweening;
 using UnityEngine;
 
-namespace _Core._6_Characters.Enemies.Boss.Tasks
+namespace _Core._6_Characters.Enemies.Boss.Actions
 {
     public class ExampleAttack : EnemyAction
     {
@@ -27,7 +27,7 @@ namespace _Core._6_Characters.Enemies.Boss.Tasks
 
         private void StartJump()
         {
-            var direction = TargetUtils.TargetIsToRight(gameObject, boss.GetPlayer()) ? 1 : -1;
+            var direction = TargetUtils.TargetIsToRight(gameObject, bossCombat.GetPlayer()) ? 1 : -1;
             var force = new Vector2(jumpForce.x * direction, jumpForce.y);
             rb.AddForce(force, ForceMode2D.Impulse);
 
