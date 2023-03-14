@@ -3557,6 +3557,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 34194961737549825, guid: 5a0fa3cbf9f0381448045d8c2afee921, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 34194961737549828, guid: 5a0fa3cbf9f0381448045d8c2afee921, type: 3}
       propertyPath: m_Name
       value: Boss
