@@ -14,10 +14,8 @@ public class ExhaustionState : EnemyAction
         if(exhaustionTimer > 10f) 
         {
             exhaustionTimer = 0;
-            Debug.Log(exhaustionTimer);
             return TaskStatus.Success;
         }
-        Debug.Log(exhaustionTimer);
         return TaskStatus.Running;
     }
 }
