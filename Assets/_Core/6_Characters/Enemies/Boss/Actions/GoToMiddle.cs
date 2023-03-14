@@ -7,18 +7,23 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
 {
     public class GoToMiddle : EnemyAction
     {
-        [SerializeField] private float walkDuration = 1;
+        [SerializeField] private float walkDuration;
         private Tween walkTween;
+        private bool finishedWalking;
         
         public override void OnStart()
         {
+            var finalWalkDuration =  (Mathf.Abs(transform.position.x) / 20) * walkDuration;
+            
             bossEnemy.ChangeAnimationState(BossAnimatorState.BossRun);
-            walkTween = transform.DOMoveX(0, walkDuration).SetEase(Ease.Linear);
+            walkTween = transform.DOMoveX(0, finalWalkDuration)
+                .SetEase(Ease.Linear)
+                .OnComplete(() => finishedWalking = true);
         }
 
         public override TaskStatus OnUpdate()
         {
-            return walkTween.active ? TaskStatus.Running : TaskStatus.Success;
+            return finishedWalking ? TaskStatus.Success : TaskStatus.Running;
         }
 
         public override void OnEnd()
