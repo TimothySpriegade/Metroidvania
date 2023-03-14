@@ -27,10 +27,10 @@ namespace _Core._5_Player
 
         #region components
 
-        [Header("Components")] [SerializeField]
-        private StringEvent onSceneChange;
-        [SerializeField]
-        private VoidEvent playerTookDamageEvent;
+        [Header("Components")] 
+        [SerializeField] private StringEvent onSceneChange;
+        [SerializeField] private VoidEvent playerTookDamageEvent;
+        private PlayerCombatData playerData;
         private PlayerAnimator animator;
         private PlayerMovement movement;
         private Rigidbody2D rb;
@@ -44,10 +44,11 @@ namespace _Core._5_Player
 
         protected override void Awake()
         {
+            playerData = (PlayerCombatData)data;
 #if UNITY_EDITOR
-            var playerData = (PlayerCombatData) data;
+
             playerData.currentHealth = playerData.maxHealth;
-#endif
+#endif 
             
             base.Awake();
             animator = GetComponent<PlayerAnimator>();
@@ -96,6 +97,7 @@ namespace _Core._5_Player
 
             // reduce hp
             base.OnAttackHit(damage, attacker);
+            playerData.currentHealth = health;
 
             // invoke event
             playerTookDamageEvent.Invoke();
@@ -121,6 +123,7 @@ namespace _Core._5_Player
             
             deathTween = DOVirtual.DelayedCall(animator.ChangeAnimationState(PlayerAnimatorState.PlayerDeath), () =>
             {
+                playerData.currentHealth = playerData.maxHealth;
                 onSceneChange.Invoke("MainMenu");
             });
         }
