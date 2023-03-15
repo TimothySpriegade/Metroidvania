@@ -96,8 +96,7 @@ namespace _Core._5_Player
             TakeKnockback(attacker);
 
             // reduce hp
-            base.OnAttackHit(damage, attacker);
-            playerData.currentHealth = health;
+            TakeDamage(damage, attacker);
 
             // invoke event
             playerTookDamageEvent.Invoke();
@@ -141,10 +140,16 @@ namespace _Core._5_Player
 
         public void OnEnvironmentalTrapHitCallback(int damage)
         {
-            base.OnAttackHit(damage, gameObject);
+            TakeDamage(damage, gameObject);
             
             // invoke event
             playerTookDamageEvent.Invoke();
+        }
+
+        private void TakeDamage(int damage, GameObject attacker)
+        {
+            base.OnAttackHit(damage, attacker);
+            playerData.currentHealth = health;
         }
     }
 }
