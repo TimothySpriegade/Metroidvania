@@ -69,6 +69,8 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
             // Camera Shake
             var cameraShakeConfig = new CameraShakeConfiguration(2, 2, startDuration);
             cameraShakeEvent?.Invoke(cameraShakeConfig);
+            
+            // Setting Player Checkpoint to lowest platform
             bossCombat.GetPlayer().GetComponent<PlayerCheckpointController>().SetNewPosition(setNewPlayerCheckpoint);
             
             // Move upwards and then start preparation
@@ -141,7 +143,6 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
 
         public override void OnEnd()
         {
-            spawnedPlatforms = new List<GameObject>();
             collider.enabled = true;
             rb.gravityScale = gravityScale;
             bossCombat.Invincible = false;
