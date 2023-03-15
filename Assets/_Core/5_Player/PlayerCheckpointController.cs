@@ -26,6 +26,12 @@ namespace _Core._5_Player
             }
         }
 
+        public void SetNewPosition(Vector2 setNewPlayerCheckpoint)
+        {
+            this.Log($"Assigning new checkpoint: {setNewPlayerCheckpoint}");
+            checkpointPosition = setNewPlayerCheckpoint;
+        }
+
         public void ResetPlayerPosition()
         {
             this.Log($"Resetting Player to {checkpointPosition}");

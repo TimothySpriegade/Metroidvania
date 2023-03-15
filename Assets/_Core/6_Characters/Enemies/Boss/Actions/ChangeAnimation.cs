@@ -7,18 +7,15 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
     public class ChangeAnimation : EnemyAction
     {
         [SerializeField] private BossAnimatorState bossAnimatorState;
-        private bool changedAnimation;
 
         public override void OnStart()
         {
             bossEnemy.ChangeAnimationState(bossAnimatorState);
-
-            changedAnimation = true;
         }
 
         public override TaskStatus OnUpdate()
         {
-            return changedAnimation ? TaskStatus.Success : TaskStatus.Running;
+            return TaskStatus.Success;
         }
     }
 }

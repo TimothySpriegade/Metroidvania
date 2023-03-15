@@ -37,6 +37,7 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
 
         public override void OnEnd()
         {
+            finishedDying = false;
             dyingTween?.Kill();
         }
     }
