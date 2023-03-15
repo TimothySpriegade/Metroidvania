@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using _Core._5_Player;
 using _Core._6_Characters.Enemies.Boss.AI;
 using _Framework.SOEventSystem;
 using _Framework.SOEventSystem.Events;
@@ -12,19 +13,21 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
     {
         [Header("Special Attack Start")]
         [SerializeField] private float startDuration;
-        [SerializeField] private Collider2D[] projectileSpawners;
+        
         [SerializeField] private CameraShakeEvent cameraShakeEvent;
+        [SerializeField] private Vector2 setNewPlayerCheckpoint;
 
         [Header("Special Attack Preparation")] 
         [SerializeField] private GameObject platformPrefab;
         [SerializeField] private GameObject spikeGround;
-
         private List<GameObject> spawnedPlatforms;
-        
+
+
         [Header("Special Attack")]
         [SerializeField] private int projectileCount;
         [SerializeField] private float projectileDelay;
 
+        private Collider2D[] projectileSpawners;
         private bool finishedAttack;
         private float gravityScale;
         private Collider2D collider;
@@ -33,7 +36,9 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
 
         public override void OnStart()
         {
+            // Getting components
             collider = GetComponent<Collider2D>();
+            projectileSpawners = GetComponent<BoneSpawner>().GetBoneSpawners();
             
             // Stuff like, no gravity, invincible etc
             collider.enabled = false;
@@ -45,6 +50,7 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
             // Camera Shake
             var cameraShakeConfig = new CameraShakeConfiguration(2, 2, startDuration);
             cameraShakeEvent?.Invoke(cameraShakeConfig);
+            bossCombat.GetPlayer().GetComponent<PlayerCheckpointController>().SetNewPosition(setNewPlayerCheckpoint);
 
             // Move upwards and then start preparation
             moveTween = transform.DOMoveY(8, startDuration)
