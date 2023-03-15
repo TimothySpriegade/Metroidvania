@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using _Core._5_Player;
 using _Core._6_Characters.Enemies.Boss.AI;
+using _Framework;
 using _Framework.SOEventSystem;
 using _Framework.SOEventSystem.Events;
 using BehaviorDesigner.Runtime.Tasks;
@@ -20,15 +21,18 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
         [SerializeField] private CameraShakeEvent cameraShakeEvent;
         [SerializeField] private Vector2 setNewPlayerCheckpoint;
 
+        [Space(5)]
         [Header("Special Attack Preparation")] 
         [SerializeField] private GameObject platformPrefab;
         [SerializeField] private GameObject spikeGround;
         private List<GameObject> spawnedPlatforms;
 
-
-        [Header("Special Attack")]
+        [Space(5)] 
+        [Header("Special Attack")] 
+        [SerializeField] private GameObject projectilePrefab;
         [SerializeField] private int projectileCount;
         [SerializeField] private float projectileDelay;
+        [SerializeField] private float projectileTimeToLive;
 
         private Collider2D[] projectileSpawners;
         private bool finishedAttack;
@@ -36,6 +40,7 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
         private Collider2D collider;
         private Tween attackTween;
         private Tween moveTween;
+        private Tween endTween;
 
         public override void OnStart()
         {
@@ -91,6 +96,9 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
                 .AppendInterval(projectileDelay)
                 .SetLoops(projectileCount)
                 .Play();
+            
+            gameObject.Log($"Finished creating projectiles. Ending attack in {projectileTimeToLive} seconds");
+            endTween = DOVirtual.DelayedCall(projectileTimeToLive, () => finishedAttack = true);
         }
 
         private void SpawnProjectile()
@@ -98,8 +106,9 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
             var spawnerIndex = Random.Range(0, projectileSpawners.Length);
             var chosenSpawner = projectileSpawners[spawnerIndex];
             
-            Debug.Log("Spawn! chosenSpawner height is: " + chosenSpawner.transform.position.y);
+            gameObject.Log("Spawn! chosenSpawner height is: " + chosenSpawner.transform.position.y);
         }
+        
 
         public override TaskStatus OnUpdate()
         {
@@ -111,8 +120,10 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
             collider.enabled = true;
             rb.gravityScale = gravityScale;
             bossCombat.Invincible = false;
+            spikeGround.SetActive(false);
             attackTween?.Kill();
             moveTween?.Kill();
+            endTween?.Kill();
         }
     }
 }
