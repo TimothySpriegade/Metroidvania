@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using _Core._5_Player;
 using _Core._6_Characters.Enemies.Boss.AI;
 using _Framework.SOEventSystem;
@@ -6,6 +7,8 @@ using _Framework.SOEventSystem.Events;
 using BehaviorDesigner.Runtime.Tasks;
 using DG.Tweening;
 using UnityEngine;
+using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 namespace _Core._6_Characters.Enemies.Boss.Actions
 {
@@ -39,6 +42,11 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
             // Getting components
             collider = GetComponent<Collider2D>();
             projectileSpawners = GetComponent<BoneSpawner>().GetBoneSpawners();
+            
+            if (projectileSpawners.Length == 0)
+            {
+                throw new ArgumentException("Missing projectile spawners");
+            }
             
             // Stuff like, no gravity, invincible etc
             collider.enabled = false;
@@ -78,7 +86,7 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
         
         private void StartAttack()
         {
-            var attackTween = DOTween.Sequence()
+            attackTween = DOTween.Sequence()
                 .AppendCallback(SpawnProjectile)
                 .AppendInterval(projectileDelay)
                 .SetLoops(projectileCount)
@@ -90,7 +98,7 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
             var spawnerIndex = Random.Range(0, projectileSpawners.Length);
             var chosenSpawner = projectileSpawners[spawnerIndex];
             
-            Debug.Log("Spawn!");
+            Debug.Log("Spawn! chosenSpawner height is: " + chosenSpawner.transform.position.y);
         }
 
         public override TaskStatus OnUpdate()

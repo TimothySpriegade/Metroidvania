@@ -234,9 +234,9 @@ TextureImporter:
       name: temple-tileset_10
       rect:
         serializedVersion: 2
-        x: 0
+        x: 112
         y: 112
-        width: 112
+        width: 48
         height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}

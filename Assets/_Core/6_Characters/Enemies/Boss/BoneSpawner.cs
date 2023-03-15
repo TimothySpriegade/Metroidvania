@@ -9,7 +9,7 @@ namespace _Core._6_Characters.Enemies.Boss
         
         public Collider2D[] GetBoneSpawners()
         {
-            return boneSpawners ??= boneSpawnerParent.GetComponents<Collider2D>();
+            return boneSpawners ??= boneSpawnerParent.GetComponentsInChildren<Collider2D>();
         }
     }
 }
