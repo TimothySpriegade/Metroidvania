@@ -7,5 +7,10 @@ namespace _Core._2_Managers.GameManager.PlayerSpawner.ScriptableObjects
     {
         public LevelData lastLevel;
         public bool playerWasFacingRight;
+
+        private void OnEnable()
+        {
+            playerWasFacingRight = true;
+        }
     }
 }
