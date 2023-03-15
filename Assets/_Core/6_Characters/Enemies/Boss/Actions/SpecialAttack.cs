@@ -15,21 +15,22 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
 {
     public class SpecialAttack : EnemyAction
     {
-        [Header("Special Attack Start")]
-        [SerializeField] private float startDuration;
-        
+        [Header("Special Attack Start")] [SerializeField]
+        private float startDuration;
+
         [SerializeField] private CameraShakeEvent cameraShakeEvent;
         [SerializeField] private Vector2 setNewPlayerCheckpoint;
 
-        [Space(5)]
-        [Header("Special Attack Preparation")] 
+        [Space(5)] [Header("Special Attack Preparation")] [SerializeField]
+        private float preparationDuration;
+
         [SerializeField] private GameObject platformPrefab;
         [SerializeField] private GameObject spikeGround;
         private List<GameObject> spawnedPlatforms;
 
-        [Space(5)] 
-        [Header("Special Attack")] 
-        [SerializeField] private GameObject projectilePrefab;
+        [Space(5)] [Header("Special Attack")] [SerializeField]
+        private GameObject projectilePrefab;
+
         [SerializeField] private int projectileCount;
         [SerializeField] private float projectileDelay;
 
@@ -37,8 +38,10 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
         private bool finishedAttack;
         private float gravityScale;
         private Collider2D collider;
+
         private Tween attackTween;
         private Tween moveTween;
+        private Tween preparationTween;
         private Tween endTween;
 
         public override void OnStart()
@@ -46,12 +49,12 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
             // Getting components
             collider = GetComponent<Collider2D>();
             projectileSpawners = GetComponent<BoneSpawner>().GetBoneSpawners();
-            
+
             if (projectileSpawners.Length == 0)
             {
                 throw new ArgumentException("Missing projectile spawners");
             }
-            
+
             // Stuff like, no gravity, invincible etc
             collider.enabled = false;
             gravityScale = rb.gravityScale;
@@ -75,7 +78,7 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
             // Spawning platforms
             var verticalPosition = 2;
             spawnedPlatforms = new List<GameObject>();
-            
+
             for (var i = 0; i < 3; i++)
             {
                 var prefab = Object.Instantiate(platformPrefab);
@@ -83,32 +86,44 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
                 spawnedPlatforms.Add(prefab);
                 verticalPosition += 5;
             }
-            
+
             // Activating Spike Ground
             spikeGround.SetActive(true);
+
+            preparationTween = DOVirtual.DelayedCall(preparationDuration, StartAttack);
         }
-        
+
         private void StartAttack()
         {
             attackTween = DOTween.Sequence()
-                .AppendCallback(SpawnProjectile)
+                .AppendCallback(SpawnProjectiles)
                 .AppendInterval(projectileDelay)
                 .SetLoops(projectileCount)
-                .Play();
+                .Play()
+                .OnComplete(EndAttackDelay);
+        }
 
+        private void SpawnProjectiles()
+        {
+            var spawnerIndex = Random.Range(0, projectileSpawners.Length);
+            var chosenSpawner = projectileSpawners[spawnerIndex];
+
+            var bounds = chosenSpawner.bounds;
+            var spawnPositionX = chosenSpawner.transform.position.x;
+            var spawnPositionY = Random.Range(bounds.min.y, bounds.max.y);
+
+            var projectile = Object.Instantiate(projectilePrefab);
+            projectile.transform.position = new Vector2(spawnPositionX, spawnPositionY);
+        }
+
+        private void EndAttackDelay()
+        {
             var projectileTimeToLive = projectilePrefab.GetComponent<Projectile>().timeToLive;
+
             gameObject.Log($"Finished creating projectiles. Ending attack in {projectileTimeToLive} seconds");
             endTween = DOVirtual.DelayedCall(projectileTimeToLive, () => finishedAttack = true);
         }
 
-        private void SpawnProjectile()
-        {
-            var spawnerIndex = Random.Range(0, projectileSpawners.Length);
-            var chosenSpawner = projectileSpawners[spawnerIndex];
-            
-            gameObject.Log("Spawn! chosenSpawner height is: " + chosenSpawner.transform.position.y);
-        }
-        
 
         public override TaskStatus OnUpdate()
         {
@@ -121,13 +136,14 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
             {
                 Object.Destroy(spawnedPlatform);
             }
-            
+
             collider.enabled = true;
             rb.gravityScale = gravityScale;
             bossCombat.Invincible = false;
             spikeGround.SetActive(false);
             attackTween?.Kill();
             moveTween?.Kill();
+            preparationTween?.Kill();
             endTween?.Kill();
         }
     }
