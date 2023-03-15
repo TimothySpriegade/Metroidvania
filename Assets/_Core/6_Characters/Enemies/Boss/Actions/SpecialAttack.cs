@@ -32,7 +32,6 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
         [SerializeField] private GameObject projectilePrefab;
         [SerializeField] private int projectileCount;
         [SerializeField] private float projectileDelay;
-        [SerializeField] private float projectileTimeToLive;
 
         private Collider2D[] projectileSpawners;
         private bool finishedAttack;
@@ -96,7 +95,8 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
                 .AppendInterval(projectileDelay)
                 .SetLoops(projectileCount)
                 .Play();
-            
+
+            var projectileTimeToLive = projectilePrefab.GetComponent<Projectile>().timeToLive;
             gameObject.Log($"Finished creating projectiles. Ending attack in {projectileTimeToLive} seconds");
             endTween = DOVirtual.DelayedCall(projectileTimeToLive, () => finishedAttack = true);
         }
@@ -117,6 +117,11 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
 
         public override void OnEnd()
         {
+            foreach (var spawnedPlatform in spawnedPlatforms)
+            {
+                Object.Destroy(spawnedPlatform);
+            }
+            
             collider.enabled = true;
             rb.gravityScale = gravityScale;
             bossCombat.Invincible = false;
