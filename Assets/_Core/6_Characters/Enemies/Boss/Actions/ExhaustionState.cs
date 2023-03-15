@@ -23,5 +23,10 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
             }
             return TaskStatus.Running;
         }
+
+        public override void OnEnd()
+        {
+            exhaustionTimer = 0;
+        }
     }
 }
