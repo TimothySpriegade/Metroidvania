@@ -713,6 +713,7 @@ MonoBehaviour:
   attackAmountUntilHeal: 5
   onSceneChange: {fileID: 11400000, guid: caf704787c85da1498c4d9fbefa18b30, type: 2}
   playerTookDamageEvent: {fileID: 11400000, guid: 340abc7380ef04a49ac5b86b869ec4f5, type: 2}
+  cameraShakeEvent: {fileID: 11400000, guid: 8c68f639e8c91e8499a3f8ee28dd742b, type: 2}
 --- !u!114 &2964498079585584122
 MonoBehaviour:
   m_ObjectHideFlags: 0

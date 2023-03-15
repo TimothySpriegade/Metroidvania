@@ -1,6 +1,7 @@
 using _Core._10_Utils;
 using _Core._5_Player.ScriptableObjects;
 using _Core._6_Characters.Enemies;
+using _Framework.SOEventSystem;
 using _Framework.SOEventSystem.Events;
 using DG.Tweening;
 using UnityEngine;
@@ -30,6 +31,7 @@ namespace _Core._5_Player
         [Header("Components")] 
         [SerializeField] private StringEvent onSceneChange;
         [SerializeField] private VoidEvent playerTookDamageEvent;
+        [SerializeField] private CameraShakeEvent cameraShakeEvent;
         private PlayerCombatData playerData;
         private PlayerAnimator animator;
         private PlayerMovement movement;
@@ -152,6 +154,10 @@ namespace _Core._5_Player
         {
             base.OnAttackHit(damage, attacker);
             playerData.currentHealth = health;
+            
+            // Camera shake
+            var cameraShakeConfig = new CameraShakeConfiguration(2, 2);
+            cameraShakeEvent.Invoke(cameraShakeConfig);
         }
     }
 }
