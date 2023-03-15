@@ -17,8 +17,10 @@ public class RunAttack : EnemyAction
      * chill */
     [SerializeField] private float wantedDistanceToPlayer;
     [SerializeField] private float walkDuration;
-
+    [SerializeField] private float reactionTime;
     private Tween walkTween;
+    private Tween prepareAttackTween;
+    private Tween finishAttackAnimationTween;
     private bool finishedAttack;
 
 
@@ -32,13 +34,18 @@ public class RunAttack : EnemyAction
         walkTween = transform.DOMoveX(wantedPosition, walkDuration)
             .SetEase(Ease.Linear)
             .SetRelative()
-            .OnComplete(Attack);
+            .OnComplete(PrepareAttack);
+    }
+
+    private void PrepareAttack()
+    {
+        bossEnemy.ChangeAnimationState(BossAnimatorState.BossIdle);
+        prepareAttackTween = DOVirtual.DelayedCall(reactionTime, () => Attack());
     }
 
     private void Attack()
     {
-        bossEnemy.ChangeAnimationState(BossAnimatorState.BossSmallAttack);
-        finishedAttack= true;
+        finishAttackAnimationTween = DOVirtual.DelayedCall(bossEnemy.ChangeAnimationState(BossAnimatorState.BossSmallAttack), () => finishedAttack = true);
     }
 
     public override TaskStatus OnUpdate()
