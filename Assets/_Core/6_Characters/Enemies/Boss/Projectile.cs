@@ -7,7 +7,7 @@ namespace _Core._6_Characters.Enemies.Boss
     {
         [SerializeField] private float rotateDuration;
         [SerializeField] private float moveDuration;
-        public float timeToLive;
+        [SerializeField] private float timeToLive;
         
         private Tween spinTween;
         private Tween moveTween;

@@ -91,6 +91,8 @@ namespace _Core._5_Player
 
         public override void OnAttackHit(int damage, GameObject attacker)
         {
+            if (Invincible) return;
+            
             // damage feedback handling
             TakeKnockback(attacker);
 

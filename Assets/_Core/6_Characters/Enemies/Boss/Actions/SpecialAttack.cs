@@ -21,23 +21,27 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
         [SerializeField] private CameraShakeEvent cameraShakeEvent;
         [SerializeField] private Vector2 setNewPlayerCheckpoint;
 
-        [Space(5)] [Header("Special Attack Preparation")] [SerializeField]
-        private float preparationDuration;
+        [Space(5)] [Header("Special Attack Preparation")] 
+        [SerializeField] private float preparationDuration;
 
         [SerializeField] private GameObject platformPrefab;
         [SerializeField] private GameObject spikeGround;
         private List<GameObject> spawnedPlatforms;
 
-        [Space(5)] [Header("Special Attack")] [SerializeField]
-        private GameObject projectilePrefab;
+        [Space(5)] [Header("Special Attack")] 
+        [SerializeField] private GameObject projectilePrefab;
 
         [SerializeField] private int projectileCount;
         [SerializeField] private float projectileDelay;
 
+        [Header("End Attack")] 
+        [SerializeField] private float endAttackDelay;
+        
+
         private Collider2D[] projectileSpawners;
-        private bool finishedAttack;
         private float gravityScale;
         private Collider2D collider;
+        private bool finishedAttack;
 
         private Tween attackTween;
         private Tween moveTween;
@@ -60,13 +64,13 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
             gravityScale = rb.gravityScale;
             rb.gravityScale = 0;
             bossCombat.Invincible = true;
-            bossEnemy.ChangeAnimationState(BossAnimatorState.BossIdle);
+            bossEnemy.ChangeAnimationState(BossAnimatorState.BossSpecialAttack);
 
             // Camera Shake
             var cameraShakeConfig = new CameraShakeConfiguration(2, 2, startDuration);
             cameraShakeEvent?.Invoke(cameraShakeConfig);
             bossCombat.GetPlayer().GetComponent<PlayerCheckpointController>().SetNewPosition(setNewPlayerCheckpoint);
-
+            
             // Move upwards and then start preparation
             moveTween = transform.DOMoveY(8, startDuration)
                 .SetEase(Ease.InQuad)
@@ -99,7 +103,6 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
                 .AppendCallback(SpawnProjectiles)
                 .AppendInterval(projectileDelay)
                 .SetLoops(projectileCount)
-                .Play()
                 .OnComplete(EndAttackDelay);
         }
 
@@ -118,10 +121,16 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
 
         private void EndAttackDelay()
         {
-            var projectileTimeToLive = projectilePrefab.GetComponent<Projectile>().timeToLive;
-
-            gameObject.Log($"Finished creating projectiles. Ending attack in {projectileTimeToLive} seconds");
-            endTween = DOVirtual.DelayedCall(projectileTimeToLive, () => finishedAttack = true);
+            // Deactivating Spike Ground
+            spikeGround.SetActive(false);
+            
+            foreach (var spawnedPlatform in spawnedPlatforms)
+            {
+                Object.Destroy(spawnedPlatform);
+            }
+            
+            gameObject.Log($"Finished creating projectiles. Ending attack in {endAttackDelay} seconds");
+            endTween = DOVirtual.DelayedCall(endAttackDelay, () => finishedAttack = true);
         }
 
 
@@ -132,11 +141,7 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
 
         public override void OnEnd()
         {
-            foreach (var spawnedPlatform in spawnedPlatforms)
-            {
-                Object.Destroy(spawnedPlatform);
-            }
-
+            spawnedPlatforms = new List<GameObject>();
             collider.enabled = true;
             rb.gravityScale = gravityScale;
             bossCombat.Invincible = false;
