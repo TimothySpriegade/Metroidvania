@@ -18,26 +18,36 @@ public class DashAttack : EnemyAction
 
     [SerializeField] private float preparatoionDuration;
     [SerializeField] private float buildUpTime;
+    [SerializeField] private float dashDuration;
 
     private Tween startPreparation;
     private Tween startBuildUp;
+    private Tween startAttack;
 
     private bool dashAttackFinished;
 
     public override void OnStart()
     {
         var position = TargetUtils.TargetIsToRight(gameObject , bossCombat.GetPlayer()) ? -20 : 20;
+        var scale = transform.localScale;
+        scale.x = TargetUtils.TargetIsToRight(gameObject, bossCombat.GetPlayer()) ? 1 : -1;
+
+        transform.localScale = scale;
         bossEnemy.ChangeAnimationState(BossAnimatorState.BossRun);
+        transform.localScale = scale;
+       
         startPreparation = transform.DOMoveX(position, preparatoionDuration)
             .SetEase(Ease.Linear)
             .OnComplete(StartBuildUp);
-
-            
     }
 
     public void StartBuildUp()
     {
-        SpawnPlatform();
+        var scale = transform.localScale;
+        scale.x = TargetUtils.TargetIsToRight(gameObject, bossCombat.GetPlayer()) ? -1 : 1;
+        transform.localScale = scale;
+
+        SpawnAndDespawnPlatform();
         bossEnemy.ChangeAnimationState(BossAnimatorState.BossDashBuildup);
         startBuildUp = DOVirtual.DelayedCall(buildUpTime, startDashing);
 
@@ -45,10 +55,19 @@ public class DashAttack : EnemyAction
 
     private void startDashing()
     {
-
+        var position = gameObject.transform.position.x == 20 ? -20 : 20;   
+        bossEnemy.ChangeAnimationState(BossAnimatorState.BossSwingAttack);
+        startAttack = transform.DOMoveX(position, dashDuration)
+            .SetEase(Ease.Linear)
+            .OnComplete(EndAttack);
     }
 
-    private void SpawnPlatform()
+    private void EndAttack()
+    {
+        SpawnAndDespawnPlatform();
+    }
+
+    private void SpawnAndDespawnPlatform()
     {
 
     }
@@ -60,6 +79,8 @@ public class DashAttack : EnemyAction
     }
     public override void OnEnd()
     {
+        dashAttackFinished = false;
         startPreparation.Kill();
+        startBuildUp.Kill();
     }
 }
