@@ -3,44 +3,41 @@ using _Core._6_Characters.Enemies.Boss;
 using _Core._6_Characters.Enemies.Boss.AI;
 using BehaviorDesigner.Runtime.Tasks;
 using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DashAttack : EnemyAction
 {
-    [SerializeField] private float preparatoionDuration;
+    [SerializeField] private float preparationDuration;
     [SerializeField] private float buildUpTime;
     [SerializeField] private float dashDuration;
+    
 
     private Tween startPreparation;
     private Tween startBuildUp;
     private Tween startAttack;
     private Tween finishAttack;
 
+    private bool playerToRight;
     private bool dashAttackFinished;
 
     public override void OnStart()
     {
-        var position = TargetUtils.TargetIsToRight(gameObject , bossCombat.GetPlayer()) ? -20 : 20;
-        var scale = transform.localScale;
-        scale.x = TargetUtils.TargetIsToRight(gameObject, bossCombat.GetPlayer()) ? 1 : -1;
-
-        transform.localScale = scale;
+        playerToRight = TargetUtils.TargetIsToRight(gameObject, bossCombat.GetPlayer());
+        var position = playerToRight ? -20 : 20;
+        
+        var finalPrepareDuration = Mathf.Abs((Mathf.Abs(transform.position.x) - 20) / 20);
+        
+        bossEnemy.CheckDirectionToFace(playerToRight);
         bossEnemy.ChangeAnimationState(BossAnimatorState.BossRun);
-        transform.localScale = scale;
        
-        startPreparation = transform.DOMoveX(position, preparatoionDuration)
+        startPreparation = transform.DOMoveX(position, finalPrepareDuration)
             .SetEase(Ease.Linear)
-            .OnComplete(StartBuildUp);
+            .OnComplete(StartBuildup);
     }
 
-    public void StartBuildUp()
+    private void StartBuildup()
     {
-        var scale = transform.localScale;
-        scale.x = TargetUtils.TargetIsToRight(gameObject, bossCombat.GetPlayer()) ? -1 : 1;
-        transform.localScale = scale;
-
+        bossEnemy.CheckDirectionToFace(playerToRight);
         bossEnemy.ChangeAnimationState(BossAnimatorState.BossDashBuildup);
         startBuildUp = DOVirtual.DelayedCall(buildUpTime, startDashing);
 
@@ -48,8 +45,10 @@ public class DashAttack : EnemyAction
 
     private void startDashing()
     {
-        var position = gameObject.transform.position.x == 20 ? -20 : 20;   
+        var position = playerToRight ? 20 : -20;
+        
         bossEnemy.ChangeAnimationState(BossAnimatorState.BossSwingAttack);
+        
         startAttack = transform.DOMoveX(position, dashDuration)
             .SetEase(Ease.Linear)
             .OnComplete(FinishAttack);
@@ -59,8 +58,7 @@ public class DashAttack : EnemyAction
     {
         finishAttack = DOVirtual.DelayedCall(bossEnemy.ChangeAnimationState(BossAnimatorState.BossSwingAttackEnd), () => dashAttackFinished = true);
     }
-
-
+    
     public override TaskStatus OnUpdate()
     {
         return dashAttackFinished ? TaskStatus.Success : TaskStatus.Running;    
