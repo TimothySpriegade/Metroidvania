@@ -23,6 +23,7 @@ public class DashAttack : EnemyAction
     private Tween startPreparation;
     private Tween startBuildUp;
     private Tween startAttack;
+    private Tween finishAttack;
 
     private bool dashAttackFinished;
 
@@ -59,12 +60,18 @@ public class DashAttack : EnemyAction
         bossEnemy.ChangeAnimationState(BossAnimatorState.BossSwingAttack);
         startAttack = transform.DOMoveX(position, dashDuration)
             .SetEase(Ease.Linear)
-            .OnComplete(EndAttack);
+            .OnComplete(FinishAttack);
+    }
+
+    private void FinishAttack()
+    {
+        SpawnAndDespawnPlatform();
+        finishAttack = DOVirtual.DelayedCall(bossEnemy.ChangeAnimationState(BossAnimatorState.BossSwingAttackEnd), EndAttack());
     }
 
     private void EndAttack()
     {
-        SpawnAndDespawnPlatform();
+
     }
 
     private void SpawnAndDespawnPlatform()
