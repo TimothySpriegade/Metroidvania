@@ -10,17 +10,14 @@ using _Core._6_Characters.Enemies.Boss.Actions;
 
 public class RunAttack : EnemyAction
 {
-    /* schaut zum spieler (intree)
-     * checkt distanz
-     * läuft bis distanz x
-     * angriff
-     * chill */
     [SerializeField] private float wantedDistanceToPlayer;
     [SerializeField] private float walkDuration;
     [SerializeField] private float reactionTime;
+
     private Tween walkTween;
     private Tween prepareAttackTween;
     private Tween finishAttackAnimationTween;
+
     private bool finishedAttack;
 
 
@@ -56,6 +53,8 @@ public class RunAttack : EnemyAction
     public override void OnEnd()
     {
         walkTween?.Kill();
+        prepareAttackTween?.Kill();
+        finishAttackAnimationTween?.Kill();
     }
 
 
