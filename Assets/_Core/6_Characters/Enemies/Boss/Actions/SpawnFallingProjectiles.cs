@@ -45,7 +45,6 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
 
             var projectileScript = projectile.GetComponent<Projectile>();
             projectileScript.InitializeMovement(false);
-            projectileScript.SetDamage(1);
         }
 
         public override TaskStatus OnUpdate()

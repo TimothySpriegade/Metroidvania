@@ -13,6 +13,7 @@ namespace _Core._6_Characters.Enemies
         private IEnemy enemy;
         public EnemyData enemyData { get; private set; }
         private Tween knockbackTween;
+        private Tween deathTween;
 
         #endregion
 
@@ -32,8 +33,8 @@ namespace _Core._6_Characters.Enemies
 
         protected override void Destroy()
         {
-            knockbackTween.Kill();
-            DOVirtual.DelayedCall(enemy.DeathAnimation(), base.Destroy);
+            knockbackTween?.Kill();
+            deathTween = DOVirtual.DelayedCall(enemy.DeathAnimation(), base.Destroy);
         }
 
         private void TakeKnockback()
@@ -46,6 +47,12 @@ namespace _Core._6_Characters.Enemies
             rb.AddForce(force, ForceMode2D.Impulse);
 
             knockbackTween = DOVirtual.DelayedCall(0.25f, () => enemy.duringAnimation = false );
+        }
+
+        private void OnDisable()
+        {
+            knockbackTween?.Kill();
+            deathTween?.Kill();
         }
     }
 }

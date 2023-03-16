@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 161904317503910421}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: PassiveEnemy
   m_TagString: Hittable
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7234994194032390150}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Point B
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,7 +75,7 @@ GameObject:
   - component: {fileID: 7234994194345449143}
   - component: {fileID: 7234994194345449144}
   - component: {fileID: 9083544617099391222}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,7 +178,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7234994194492914866}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Checks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -210,7 +210,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7234994194854625148}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Groundcheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -241,7 +241,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7234994195557239855}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Point A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -272,7 +272,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7234994195743638717}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Idle Points
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -309,7 +309,7 @@ GameObject:
   - component: {fileID: 7234994195892063836}
   - component: {fileID: 7234994195892063834}
   - component: {fileID: 7234994195892063837}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: PassiveEnemy
   m_TagString: Hittable
   m_Icon: {fileID: 0}

@@ -50,6 +50,8 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
 
         public override void OnEnd()
         {
+            bossEnemy.lastAttack = BossAttack.RunAttack;
+            
             walkTween?.Kill();
             prepareAttackTween?.Kill();
             finishAttackAnimationTween?.Kill();

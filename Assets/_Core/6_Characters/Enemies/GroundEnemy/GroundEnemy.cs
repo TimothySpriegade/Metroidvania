@@ -78,7 +78,7 @@ namespace _Core._6_Characters.Enemies.GroundEnemy
 
         protected override void EnemyAI()
         {
-            if (TargetUtils.GetDistToTarget(gameObject, playerData.player) <= aggroRange)
+            if (TargetUtils.TargetExists(playerData.player) && TargetUtils.GetDistToTarget(gameObject, playerData.player) <= aggroRange)
             {
                 ChangeAnimationState(GroundEnemyAnimatorState.GroundEnemyChase);
                 ChasePlayer();

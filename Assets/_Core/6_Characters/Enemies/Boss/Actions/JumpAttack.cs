@@ -58,6 +58,8 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
 
         public override void OnEnd()
         {
+            bossEnemy.lastAttack = BossAttack.JumpAttack;
+            
             hasLanded = false;
             jumpTween?.Kill();
             landingTween?.Kill();

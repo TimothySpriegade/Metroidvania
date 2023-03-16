@@ -5,6 +5,8 @@ namespace _Core._6_Characters.Enemies.Boss
     public class BossEnemy : AbstractEnemy
     {
         private BossAnimatorState currentState;
+        public BossAttack lastAttack;
+        
         protected override void EnemyAI()
         {
             // Behavior Tree
@@ -44,5 +46,13 @@ namespace _Core._6_Characters.Enemies.Boss
         BossWarning,
         BossDashBuildup,
         BossSpecialAttack
+    }
+
+    public enum BossAttack
+    {
+        SpecialAttack,
+        RunAttack,
+        DashAttack,
+        JumpAttack,
     }
 }

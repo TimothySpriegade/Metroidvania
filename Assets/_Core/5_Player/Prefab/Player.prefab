@@ -652,6 +652,9 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!114 &9151062035822711299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -709,10 +712,10 @@ MonoBehaviour:
   hitMaterial: {fileID: 2100000, guid: 40a4aed08f3268945a552e9b218fc431, type: 2}
   destructibleParent: {fileID: 0}
   data: {fileID: 11400000, guid: e5b9033aeb9e472449e99a172c84c7d2, type: 2}
-  knockbackStrength: {x: 20, y: 12}
-  attackAmountUntilHeal: 5
+  knockbackStrength: {x: 12, y: 9}
+  attackAmountUntilHeal: 6
   onSceneChange: {fileID: 11400000, guid: caf704787c85da1498c4d9fbefa18b30, type: 2}
-  playerTookDamageEvent: {fileID: 11400000, guid: 340abc7380ef04a49ac5b86b869ec4f5, type: 2}
+  playerHealthChanged: {fileID: 11400000, guid: 340abc7380ef04a49ac5b86b869ec4f5, type: 2}
   cameraShakeEvent: {fileID: 11400000, guid: 8c68f639e8c91e8499a3f8ee28dd742b, type: 2}
 --- !u!114 &2964498079585584122
 MonoBehaviour:

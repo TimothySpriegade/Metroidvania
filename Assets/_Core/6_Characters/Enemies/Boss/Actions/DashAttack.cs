@@ -71,6 +71,8 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
         }
         public override void OnEnd()
         {
+            bossEnemy.lastAttack = BossAttack.DashAttack;
+            
             dashAttackFinished = false;
             startPreparation.Kill();
             startBuildUp.Kill();

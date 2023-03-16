@@ -29,6 +29,7 @@ namespace _Core._6_Characters.Enemies.Boss
 
         private void OnDisable()
         {
+            animationTween?.Kill();
             transform.position = new Vector2(0, -2.4f);
             
             foreach (var collider in spikeColliders)

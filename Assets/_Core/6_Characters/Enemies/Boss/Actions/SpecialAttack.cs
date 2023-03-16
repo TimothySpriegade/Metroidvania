@@ -49,6 +49,7 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
         private Tween preparationTween;
         private Tween endTween;
 
+        
         public override void OnStart()
         {
             // Getting components
@@ -121,6 +122,7 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
             projectile.transform.position = new Vector2(spawnPositionX, spawnPositionY);
             var projectileScript = projectile.GetComponent<Projectile>();
             projectileScript.InitializeMovement(true);
+            projectileScript.SetDamage(0);
         }
 
         private Collider2D PickSpawner()
@@ -154,11 +156,14 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
 
         public override TaskStatus OnUpdate()
         {
+           
             return finishedAttack ? TaskStatus.Success : TaskStatus.Running;
         }
 
         public override void OnEnd()
         {
+            // Setting Attack
+            bossEnemy.lastAttack = BossAttack.SpecialAttack;
             // Resetting values
             finishedAttack = false;
             collider.enabled = true;

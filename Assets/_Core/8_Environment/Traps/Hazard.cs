@@ -7,6 +7,7 @@ namespace _Core._8_Environment.Traps
     public class Hazard : MonoBehaviour
     {
         public int damage;
+        
         [SerializeField] private bool collisionDamageToggle;
         private void OnTriggerEnter2D(Collider2D col)
         {

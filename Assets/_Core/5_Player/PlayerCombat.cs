@@ -5,6 +5,7 @@ using _Framework.SOEventSystem;
 using _Framework.SOEventSystem.Events;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _Core._5_Player
 {
@@ -22,7 +23,7 @@ namespace _Core._5_Player
         public float LastPressedAttackTime { get; set; }
         public bool isAttacking { get; private set; }
         private float lastAttackedTime;
-        private int attackCount;
+        private static int attackCount;
 
         #endregion
 
@@ -30,7 +31,7 @@ namespace _Core._5_Player
 
         [Header("Components")] 
         [SerializeField] private StringEvent onSceneChange;
-        [SerializeField] private VoidEvent playerTookDamageEvent;
+        [FormerlySerializedAs("playerTookDamageEvent")] [SerializeField] private VoidEvent playerHealthChanged;
         [SerializeField] private CameraShakeEvent cameraShakeEvent;
         private PlayerCombatData playerData;
         private PlayerAnimator animator;
@@ -103,7 +104,7 @@ namespace _Core._5_Player
             TakeDamage(damage, attacker);
 
             // invoke event
-            playerTookDamageEvent.Invoke();
+            playerHealthChanged.Invoke();
         }
 
         private void TakeKnockback(GameObject attacker)
@@ -138,7 +139,9 @@ namespace _Core._5_Player
             if (attackCount >= attackAmountUntilHeal)
             {
                 Heal(1);
+                playerData.currentHealth = health;
                 attackCount = 0;
+                playerHealthChanged.Invoke();
             }
         }
 
@@ -147,7 +150,7 @@ namespace _Core._5_Player
             TakeDamage(damage, gameObject);
             
             // invoke event
-            playerTookDamageEvent.Invoke();
+            playerHealthChanged.Invoke();
         }
 
         private void TakeDamage(int damage, GameObject attacker)
@@ -158,6 +161,11 @@ namespace _Core._5_Player
             // Camera shake
             var cameraShakeConfig = new CameraShakeConfiguration(5, 3, 0.5f);
             cameraShakeEvent.Invoke(cameraShakeConfig);
+        }
+
+        private void OnDisable()
+        {
+            deathTween?.Kill();
         }
     }
 }

@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc43420916e05494f8e4a18d271b5743, type: 3}
   m_Name: BossData
   m_EditorClassIdentifier: 
-  maxHealth: 30
+  maxHealth: 50

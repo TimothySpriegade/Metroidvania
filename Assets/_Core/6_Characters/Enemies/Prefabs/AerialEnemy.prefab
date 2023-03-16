@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3257351905236358417}
   - component: {fileID: 19528990740190793}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -121,10 +121,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2254311697393631051}
   - component: {fileID: 2254311697393631049}
-  - component: {fileID: 2254311697393631054}
+  - component: {fileID: 2232864260335793231}
   - component: {fileID: 2254311697393631048}
   - component: {fileID: 5441885987577773847}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: AerialEnemy
   m_TagString: Hittable
   m_Icon: {fileID: 0}
@@ -170,8 +170,8 @@ Rigidbody2D:
   m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!61 &2254311697393631054
-BoxCollider2D:
+--- !u!58 &2232864260335793231
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -183,19 +183,9 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.048755646, y: -0.1512065}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
+  m_Offset: {x: -0.0637064, y: -0.13825586}
   serializedVersion: 2
-  m_Size: {x: 0.61242163, y: 0.62427485}
-  m_EdgeRadius: 0
+  m_Radius: 0.24110985
 --- !u!114 &2254311697393631048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,7 +202,7 @@ MonoBehaviour:
   collisionCheckLayer:
     serializedVersion: 2
     m_Bits: 64
-  aggroRange: 15
+  aggroRange: 10
   accelRate: 3
   idlePoints:
   - {fileID: 2254311698097367610}
@@ -244,7 +234,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2254311697520685112}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Checks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -276,7 +266,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2254311698074969454}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Point C
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -307,7 +297,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2254311698097367610}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Point A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -340,7 +330,7 @@ GameObject:
   - component: {fileID: 2254311698104738900}
   - component: {fileID: 2254311698104738901}
   - component: {fileID: 6443442759446396840}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -443,7 +433,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2254311698158041778}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: IdlePoints
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -477,7 +467,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2254311698725862046}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Colliderpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -508,7 +498,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2254311699517230374}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Point B
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -539,7 +529,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2188448705963645155}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: AerialEnemy
   m_TagString: Hittable
   m_Icon: {fileID: 0}

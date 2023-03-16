@@ -138,8 +138,9 @@ namespace _Core._5_Player
 
         #region Layers and Tags
 
-        [Header("Layers & Tags")] [SerializeField]
-        private LayerMask groundLayer;
+        [Header("Layers & Tags")] 
+        [SerializeField] private LayerMask groundLayer;
+        [SerializeField] private LayerMask enemyLayer;
 
         #endregion
 
@@ -190,7 +191,8 @@ namespace _Core._5_Player
             if (!isJumping)
             {
                 //Ground Check
-                if (Physics2D.OverlapBox(groundCheckPoint.position, groundCheckSize, 0, groundLayer))
+                if (Physics2D.OverlapBox(groundCheckPoint.position, groundCheckSize, 0, groundLayer)
+                    || Physics2D.OverlapBox(groundCheckPoint.position, groundCheckSize, 0, enemyLayer))
                 {
                     //just landed
                     if (lastGroundedTime < -0.1f && !isDashing)

@@ -48,7 +48,7 @@ namespace _Core._6_Characters.Enemies.AerialEnemy {
         #region EnemyAI
         protected override void EnemyAI()
         {
-            if (TargetUtils.GetDistToTarget(gameObject, playerData.player) <= aggroRange)
+            if (TargetUtils.TargetExists(playerData.player) && TargetUtils.GetDistToTarget(gameObject, playerData.player) <= aggroRange)
             {
                 ChangeAnimationState(FlyingEnemyAnimatorState.FlyingEnemyChase);
                 ChasePlayer();
@@ -106,6 +106,7 @@ namespace _Core._6_Characters.Enemies.AerialEnemy {
         
         public override float DeathAnimation()
         {
+            GetComponent<Collider2D>().enabled = false;
             duringAnimation = true;
             combat.Invincible = true;
             rb.drag = 5;
