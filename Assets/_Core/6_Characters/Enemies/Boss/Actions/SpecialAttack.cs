@@ -122,7 +122,6 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
             projectile.transform.position = new Vector2(spawnPositionX, spawnPositionY);
             var projectileScript = projectile.GetComponent<Projectile>();
             projectileScript.InitializeMovement(true);
-            projectileScript.SetDamage(0);
         }
 
         private Collider2D PickSpawner()
