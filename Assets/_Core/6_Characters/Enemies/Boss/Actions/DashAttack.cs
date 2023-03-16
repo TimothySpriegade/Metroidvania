@@ -25,9 +25,9 @@ public class DashAttack : EnemyAction
         playerToRight = TargetUtils.TargetIsToRight(gameObject, bossCombat.GetPlayer());
         var position = playerToRight ? -20 : 20;
         
-        var finalPrepareDuration = Mathf.Abs((Mathf.Abs(transform.position.x) - 20) / 20);
+        var finalPrepareDuration = Mathf.Abs((Mathf.Abs(transform.position.x) - 20) / 20) * preparationDuration;
         
-        bossEnemy.CheckDirectionToFace(playerToRight);
+        bossEnemy.CheckDirectionToFace(!playerToRight);
         bossEnemy.ChangeAnimationState(BossAnimatorState.BossRun);
        
         startPreparation = transform.DOMoveX(position, finalPrepareDuration)
