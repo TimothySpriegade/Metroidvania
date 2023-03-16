@@ -7,6 +7,7 @@ namespace _Core._6_Characters.Enemies.Boss
     {
         [SerializeField] private float spikeActivationDelay;
         private Collider2D[] spikeColliders;
+        private Tween animationTween;
 
         private void Awake()
         {
@@ -15,7 +16,7 @@ namespace _Core._6_Characters.Enemies.Boss
 
         private void OnEnable()
         {
-            transform.DOMoveY(0.8f, spikeActivationDelay).SetEase(Ease.InExpo).SetRelative();
+            animationTween = transform.DOMoveY(0.8f, spikeActivationDelay).SetEase(Ease.InExpo).SetRelative();
             
             DOVirtual.DelayedCall(spikeActivationDelay, () =>
             {
@@ -28,7 +29,7 @@ namespace _Core._6_Characters.Enemies.Boss
 
         private void OnDisable()
         {
-            transform.position = new Vector2(0, -0.8f);
+            transform.position = new Vector2(0, -2.4f);
             
             foreach (var collider in spikeColliders)
             {

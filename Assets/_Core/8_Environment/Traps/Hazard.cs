@@ -6,7 +6,7 @@ namespace _Core._8_Environment.Traps
     [RequireComponent(typeof(Collider2D))]
     public class Hazard : MonoBehaviour
     {
-        [SerializeField] private int damage;
+        public int damage;
         [SerializeField] private bool collisionDamageToggle;
         private void OnTriggerEnter2D(Collider2D col)
         {

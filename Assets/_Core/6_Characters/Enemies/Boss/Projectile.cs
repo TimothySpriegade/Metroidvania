@@ -1,3 +1,4 @@
+using _Core._8_Environment.Traps;
 using DG.Tweening;
 using UnityEngine;
 
@@ -21,11 +22,28 @@ namespace _Core._6_Characters.Enemies.Boss
                 .SetRelative()
                 .SetLoops(-1);
 
-            moveTween = transform.DOMoveX(-50, moveDuration)
-                .SetEase(Ease.Linear)
-                .SetRelative();
-
             killTween = DOVirtual.DelayedCall(timeToLive, () => Destroy(gameObject));
+        }
+
+        public void SetDamage(int damage)
+        {
+            GetComponent<Hazard>().damage = damage;
+        }
+        
+        public void InitializeMovement(bool isSpecialAttack)
+        {
+            if (isSpecialAttack)
+            {
+                moveTween = transform.DOMoveX(-50, moveDuration)
+                    .SetEase(Ease.Linear)
+                    .SetRelative();
+            }
+            else
+            {
+                moveTween = transform.DOMoveY(-50, moveDuration)
+                    .SetEase(Ease.Linear)
+                    .SetRelative();
+            }
         }
 
         private void OnDisable()

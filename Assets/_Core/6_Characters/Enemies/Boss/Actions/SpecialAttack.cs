@@ -42,6 +42,7 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
         private float gravityScale;
         private Collider2D collider;
         private bool finishedAttack;
+        private Collider2D lastCollider;
 
         private Tween attackTween;
         private Tween moveTween;
@@ -110,15 +111,30 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
 
         private void SpawnProjectiles()
         {
-            var spawnerIndex = Random.Range(0, projectileSpawners.Length);
-            var chosenSpawner = projectileSpawners[spawnerIndex];
-
+            var chosenSpawner = PickSpawner();
+            
             var bounds = chosenSpawner.bounds;
             var spawnPositionX = chosenSpawner.transform.position.x;
             var spawnPositionY = Random.Range(bounds.min.y, bounds.max.y);
 
             var projectile = Object.Instantiate(projectilePrefab);
             projectile.transform.position = new Vector2(spawnPositionX, spawnPositionY);
+            var projectileScript = projectile.GetComponent<Projectile>();
+            projectileScript.InitializeMovement(true);
+        }
+
+        private Collider2D PickSpawner()
+        {
+            var chosenSpawner = lastCollider;
+            
+            while (chosenSpawner == lastCollider)
+            {
+                var spawnerIndex = Random.Range(0, projectileSpawners.Length);
+                chosenSpawner = projectileSpawners[spawnerIndex];
+            }
+
+            lastCollider = chosenSpawner;
+            return chosenSpawner;
         }
 
         private void EndAttackDelay()
@@ -143,6 +159,8 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
 
         public override void OnEnd()
         {
+            // Reseting values
+            finishedAttack = false;
             collider.enabled = true;
             rb.gravityScale = gravityScale;
             bossCombat.Invincible = false;
