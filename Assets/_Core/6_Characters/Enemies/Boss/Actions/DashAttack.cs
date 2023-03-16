@@ -9,13 +9,6 @@ using UnityEngine;
 
 public class DashAttack : EnemyAction
 {
-    /* run anim 
- * ist spieler rechts ? geh link vise versa
- * spawn platform
- * warte 2 sekunden (animationswechsel
- * dash los 
- * despawn platform */
-
     [SerializeField] private float preparatoionDuration;
     [SerializeField] private float buildUpTime;
     [SerializeField] private float dashDuration;
@@ -48,7 +41,6 @@ public class DashAttack : EnemyAction
         scale.x = TargetUtils.TargetIsToRight(gameObject, bossCombat.GetPlayer()) ? -1 : 1;
         transform.localScale = scale;
 
-        SpawnAndDespawnPlatform();
         bossEnemy.ChangeAnimationState(BossAnimatorState.BossDashBuildup);
         startBuildUp = DOVirtual.DelayedCall(buildUpTime, startDashing);
 
@@ -65,23 +57,12 @@ public class DashAttack : EnemyAction
 
     private void FinishAttack()
     {
-        SpawnAndDespawnPlatform();
-        finishAttack = DOVirtual.DelayedCall(bossEnemy.ChangeAnimationState(BossAnimatorState.BossSwingAttackEnd), EndAttack());
+        finishAttack = DOVirtual.DelayedCall(bossEnemy.ChangeAnimationState(BossAnimatorState.BossSwingAttackEnd), () => dashAttackFinished = true);
     }
 
-    private void EndAttack()
-    {
-
-    }
-
-    private void SpawnAndDespawnPlatform()
-    {
-
-    }
 
     public override TaskStatus OnUpdate()
     {
-
         return dashAttackFinished ? TaskStatus.Success : TaskStatus.Running;    
     }
     public override void OnEnd()
@@ -89,5 +70,7 @@ public class DashAttack : EnemyAction
         dashAttackFinished = false;
         startPreparation.Kill();
         startBuildUp.Kill();
+        startAttack.Kill();
+        finishAttack.Kill();
     }
 }
