@@ -42,7 +42,7 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
             landingTween = DOVirtual.DelayedCall(jumpTime, () =>
             {
                 EndJump();
-                cameraShake.Invoke(new CameraShakeConfiguration(8, 3));
+                cameraShake.Invoke(new CameraShakeConfiguration(10, 3));
             }, false);
         }
 

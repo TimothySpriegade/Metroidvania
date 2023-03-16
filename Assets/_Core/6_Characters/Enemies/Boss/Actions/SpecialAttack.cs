@@ -159,7 +159,7 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
 
         public override void OnEnd()
         {
-            // Reseting values
+            // Resetting values
             finishedAttack = false;
             collider.enabled = true;
             rb.gravityScale = gravityScale;

@@ -20,7 +20,7 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
             GetComponent<Collider2D>().enabled = false;
             rb.gravityScale = 0;
             var duration = bossEnemy.ChangeAnimationState(BossAnimatorState.BossDeath);
-            var cameraShakeConfiguration = new CameraShakeConfiguration(2f, 2f, duration + 1);
+            var cameraShakeConfiguration = new CameraShakeConfiguration(2f, 2f, 8);
             
             cameraShake.Invoke(cameraShakeConfiguration);
             dyingTween = DOVirtual.DelayedCall(duration, () =>

@@ -20,7 +20,7 @@ namespace _Core._6_Characters.Enemies
 
         #endregion
 
-        protected virtual void Start()
+        protected virtual void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
             combat = GetComponent<EnemyCombat>();

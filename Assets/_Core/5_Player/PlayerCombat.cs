@@ -156,7 +156,7 @@ namespace _Core._5_Player
             playerData.currentHealth = health;
             
             // Camera shake
-            var cameraShakeConfig = new CameraShakeConfiguration(2, 2);
+            var cameraShakeConfig = new CameraShakeConfiguration(5, 3, 0.5f);
             cameraShakeEvent.Invoke(cameraShakeConfig);
         }
     }

@@ -1,5 +1,7 @@
 using _Core._10_Utils;
 using _Core._6_Characters.Enemies.Boss.AI;
+using _Framework.SOEventSystem;
+using _Framework.SOEventSystem.Events;
 using BehaviorDesigner.Runtime.Tasks;
 using DG.Tweening;
 using UnityEngine;
@@ -11,7 +13,7 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
         [SerializeField] private float preparationDuration;
         [SerializeField] private float buildUpTime;
         [SerializeField] private float dashDuration;
-    
+        [SerializeField] private CameraShakeEvent cameraShakeEvent;
 
         private Tween startPreparation;
         private Tween startBuildUp;
@@ -40,16 +42,19 @@ namespace _Core._6_Characters.Enemies.Boss.Actions
         {
             bossEnemy.CheckDirectionToFace(playerToRight);
             bossEnemy.ChangeAnimationState(BossAnimatorState.BossDashBuildup);
-            startBuildUp = DOVirtual.DelayedCall(buildUpTime, startDashing);
+            startBuildUp = DOVirtual.DelayedCall(buildUpTime, StartDashing);
 
         }
 
-        private void startDashing()
+        private void StartDashing()
         {
             var position = playerToRight ? 20 : -20;
         
             bossEnemy.ChangeAnimationState(BossAnimatorState.BossSwingAttack);
-        
+
+            var cameraShakeConfig = new CameraShakeConfiguration(5, 1, dashDuration + 1);
+            cameraShakeEvent?.Invoke(cameraShakeConfig);
+            
             startAttack = transform.DOMoveX(position, dashDuration)
                 .SetEase(Ease.Linear)
                 .OnComplete(FinishAttack);
