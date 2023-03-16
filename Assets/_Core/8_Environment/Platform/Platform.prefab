@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 8197835182049828153}
   m_Layer: 6
   m_Name: Platform
-  m_TagString: AllowWallJump
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
