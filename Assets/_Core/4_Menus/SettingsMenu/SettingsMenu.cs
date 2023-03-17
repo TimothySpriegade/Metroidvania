@@ -70,12 +70,16 @@ namespace _Core._4_Menus.SettingsMenu
 
         private void OnEnable()
         {
-            inputSystem.cancel.action.started += context => cancelOptionsMenu.Invoke();
+            var cancel = inputSystem.cancel;
+            
+            if(cancel != null) cancel.action.started += context => cancelOptionsMenu.Invoke();
         }
 
         private void OnDisable()
         {
-            inputSystem.cancel.action.started -= context => cancelOptionsMenu.Invoke();
+            var cancel = inputSystem.cancel;
+            
+            if(cancel != null) cancel.action.started -= context => cancelOptionsMenu.Invoke();
         }
 
         public void SetResolution(int resolutionIndex)
