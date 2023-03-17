@@ -52,9 +52,17 @@ namespace _Core._4_Menus.SettingsMenu
             resolutionDropdown.RefreshShownValue();
 
             // Initialize volume sliders
-            masterSlider.value = audioManager.MasterVolume;
-            musicSlider.value = audioManager.MusicVolume;
-            effectsSlider.value = audioManager.EffectVolume;
+            try
+            {
+                masterSlider.value = audioManager.MasterVolume;
+                musicSlider.value = audioManager.MusicVolume;
+                effectsSlider.value = audioManager.EffectVolume;
+            }
+            catch
+            {
+                //ignore
+            }
+            
 
             // Initialize fullScreen toggle
             fullscreenToggle.SetIsOnWithoutNotify(Screen.fullScreen);
