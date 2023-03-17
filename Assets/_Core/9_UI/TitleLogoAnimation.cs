@@ -14,7 +14,7 @@ namespace _Core._9_UI
         private Tween animationTween;
         private Tween sidewardsMotionTween;
 
-        private void Start()
+        private void OnEnable()
         {
             animationTween = transform.DOMoveY(amount, duration)
                 .SetEase(Ease.InOutSine)
