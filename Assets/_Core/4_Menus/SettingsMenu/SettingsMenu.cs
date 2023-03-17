@@ -52,9 +52,17 @@ namespace _Core._4_Menus.SettingsMenu
             resolutionDropdown.RefreshShownValue();
 
             // Initialize volume sliders
-            masterSlider.value = audioManager.MasterVolume;
-            musicSlider.value = audioManager.MusicVolume;
-            effectsSlider.value = audioManager.EffectVolume;
+            try
+            {
+                masterSlider.value = audioManager.MasterVolume;
+                musicSlider.value = audioManager.MusicVolume;
+                effectsSlider.value = audioManager.EffectVolume;
+            }
+            catch
+            {
+                //ignore
+            }
+            
 
             // Initialize fullScreen toggle
             fullscreenToggle.SetIsOnWithoutNotify(Screen.fullScreen);
@@ -62,12 +70,16 @@ namespace _Core._4_Menus.SettingsMenu
 
         private void OnEnable()
         {
-            inputSystem.cancel.action.started += context => cancelOptionsMenu.Invoke();
+            var cancel = inputSystem.cancel;
+            
+            if(cancel != null) cancel.action.started += context => cancelOptionsMenu.Invoke();
         }
 
         private void OnDisable()
         {
-            inputSystem.cancel.action.started -= context => cancelOptionsMenu.Invoke();
+            var cancel = inputSystem.cancel;
+            
+            if(cancel != null) cancel.action.started -= context => cancelOptionsMenu.Invoke();
         }
 
         public void SetResolution(int resolutionIndex)

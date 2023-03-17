@@ -7,7 +7,7 @@ namespace _Core._4_Menus
     {
         [SerializeField] private GameObject mainMenuFirstButton, optionsMenuFirstButton, optionsMenuClosedButton;
 
-        private void Start()
+        private void OnEnable()
         {
             EventSystem.current.SetSelectedGameObject(mainMenuFirstButton);
         }

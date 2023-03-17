@@ -21,11 +21,14 @@ namespace _Core._4_Menus.PauseMenu
             {
                 this.Log("Closing Pause Menu");
                 Time.timeScale = 1f;
+                optionsMenu.SetActive(false);
             }
             else
             {
                 this.Log("Opening Pause Menu");
                 Time.timeScale = 0;
+                pauseMenu.SetActive(true);
+                optionsMenu.SetActive(false);
             }
 
             menu.SetActive(!menu.activeSelf);
