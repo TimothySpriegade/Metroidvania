@@ -50,6 +50,8 @@ namespace _Core._5_Player
             playerData = (PlayerCombatData)data;
 
             base.Awake();
+            health = playerData.currentHealth;
+            
             animator = GetComponent<PlayerAnimator>();
             movement = GetComponent<PlayerMovement>();
             rb = GetComponent<Rigidbody2D>();
