@@ -1,3 +1,4 @@
+using _Core._5_Player.ScriptableObjects;
 using _Framework;
 using _Framework.SOEventSystem.Events;
 using UnityEngine;
@@ -12,6 +13,7 @@ namespace _Core._4_Menus.PauseMenu
         [SerializeField] private GameObject optionsMenu;
         [SerializeField] private GameObject pauseMenu;
         [SerializeField] private StringEvent onSceneChange;
+        [SerializeField] private PlayerCombatData data;
 
         #endregion
 
@@ -42,6 +44,8 @@ namespace _Core._4_Menus.PauseMenu
 
         public void BackToMainMenu()
         {
+            data.currentHealth = data.maxHealth;
+            Time.timeScale = 1f;
             onSceneChange.Invoke("MainMenu");
         }
     }

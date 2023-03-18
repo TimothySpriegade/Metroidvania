@@ -2362,6 +2362,7 @@ MonoBehaviour:
   optionsMenu: {fileID: 5503791525886626083}
   pauseMenu: {fileID: 7565042716380558592}
   onSceneChange: {fileID: 11400000, guid: caf704787c85da1498c4d9fbefa18b30, type: 2}
+  data: {fileID: 11400000, guid: e5b9033aeb9e472449e99a172c84c7d2, type: 2}
 --- !u!114 &7565042715632679849
 MonoBehaviour:
   m_ObjectHideFlags: 0
