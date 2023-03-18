@@ -48,11 +48,7 @@ namespace _Core._5_Player
         protected override void Awake()
         {
             playerData = (PlayerCombatData)data;
-#if UNITY_EDITOR
 
-            playerData.currentHealth = playerData.maxHealth;
-#endif 
-            
             base.Awake();
             animator = GetComponent<PlayerAnimator>();
             movement = GetComponent<PlayerMovement>();

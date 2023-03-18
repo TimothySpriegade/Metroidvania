@@ -202,8 +202,8 @@ MonoBehaviour:
   collisionCheckLayer:
     serializedVersion: 2
     m_Bits: 64
-  aggroRange: 10
-  accelRate: 3
+  aggroRange: 12
+  accelRate: 5
   idlePoints:
   - {fileID: 2254311698097367610}
   - {fileID: 2254311699517230374}
