@@ -17,7 +17,7 @@ namespace _Core._6_Characters.Enemies.GroundEnemy
         [SerializeField] private float fallVelocity;
         [SerializeField] private float normalGravity;
         private float moveSpeed;
-
+        private float debugAccelRate;
         #endregion
 
         #region Check vars
@@ -46,6 +46,7 @@ namespace _Core._6_Characters.Enemies.GroundEnemy
         [Header("Idle")]
         [SerializeField] private Transform[] idlePoints;
         private int index;
+        private bool isIdle;
 
         #endregion
 
@@ -60,16 +61,28 @@ namespace _Core._6_Characters.Enemies.GroundEnemy
                 CheckDirectionToFace(rb.velocity.x > 0);
             }
 
+            if (isIdle && Mathf.Abs(transform.position.x - idlePoints[index].position.x) < 0.1f)
+            {
+                index++;
+                if (index == idlePoints.Length)
+                {
+                    index = 0;
+                }
+            }
+            
             isWalled = CollisionCheck(wallCheckPoint, WallCheckRadius);
             isGrounded = CollisionCheck(groundCheckPoint, GroundCheckRadius);
 
+            rb.gravityScale = IsFalling() ? fallVelocity : normalGravity;
+        }
+
+        private void FixedUpdate()
+        {
             if (!duringAnimation)
             {
                 EnemyAI();
                 CapSpeed(moveSpeed, jumpForce);
             }
-
-            rb.gravityScale = IsFalling() ? fallVelocity : normalGravity;
         }
 
         #endregion
@@ -82,11 +95,13 @@ namespace _Core._6_Characters.Enemies.GroundEnemy
             {
                 ChangeAnimationState(GroundEnemyAnimatorState.GroundEnemyChase);
                 ChasePlayer();
+                isIdle = false;
             }
             else
             {
                 ChangeAnimationState(GroundEnemyAnimatorState.GroundEnemyRun);
                 Idle();
+                isIdle = true;
             }
 
             if (isWalled && isGrounded)
@@ -99,23 +114,14 @@ namespace _Core._6_Characters.Enemies.GroundEnemy
         {
             var direction = TargetUtils.TargetIsToRight(gameObject, playerData.player) ? Vector2.right : Vector2.left;
 
-            rb.AddForce(accelRate * direction, ForceMode2D.Force);
+            rb.AddForce(accelRate * Time.fixedDeltaTime * 200 * direction, ForceMode2D.Force);
             moveSpeed = combat.enemyData.chaseSpeed;
         }
 
         private void Idle()
         {
-            if (Mathf.Abs(transform.position.x - idlePoints[index].position.x) < 0.02f)
-            {
-                index++;
-                if (index == idlePoints.Length)
-                {
-                    index = 0;
-                }
-            }
-
             var difference = idlePoints[index].position.x - transform.position.x;
-            var targetSpeed = Mathf.Sign(difference) * accelRate;
+            var targetSpeed = Mathf.Sign(difference) * accelRate * Time.fixedDeltaTime * 200;
             rb.AddForce(Vector2.right * targetSpeed, ForceMode2D.Force);
             moveSpeed = combat.enemyData.idleSpeed;
         }

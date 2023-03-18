@@ -98,7 +98,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 3551867281052211309}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 947358bd682a0cc438446f566524de85, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -131,8 +131,8 @@ MonoBehaviour:
   collisionCheckLayer:
     serializedVersion: 2
     m_Bits: 64
-  aggroRange: 10
-  accelRate: 3
+  aggroRange: 12
+  accelRate: 6
   jumpForce: 16
   fallVelocity: 4.5
   normalGravity: 1.6

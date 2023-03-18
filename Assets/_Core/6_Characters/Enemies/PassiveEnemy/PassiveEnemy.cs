@@ -50,23 +50,34 @@ namespace _Core._6_Characters.Enemies.PassiveEnemy
             {
                 CheckDirectionToFace(rb.velocity.x > 0);
             }
+            
+            if (Mathf.Abs(transform.position.x - idlePoints[index].position.x) < 0.1f)
+            {
+                index++;
+                if (index == idlePoints.Length)
+                {
+                    index = 0;
+                }
+            }
 
+            
+            if (duringAnimation) return;
+            CapSpeed(moveSpeed);
+        }
 
+        private void FixedUpdate()
+        {
             if (duringAnimation) return;
             
-            if (!isOnTopOfEnemy)
-            {
-                ChangeAnimationState(PassiveEnemyAnimatorState.PassiveEnemyRun);
-                EnemyAI();
-            }
-            else
+            if (isOnTopOfEnemy)
             {
                 ChangeAnimationState(PassiveEnemyAnimatorState.PassiveEnemySteppedOn);
                 rb.velocity = Vector2.zero;
+                return;
             }
-
-            CapSpeed(moveSpeed);
-
+            
+            ChangeAnimationState(PassiveEnemyAnimatorState.PassiveEnemyRun);
+            EnemyAI();
         }
 
         #endregion
@@ -75,17 +86,8 @@ namespace _Core._6_Characters.Enemies.PassiveEnemy
 
         protected override void EnemyAI()
         {
-            if (Mathf.Abs(transform.position.x - idlePoints[index].position.x) < 0.02f)
-            {
-                index++;
-                if (index == idlePoints.Length)
-                {
-                    index = 0;
-                }
-            }
-            
             var difference = idlePoints[index].position.x - transform.position.x;
-            var targetSpeed = Mathf.Sign(difference) * accelRate;
+            var targetSpeed = Mathf.Sign(difference) * (accelRate * Time.fixedDeltaTime * 200);
             rb.AddForce(Vector2.right * targetSpeed, ForceMode2D.Force);
             moveSpeed = combat.enemyData.idleSpeed;
         }

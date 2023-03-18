@@ -22,6 +22,7 @@ namespace _Core._6_Characters.Enemies.AerialEnemy {
         [SerializeField] private Transform[] idlePoints;
         private int index;
         private FlyingEnemyAnimatorState currentState;
+        private bool isIdle;
 
         #endregion
 
@@ -35,14 +36,26 @@ namespace _Core._6_Characters.Enemies.AerialEnemy {
             {
                 CheckDirectionToFace(rb.velocity.x > 0);
             }
+            
+            if (isIdle && Vector2.Distance(transform.position, idlePoints[index].position) < 0.1f)
+            {
+                index++;
+                if (index == idlePoints.Length)
+                {
+                    index = 0;
+                }
+            }
+        }
 
+        private void FixedUpdate()
+        {
             if (!duringAnimation)
             {
                 EnemyAI();
                 CapSpeed(moveSpeed);
             }
-            
         }
+
         #endregion
 
         #region EnemyAI
@@ -52,18 +65,20 @@ namespace _Core._6_Characters.Enemies.AerialEnemy {
             {
                 ChangeAnimationState(FlyingEnemyAnimatorState.FlyingEnemyChase);
                 ChasePlayer();
+                isIdle = false;
             }
             else
             {
                 ChangeAnimationState(FlyingEnemyAnimatorState.FlyingEnemyIdle);
                 Idle();
+                isIdle = true;
             }
         }
 
         private void ChasePlayer()
         {
             var difference = playerData.player.transform.position - transform.position;
-            var targetSpeed = difference.normalized * accelRate;
+            var targetSpeed = difference.normalized * (accelRate * Time.fixedDeltaTime * 200);
             rb.AddForce(targetSpeed, ForceMode2D.Force);
             
             moveSpeed = combat.enemyData.chaseSpeed;
@@ -71,17 +86,8 @@ namespace _Core._6_Characters.Enemies.AerialEnemy {
 
         private void Idle()
         {
-            if (Vector2.Distance(transform.position, idlePoints[index].position) < 0.02f)
-            {
-                index++;
-                if (index == idlePoints.Length)
-                {
-                    index = 0;
-                }
-            }
-
             var difference = idlePoints[index].position - transform.position;
-            var targetSpeed = difference.normalized * accelRate;
+            var targetSpeed = difference.normalized * (accelRate * Time.fixedDeltaTime * 200);
             rb.AddForce(targetSpeed, ForceMode2D.Force);
             moveSpeed = combat.enemyData.idleSpeed;
         }
