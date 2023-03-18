@@ -646,7 +646,7 @@ MonoBehaviour:
   slideSpeed: 3
   coyoteTime: 0.1
   groundCheckPoint: {fileID: 7294756103462626269}
-  groundCheckSize: {x: 0.85, y: 0.2}
+  groundCheckSize: {x: 0.9, y: 0.2}
   frontWallCheckPoint: {fileID: 7294756102119971407}
   wallCheckSize: {x: 0.2, y: 0.85}
   groundLayer:
@@ -713,7 +713,7 @@ MonoBehaviour:
   destructibleParent: {fileID: 0}
   data: {fileID: 11400000, guid: e5b9033aeb9e472449e99a172c84c7d2, type: 2}
   knockbackStrength: {x: 12, y: 9}
-  attackAmountUntilHeal: 6
+  attackAmountUntilHeal: 5
   onSceneChange: {fileID: 11400000, guid: caf704787c85da1498c4d9fbefa18b30, type: 2}
   playerHealthChanged: {fileID: 11400000, guid: 340abc7380ef04a49ac5b86b869ec4f5, type: 2}
   cameraShakeEvent: {fileID: 11400000, guid: 8c68f639e8c91e8499a3f8ee28dd742b, type: 2}
